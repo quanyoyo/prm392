@@ -250,9 +250,9 @@ public class Story {
 
         gs.image.setImageResource(R.drawable.disintegrate);
 
-        gs.text.setText("You think about this for a moment, and then you remembered you actually got kidnapped by aliens, " +
-                "and now you're on their ship. Suddenly, an alien comes into the room to find you and brings you to the lab. " +
-                "They do experiments on you and you die from the trauma and pain. GAME OVER\n\n Ending #1: Dumb Ways to Die");
+        gs.text.setText("You recall that you were actually kidnapped by aliens. " +
+                "Speak of the devil, an alien comes into the room and brings you to the lab. " +
+                "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
         gs.btn1.setText("Try Again");
         gs.btn2.setText("Back to Title");
