@@ -26,11 +26,12 @@
             android:id="@+id/tv_script"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="30dp"
+            android:layout_margin="10dp"
             android:layout_weight="4"
             android:text="Type script here"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/btn_choice1"
