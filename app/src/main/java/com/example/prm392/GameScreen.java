@@ -3,17 +3,13 @@ package com.example.prm392;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-public class StorySelectionActivity extends AppCompatActivity {
+public class GameScreen extends AppCompatActivity {
     TextView tv_game_head, tv_game_content;
     ImageView img;
     Button button1, button2, button3, button4;
@@ -23,7 +19,7 @@ public class StorySelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story_selection);
+        setContentView(R.layout.activity_game_screen);
 
         tv_game_head = ((TextView)findViewById(R.id.tv_game_head));
         tv_game_content = ((TextView)findViewById(R.id.tv_game_content));

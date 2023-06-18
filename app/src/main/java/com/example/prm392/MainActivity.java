@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGame() {
         // TODO: Add code to start the game activity
-        Intent intent = new Intent(this, StorySelectionActivity.class);
+        Intent intent = new Intent(this, GameScreen.class);
         startActivity(intent);
     }
 

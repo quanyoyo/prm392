@@ -2,11 +2,11 @@ package com.example.prm392;
 
 import android.view.View;
 public class Story {
-    StorySelectionActivity storySelectionActivity;
+    GameScreen gs;
     String nextPos1, nextPos2, nextPos3, nextPos4;
 
-    public Story(StorySelectionActivity storySelectionActivity) {
-        this.storySelectionActivity = storySelectionActivity;
+    public Story(GameScreen gameScreen) {
+        this.gs = gameScreen;
     }
     public void selectPosition(String pos){
         switch (pos){
@@ -15,18 +15,18 @@ public class Story {
         }
     }
     public void showAllButton(){
-        storySelectionActivity.button1.setVisibility(View.VISIBLE);
-        storySelectionActivity.button2.setVisibility(View.VISIBLE);
-        storySelectionActivity.button3.setVisibility(View.VISIBLE);
-        storySelectionActivity.button4.setVisibility(View.VISIBLE);
+        gs.button1.setVisibility(View.VISIBLE);
+        gs.button2.setVisibility(View.VISIBLE);
+        gs.button3.setVisibility(View.VISIBLE);
+        gs.button4.setVisibility(View.VISIBLE);
     }
     public void startPoint(){
-        storySelectionActivity.tv_game_content.setText("screen1");
+        gs.tv_game_content.setText("screen1");
 
-        storySelectionActivity.button1.setText("Do 1");
-        storySelectionActivity.button2.setText("Do 2");
-        storySelectionActivity.button3.setText("Do 3");
-        storySelectionActivity.button4.setText("Guide");
+        gs.button1.setText("Do 1");
+        gs.button2.setText("Do 2");
+        gs.button3.setText("Do 3");
+        gs.button4.setText("Guide");
 
         showAllButton();
         nextPos1="get 1";
@@ -35,16 +35,16 @@ public class Story {
         nextPos4="guide";
     }
     public void guide(){
-        storySelectionActivity.tv_game_content.setText("Blah blah");
+        gs.tv_game_content.setText("Blah blah");
 
-        storySelectionActivity.button1.setText("Back");
-        storySelectionActivity.button2.setText("");
-        storySelectionActivity.button3.setText("");
-        storySelectionActivity.button4.setText("");
+        gs.button1.setText("Back");
+        gs.button2.setText("");
+        gs.button3.setText("");
+        gs.button4.setText("");
 
-        storySelectionActivity.button2.setVisibility(View.INVISIBLE);
-        storySelectionActivity.button3.setVisibility(View.INVISIBLE);
-        storySelectionActivity.button4.setVisibility(View.INVISIBLE);
+        gs.button2.setVisibility(View.INVISIBLE);
+        gs.button3.setVisibility(View.INVISIBLE);
+        gs.button4.setVisibility(View.INVISIBLE);
 
         nextPos1="startPoint";
         nextPos2="";
