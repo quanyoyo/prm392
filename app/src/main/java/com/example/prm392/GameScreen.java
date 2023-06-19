@@ -3,6 +3,7 @@ package com.example.prm392;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class GameScreen extends AppCompatActivity {
         btn3 = ((Button)findViewById(R.id.btn3));
         btn4 = ((Button)findViewById(R.id.btn4));
 
-        story.startPoint();
+        story.startingPoint();
 
         // Check the mute preference and handle sound accordingly
         boolean isMuted = getPreferences(Context.MODE_PRIVATE).getBoolean("isMuted", false);
@@ -52,5 +53,8 @@ public class GameScreen extends AppCompatActivity {
     public void chooseButton4(View view){
         story.selectPosition(story.nextPos4);
     }
-
+    public void goToTitle(){
+        Intent titleScreen = new Intent(this, MainActivity.class);
+        startActivity(titleScreen);
+    }
 }

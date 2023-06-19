@@ -39,9 +39,9 @@
         <ImageView
             android:id="@+id/img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="238dp"
             android:layout_marginBottom="20dp"
-            app:srcCompat="@drawable/screen_1" />
+            app:srcCompat="@drawable/airtighthatch" />
 
         <TextView
             android:id="@+id/tv_game_content"
