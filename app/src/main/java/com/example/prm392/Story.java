@@ -9,6 +9,8 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
+    boolean chestOpened = false;
+    boolean alienDead = false;
 
     public Story(GameScreen gs) {
         this.gs = gs;
@@ -134,27 +136,48 @@ public class Story {
     }
 
     public void alien(){
+        if(alienDead == false){
+            gs.image.setImageResource(R.drawable.metroid);
 
-        gs.image.setImageResource(R.drawable.metroid);
+            gs.text.setText("You encountered an alien! What shall you do?");
 
-        gs.text.setText("You encountered an alien! What shall you do?");
+            gs.btn1.setText("FIGHT!");
+            gs.btn2.setText("Run");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("FIGHT!");
-        gs.btn2.setText("Run");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
-
-        if(gun==false){
-            nextPos1 = "killed";
+            if(gun==false){
+                nextPos1 = "killed";
+            }else{
+                nextPos1 = "keycard";
+                alienDead = true;
+            }
+            nextPos2 = "startingPoint";
         }else{
-            nextPos1 = "keycard";
+            gs.image.setImageResource(R.drawable.halfbody);
+
+            gs.text.setText("You came back to a room with the dead alien you killed earlier. " +
+                    "You thought it stood no chance against your plot armor in this game. " +
+                    "That aside, there isn't anything left to do in this room.");
+
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "";
         }
-        nextPos2 = "startingPoint";
         nextPos3 = "";
         nextPos4 = "";
+
 
     }
 
@@ -204,21 +227,38 @@ public class Story {
     }
 
     public void weapon(){
+        if(chestOpened == false){
+            gs.image.setImageResource(R.drawable.chest);
 
-        gs.image.setImageResource(R.drawable.chest);
+            gs.text.setText("You found a box. \n\nMight be something good inside.");
 
-        gs.text.setText("You found a box. \n\nMight be something good inside.");
+            gs.btn1.setText("Open it");
+            gs.btn2.setText("Go back");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("Open it");
-        gs.btn2.setText("Go back");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "openChest";
+            nextPos2 = "startingPoint";
+        }else{
+            gs.image.setImageResource(R.drawable.openchest);
 
-        nextPos1 = "openChest";
-        nextPos2 = "startingPoint";
+            gs.text.setText("You already opened the box. There is nothing else inside.");
+
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "";
+        }
         nextPos3 = "";
         nextPos4 = "";
 
@@ -227,6 +267,7 @@ public class Story {
     public void openChest(){
         gs.image.setImageResource(R.drawable.raygun);
         gun = true;
+        chestOpened = true;
 
         gs.text.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
 
@@ -247,23 +288,42 @@ public class Story {
 
     //ending #1: dumb ways to die
     public void stay(){
+        if(alienDead == false){
+            gs.image.setImageResource(R.drawable.disintegrate);
 
-        gs.image.setImageResource(R.drawable.disintegrate);
+            gs.text.setText("You recall that you were actually kidnapped by aliens. " +
+                    "Speak of the devil, an alien comes into the room and brings you to the lab. " +
+                    "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
-        gs.text.setText("You recall that you were actually kidnapped by aliens. " +
-                "Speak of the devil, an alien comes into the room and brings you to the lab. " +
-                "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
+            gs.btn1.setText("Try Again");
+            gs.btn2.setText("Back to Title");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("Try Again");
-        gs.btn2.setText("Back to Title");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "startingPoint";
+            nextPos2 = "goToTitle";
+        }else{
+            gs.image.setImageResource(R.drawable.ufo);
 
-        nextPos1 = "startingPoint";
-        nextPos2 = "goToTitle";
+            gs.text.setText("You recall that you were actually kidnapped by aliens. " +
+                    "One night, As you were wandering the streets, a mysterious beam from the sky levitated you into the air. " +
+                    "After that, you fell unconscious and no you're here. But enough back-flashing, you have to get going.");
+
+            gs.btn1.setText("Keep going");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "";
+        }
         nextPos3 = "";
         nextPos4 = "";
 
