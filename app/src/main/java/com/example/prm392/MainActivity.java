@@ -3,6 +3,7 @@ package com.example.prm392;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +12,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
     private Button settingButton;
-
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mediaPlayer = MediaPlayer.create(this, R.raw.bg_music);
+        mediaPlayer.start();
         startButton = findViewById(R.id.startButton);
         settingButton = findViewById(R.id.settingButton);
 
@@ -45,4 +47,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        // Release the MediaPlayer resources
+//        if (mediaPlayer != null) {
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+//    }
 }

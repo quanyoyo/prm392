@@ -9,7 +9,8 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-
+    int atk=100, def=100;
+    Player player = new Player();
     public Story(GameScreen gs) {
         this.gs = gs;
     }
@@ -148,6 +149,7 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
 
         if(gun==false){
+            def-=50;
             nextPos1 = "killed";
         }else{
             nextPos1 = "keycard";
@@ -227,6 +229,7 @@ public class Story {
     public void openChest(){
         gs.img.setImageResource(R.drawable.raygun);
         gun = true;
+        atk=atk+100;
 
         gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
 
