@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,8 @@ public class GameScreen extends AppCompatActivity {
     ImageView img;
     Button btn1, btn2, btn3, btn4;
     Story story;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,8 @@ public class GameScreen extends AppCompatActivity {
         btn2 = ((Button)findViewById(R.id.btn2));
         btn3 = ((Button)findViewById(R.id.btn3));
         btn4 = ((Button)findViewById(R.id.btn4));
+//        Player player = new Player(story.atk, story.def);
+//        tv_game_head.setText(Integer.toString(player.getAttack()));
 
         story = new Story(this, getApplicationContext());
 
@@ -80,5 +85,4 @@ public class GameScreen extends AppCompatActivity {
         Intent titleScreen = new Intent(this, MainActivity.class);
         startActivity(titleScreen);
     }
-
 }

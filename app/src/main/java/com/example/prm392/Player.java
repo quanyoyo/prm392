@@ -1,9 +1,6 @@
 package com.example.prm392;
 
 public class Player {
-    private int hp;
-    private int money;
-
     public Player() {
     }
 
