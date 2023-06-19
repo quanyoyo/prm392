@@ -15,18 +15,18 @@ public class Story {
         }
     }
     public void showAllButton(){
-        gs.button1.setVisibility(View.VISIBLE);
-        gs.button2.setVisibility(View.VISIBLE);
-        gs.button3.setVisibility(View.VISIBLE);
-        gs.button4.setVisibility(View.VISIBLE);
+        gs.btn1.setVisibility(View.VISIBLE);
+        gs.btn2.setVisibility(View.VISIBLE);
+        gs.btn3.setVisibility(View.VISIBLE);
+        gs.btn4.setVisibility(View.VISIBLE);
     }
     public void startPoint(){
         gs.tv_game_content.setText("screen1");
 
-        gs.button1.setText("Do 1");
-        gs.button2.setText("Do 2");
-        gs.button3.setText("Do 3");
-        gs.button4.setText("Guide");
+        gs.btn1.setText("Do 1");
+        gs.btn2.setText("Do 2");
+        gs.btn3.setText("Do 3");
+        gs.btn4.setText("Guide");
 
         showAllButton();
         nextPos1="get 1";
@@ -37,14 +37,14 @@ public class Story {
     public void guide(){
         gs.tv_game_content.setText("Blah blah");
 
-        gs.button1.setText("Back");
-        gs.button2.setText("");
-        gs.button3.setText("");
-        gs.button4.setText("");
+        gs.btn1.setText("Back");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
 
-        gs.button2.setVisibility(View.INVISIBLE);
-        gs.button3.setVisibility(View.INVISIBLE);
-        gs.button4.setVisibility(View.INVISIBLE);
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1="startPoint";
         nextPos2="";
