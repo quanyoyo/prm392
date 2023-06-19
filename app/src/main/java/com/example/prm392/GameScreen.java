@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class GameScreen extends AppCompatActivity {
     TextView tv_game_head, tv_game_content;
     ImageView img;
-    Button button1, button2, button3, button4;
+    Button btn1, btn2, btn3, btn4;
 
     Story story = new Story(this);
 
@@ -24,10 +24,10 @@ public class GameScreen extends AppCompatActivity {
         tv_game_head = ((TextView)findViewById(R.id.tv_game_head));
         tv_game_content = ((TextView)findViewById(R.id.tv_game_content));
         img = (ImageView) findViewById(R.id.img);
-        button1 = ((Button)findViewById(R.id.button1));
-        button2 = ((Button)findViewById(R.id.button2));
-        button3 = ((Button)findViewById(R.id.button3));
-        button4 = ((Button)findViewById(R.id.button4));
+        btn1 = ((Button)findViewById(R.id.btn1));
+        btn2 = ((Button)findViewById(R.id.btn2));
+        btn3 = ((Button)findViewById(R.id.btn3));
+        btn4 = ((Button)findViewById(R.id.btn4));
 
         story.startPoint();
 
