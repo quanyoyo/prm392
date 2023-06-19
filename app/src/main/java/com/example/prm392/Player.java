@@ -4,12 +4,16 @@ public class Player {
     private int hp;
     private int money;
 
+    public Player() {
+    }
+
     public Player(int hp, int money) {
         this.hp = hp;
         this.money = money;
     }
 
     public int getHp() {
+        setHp(10);
         return hp;
     }
 
@@ -18,6 +22,7 @@ public class Player {
     }
 
     public int getMoney() {
+        setMoney(100);
         return money;
     }
 
