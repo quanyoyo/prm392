@@ -26,6 +26,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private CheckBox muteCheckBox;
+    private CheckBox darkModeBox;
     private ImageButton btnBack;
 
     MediaPlayer mediaPlayer;
@@ -47,6 +48,7 @@ public class SettingActivity extends AppCompatActivity {
 
         // Initialize the mute checkbox
         muteCheckBox = findViewById(R.id.muteCheckBox);
+        darkModeBox = findViewById(R.id.darkModeCheckBox);
 
         // Initialize the volume SeekBar
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
@@ -67,6 +69,21 @@ public class SettingActivity extends AppCompatActivity {
         muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
+            }
+        });
+
+        darkModeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Enable dark mode
+                    savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
+                } else {
+                    // Disable dark mode
+                    // TODO: Implement dark mode disable logic
+                }
+
                 // Save the mute state in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(PREF_MUTED, isChecked);
@@ -134,6 +151,12 @@ public class SettingActivity extends AppCompatActivity {
 //        }
 //    }
 
+
+    private void savePreferences(boolean isMuted, boolean isDarkMode) {
+        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+        editor.putBoolean("isMuted", isMuted);
+        editor.putBoolean("isDarkMode", isDarkMode);
+        editor.apply();
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -142,5 +165,8 @@ public class SettingActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+
     }
+
+
 }

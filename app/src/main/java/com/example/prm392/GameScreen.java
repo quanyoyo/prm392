@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +16,7 @@ public class GameScreen extends AppCompatActivity {
     TextView tv_game_head, tv_game_content;
     ImageView img;
     Button btn1, btn2, btn3, btn4;
-
-    Story story = new Story(this);
+    Story story;
 
 
 
@@ -35,14 +35,31 @@ public class GameScreen extends AppCompatActivity {
 //        Player player = new Player(story.atk, story.def);
 //        tv_game_head.setText(Integer.toString(player.getAttack()));
 
-        story.startingPoint();
+        story = new Story(this, getApplicationContext());
+
+        resumeGame();
 
         // Check the mute preference and handle sound accordingly
         boolean isMuted = getPreferences(Context.MODE_PRIVATE).getBoolean("isMuted", false);
         if (isMuted) {
             // Mute the sound
+            //
         } else {
             // Unmute the sound
+        }
+    }
+
+    public void resumeGame() {
+        // Check if the game has been previously saved
+        SharedPreferences prefs = getSharedPreferences("GamePrefs", MODE_PRIVATE);
+        boolean isGameSaved = prefs.getBoolean("isGameSaved", false);
+
+        if (isGameSaved) {
+            // If the game was saved, resume the game
+            story.startOrResumeGame();
+        } else {
+            // If the game was not saved, start a new game
+            story.startingPoint();
         }
     }
 
@@ -58,10 +75,14 @@ public class GameScreen extends AppCompatActivity {
     public void chooseButton4(View view){
         story.selectPosition(story.nextPos4);
     }
-    public void goToTitle(){
+    public void goToTitle() {
+        // Save the game state before going back to the title screen
+        SharedPreferences prefs = getSharedPreferences("GamePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("isGameSaved", true);
+        editor.apply();
+
         Intent titleScreen = new Intent(this, MainActivity.class);
         startActivity(titleScreen);
     }
-
-
 }
