@@ -288,42 +288,23 @@ public class Story {
 
     //ending #1: dumb ways to die
     public void stay(){
-        if(alienDead == false){
-            gs.image.setImageResource(R.drawable.disintegrate);
 
-            gs.text.setText("You recall that you were actually kidnapped by aliens. " +
+        gs.image.setImageResource(R.drawable.disintegrate);
+
+        gs.text.setText("You recall that you were actually kidnapped by aliens. " +
                     "Speak of the devil, an alien comes into the room and brings you to the lab. " +
                     "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
-            gs.btn1.setText("Try Again");
-            gs.btn2.setText("Back to Title");
-            gs.btn3.setText("");
-            gs.btn4.setText("");
+        gs.btn1.setText("Try Again");
+        gs.btn2.setText("Back to Title");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
 
-            gs.btn3.setVisibility(View.INVISIBLE);
-            gs.btn4.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
 
-            nextPos1 = "startingPoint";
-            nextPos2 = "goToTitle";
-        }else{
-            gs.image.setImageResource(R.drawable.ufo);
-
-            gs.text.setText("You recall that you were actually kidnapped by aliens. " +
-                    "One night, As you were wandering the streets, a mysterious beam from the sky levitated you into the air. " +
-                    "After that, you fell unconscious and no you're here. But enough back-flashing, you have to get going.");
-
-            gs.btn1.setText("Keep going");
-            gs.btn2.setText("");
-            gs.btn3.setText("");
-            gs.btn4.setText("");
-
-            gs.btn2.setVisibility(View.INVISIBLE);
-            gs.btn3.setVisibility(View.INVISIBLE);
-            gs.btn4.setVisibility(View.INVISIBLE);
-
-            nextPos1 = "startingPoint";
-            nextPos2 = "";
-        }
+        nextPos1 = "startingPoint";
+        nextPos2 = "goToTitle";
         nextPos3 = "";
         nextPos4 = "";
 
