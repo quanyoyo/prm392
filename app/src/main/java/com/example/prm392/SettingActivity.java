@@ -55,7 +55,7 @@ public class SettingActivity extends AppCompatActivity {
 
         // Set the initial checkbox state based on the saved preference
         boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, false);
-        muteCheckBox.setChecked(isMuted);
+
 
         // Set the maximum volume for the SeekBar
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -64,43 +64,6 @@ public class SettingActivity extends AppCompatActivity {
         // Get the saved volume level from SharedPreferences
         int savedVolumeLevel = sharedPreferences.getInt(PREF_VOLUME, 0);
         volumeSeekBar.setProgress(savedVolumeLevel);
-
-        // Set the mute checkbox listener
-        muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
-            }
-        });
-
-        darkModeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // Enable dark mode
-                    savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
-                } else {
-                    // Disable dark mode
-                    // TODO: Implement dark mode disable logic
-                }
-
-                // Save the mute state in SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(PREF_MUTED, isChecked);
-                editor.apply();
-
-                // Adjust the media player volume based on the mute state
-                if (isChecked) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                } else {
-                    // Set the desired volume level when not muted
-                    int desiredVolume = savedVolumeLevel; // Change to your preferred volume level
-                    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                    int volume = (int) (maxVolume * (desiredVolume / 10.0));
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
-                }
-            }
-        });
 
         // Set the volume change listener
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -124,6 +87,46 @@ public class SettingActivity extends AppCompatActivity {
                 // No action needed
             }
         });
+
+        isMuted = sharedPreferences.getBoolean(PREF_MUTED, (savedVolumeLevel<=0)?true:false);
+        muteCheckBox.setChecked(isMuted);
+
+        // Set the mute checkbox listener
+        muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Save the mute state in SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                Log.d("isChecked", "isChecked: "+isChecked);
+                editor.putBoolean(PREF_MUTED, isChecked);
+                editor.apply();
+
+                // Adjust the media player volume based on the mute state
+                if (isChecked) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                } else {
+                    // Set the desired volume level when not muted
+                    int desiredVolume = savedVolumeLevel; // Change to your preferred volume level
+                    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                    int volume = (int) (maxVolume * (desiredVolume / 10.0));
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+                }
+            }
+        });
+
+        darkModeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Enable dark mode
+                    savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
+                } else {
+                    // Disable dark mode
+                    // TODO: Implement dark mode disable logic
+                }
+            }
+        });
+
 //        if (!isMuted) {
 //            mediaPlayer.start();
 //        }
@@ -157,8 +160,9 @@ public class SettingActivity extends AppCompatActivity {
         editor.putBoolean("isMuted", isMuted);
         editor.putBoolean("isDarkMode", isDarkMode);
         editor.apply();
+    }
     @Override
-    protected void onDestroy() {
+    protected void onDestroy () {
         super.onDestroy();
         // Release the MediaPlayer resources
         if (mediaPlayer != null) {
@@ -167,6 +171,4 @@ public class SettingActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
