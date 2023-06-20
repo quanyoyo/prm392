@@ -25,7 +25,6 @@ public class Story {
 
     public Story(GameScreen gs, Context context) {
     Player player = new Player();
-    public Story(GameScreen gs) {
         this.gs = gs;
         this.context = context;
         //player = new Player();
@@ -41,6 +40,7 @@ public class Story {
 
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
+        saveGameState();
         switch (pos) {
             case "startingPoint":
                 startingPoint();
@@ -97,22 +97,6 @@ public class Story {
             keycard = prefs.getBoolean(KEY_KEYCARD, false);
             secondTime = prefs.getBoolean(KEY_SECOND_TIME, false);
         }
-    }
-
-    public void restartGame() {
-        // Clear the shared preferences
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.apply();
-
-        // Reset the game state variables
-        currentPlayerPosition = "startingPoint";
-        gun = false;
-        keycard = false;
-        secondTime = false;
-
-        // Start the game from the beginning
-        startingPoint();
     }
 
     public void startOrResumeGame() {
@@ -180,7 +164,6 @@ public class Story {
         nextPos2 = "startingPoint";
         nextPos3 = "";
         nextPos4 = "";
-
     }
 
     public void locked() {
@@ -201,6 +184,7 @@ public class Story {
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
     }
 
     public void callElevator() {
@@ -236,9 +220,7 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        if (!gun) {
         if(gun==false){
-            def-=50;
             nextPos1 = "killed";
         } else {
             nextPos1 = "keycard";
@@ -318,7 +300,7 @@ public class Story {
     public void openChest() {
         gs.img.setImageResource(R.drawable.raygun);
         gun = true;
-        atk=atk+100;
+
 
         gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
 
