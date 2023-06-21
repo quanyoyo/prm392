@@ -48,7 +48,7 @@ public class SettingActivity extends AppCompatActivity {
 
         // Initialize the mute checkbox
         muteCheckBox = findViewById(R.id.muteCheckBox);
-        darkModeBox = findViewById(R.id.darkModeCheckBox);
+//        darkModeBox = findViewById(R.id.darkModeCheckBox);
 
         // Initialize the volume SeekBar
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
