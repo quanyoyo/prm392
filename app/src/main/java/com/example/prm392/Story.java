@@ -120,16 +120,41 @@ public class Story {
         selectPosition(currentPlayerPosition);
     }
     public void showALlButtons() {
+    boolean chestOpened = false;
+    boolean alienDead = false;
+
+    public Story(GameScreen gs) {
+        this.gs = gs;
+    }
+
+    public void selectPosition(String pos){
+        switch (pos){
+            case "startingPoint": startingPoint(); break;
+            case "weapon": weapon(); break;
+            case "stay": stay(); break;
+            case "openChest": openChest(); break;
+            case "goToTitle": gs.goToTitle(); break;
+            case "alien": alien(); break;
+            case "killed": killed(); break;
+            case "keycard": keycard(); break;
+            case "elevator": elevator(); break;
+            case "locked": locked(); break;
+            case "callElevator": callElevator(); break;
+        }
+    }
+
+    public void showALlButtons(){
         gs.btn1.setVisibility(View.VISIBLE);
         gs.btn2.setVisibility(View.VISIBLE);
         gs.btn3.setVisibility(View.VISIBLE);
         gs.btn4.setVisibility(View.VISIBLE);
     }
 
-    public void startingPoint() {
-        if (secondTime == false) {
-            gs.img.setImageResource(R.drawable.airtighthatch);
-            gs.tv_game_content.setText("You woke up to an unfamiliar ceiling. There are 3 doors.\n\nWhich one will you take?");
+
+    public void startingPoint(){
+        if(secondTime == false){
+            gs.image.setImageResource(R.drawable.airtighthatch);
+            gs.text.setText("You woke up to an unfamiliar ceiling. There are 3 doors.\n\nWhich one will you take?");
             gs.btn1.setText("The one in front");
             gs.btn2.setText("The left one");
             gs.btn3.setText("The right one");
@@ -141,9 +166,9 @@ public class Story {
             nextPos3 = "weapon";
             nextPos4 = "stay";
             secondTime = true;
-        } else {
-            gs.img.setImageResource(R.drawable.airtighthatch);
-            gs.tv_game_content.setText("Back to where you woke up. There are still 3 doors.\n\nWhich one will you take?");
+        }else{
+            gs.image.setImageResource(R.drawable.airtighthatch);
+            gs.text.setText("Back to where you woke up. There are still 3 doors.\n\nWhich one will you take?");
             gs.btn1.setText("The one in front");
             gs.btn2.setText("The left one");
             gs.btn3.setText("The right one");
@@ -199,13 +224,12 @@ public class Story {
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
-
     }
 
     public void callElevator() {
-        gs.img.setImageResource(R.drawable.elevatorfloor);
+        gs.image.setImageResource(R.drawable.elevatorfloor);
 
-        gs.tv_game_content.setText("The elevator arrived. You got inside. Seems like you are on the first floor. Where will you go?");
+        gs.text.setText("The elevator arrived. You got inside. Seems like you are on the first floor. Where will you go?");
 
         gs.btn1.setText("Second floor");
         gs.btn2.setText("Third floor");
@@ -221,37 +245,58 @@ public class Story {
         nextPos4 = "";
     }
 
-    public void alien() {
+    public void alien(){
+        if(alienDead == false){
+            gs.image.setImageResource(R.drawable.metroid);
 
-        gs.img.setImageResource(R.drawable.metroid);
+            gs.text.setText("You encountered an alien! What shall you do?");
 
-        gs.tv_game_content.setText("You encountered an alien! What shall you do?");
+            gs.btn1.setText("FIGHT!");
+            gs.btn2.setText("Run");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("FIGHT!");
-        gs.btn2.setText("Run");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
+            if(gun==false){
+                nextPos1 = "killed";
+            }else{
+                nextPos1 = "keycard";
+                alienDead = true;
+            }
+            nextPos2 = "startingPoint";
+        }else{
+            gs.image.setImageResource(R.drawable.halfbody);
 
-        if(gun==false){
-            nextPos1 = "killed";
-        } else {
-            nextPos1 = "keycard";
+            gs.text.setText("You came back to a room with the dead alien you killed earlier. " +
+                    "You thought it stood no chance against your plot armor in this game. " +
+                    "That aside, there isn't anything left to do in this room.");
+
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "";
         }
-        nextPos2 = "startingPoint";
         nextPos3 = "";
         nextPos4 = "";
+
 
     }
 
     //Ending #2: Rookie Mistake
-    public void killed() {
+    public void killed(){
 
-        gs.img.setImageResource(R.drawable.brokenskull);
+        gs.image.setImageResource(R.drawable.brokenskull);
 
-        gs.tv_game_content.setText("You tried to fight an alien without any weapons. " +
+        gs.text.setText("You tried to fight an alien without any weapons. " +
                 "In hindsight, might not have been the best course of action D:\n\n GAME OVER" +
                 "\n\n Ending #2: Rookie Mistake");
 
@@ -270,11 +315,11 @@ public class Story {
 
     }
 
-    public void keycard() {
-        gs.img.setImageResource(R.drawable.keycard);
+    public void keycard(){
+        gs.image.setImageResource(R.drawable.keycard);
         keycard = true;
 
-        gs.tv_game_content.setText("You defeated the alien with the ray gun you found. You picked up a keycard from the dead alien.");
+        gs.text.setText("You defeated the alien with the ray gun you found. You picked up a keycard from the dead alien.");
 
         gs.btn1.setText("Take it and go back");
         gs.btn2.setText("");
@@ -291,33 +336,50 @@ public class Story {
         nextPos4 = "";
     }
 
-    public void weapon() {
+    public void weapon(){
+        if(chestOpened == false){
+            gs.image.setImageResource(R.drawable.chest);
 
-        gs.img.setImageResource(R.drawable.chest);
+            gs.text.setText("You found a box. \n\nMight be something good inside.");
 
-        gs.tv_game_content.setText("You found a box. \n\nMight be something good inside.");
+            gs.btn1.setText("Open it");
+            gs.btn2.setText("Go back");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("Open it");
-        gs.btn2.setText("Go back");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "openChest";
+            nextPos2 = "startingPoint";
+        }else{
+            gs.image.setImageResource(R.drawable.openchest);
 
-        nextPos1 = "openChest";
-        nextPos2 = "startingPoint";
+            gs.text.setText("You already opened the box. There is nothing else inside.");
+
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "";
+        }
         nextPos3 = "";
         nextPos4 = "";
 
     }
 
-    public void openChest() {
-        gs.img.setImageResource(R.drawable.raygun);
+    public void openChest(){
+        gs.image.setImageResource(R.drawable.raygun);
         gun = true;
+        chestOpened = true;
 
-
-        gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
+        gs.text.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
 
         gs.btn1.setText("Take it and go back");
         gs.btn2.setText("");
@@ -335,13 +397,13 @@ public class Story {
     }
 
     //ending #1: dumb ways to die
-    public void stay() {
+    public void stay(){
 
-        gs.img.setImageResource(R.drawable.disintegrate);
+        gs.image.setImageResource(R.drawable.disintegrate);
 
-        gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
-                "Speak of the devil, an alien comes into the room and brings you to the lab. " +
-                "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
+        gs.text.setText("You recall that you were actually kidnapped by aliens. " +
+                    "Speak of the devil, an alien comes into the room and brings you to the lab. " +
+                    "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
         gs.btn1.setText("Try Again");
         gs.btn2.setText("Back to Title");
