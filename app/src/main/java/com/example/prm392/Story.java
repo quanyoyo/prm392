@@ -99,11 +99,26 @@ public class Story {
         }
     }
 
+    public void restartGame() {
+        // Clear the shared preferences
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+
+        // Reset the game state variables
+        currentPlayerPosition = "startingPoint";
+        gun = false;
+        keycard = false;
+        secondTime = false;
+
+        // Start the game from the beginning
+        startingPoint();
+    }
+
     public void startOrResumeGame() {
         loadGameState();
         selectPosition(currentPlayerPosition);
     }
-
     public void showALlButtons() {
         gs.btn1.setVisibility(View.VISIBLE);
         gs.btn2.setVisibility(View.VISIBLE);
