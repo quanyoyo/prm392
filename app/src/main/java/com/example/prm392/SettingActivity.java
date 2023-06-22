@@ -26,7 +26,6 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private CheckBox muteCheckBox;
-    private CheckBox darkModeBox;
     private ImageButton btnBack;
 
     MediaPlayer mediaPlayer;
@@ -94,7 +93,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Save the mute state in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-//                Log.d("isChecked", "isChecked: "+isChecked);
+                Log.d("isChecked", "isChecked: "+isChecked);
                 editor.putBoolean(PREF_MUTED, isChecked);
                 editor.apply();
 
@@ -128,7 +127,7 @@ public class SettingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    private void savePreferences(boolean isMuted, boolean isDarkMode) {
+    //    private void savePreferences(boolean isMuted, boolean isDarkMode) {
 //        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
 //        editor.putBoolean("isMuted", isMuted);
 //        editor.putBoolean("isDarkMode", isDarkMode);

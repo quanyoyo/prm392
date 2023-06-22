@@ -1,7 +1,9 @@
 package com.example.prm392;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
+
 
 public class Story {
 
@@ -10,29 +12,116 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
+    Player player;
+    private String currentPlayerPosition;
+    private static final String PREFS_NAME = "GamePrefs";
+    private static final String KEY_GAME_SAVED = "isGameSaved";
+    private static final String KEY_POSITION = "CurrentPosition";
+    private static final String KEY_GUN = "HasGun";
+    private static final String KEY_KEYCARD = "HasKeycard";
+    private static final String KEY_SECOND_TIME = "IsSecondTime";
     boolean chestOpened = false;
     boolean alienDead = false;
+
     private Context context;
 
-    public Story(GameScreen gs) {
+    public Story(GameScreen gs, Context context) {
+    Player player = new Player();
         this.gs = gs;
+        this.context = context;
+        //player = new Player();
     }
 
-    public void selectPosition(String pos){
-        switch (pos){
-            case "startingPoint": startingPoint(); break;
-            case "weapon": weapon(); break;
-            case "stay": stay(); break;
-            case "openChest": openChest(); break;
-            case "goToTitle": gs.goToTitle(); break;
-            case "alien": alien(); break;
-            case "killed": killed(); break;
-            case "keycard": keycard(); break;
-            case "elevator": elevator(); break;
-            case "locked": locked(); break;
-            case "callElevator": callElevator(); break;
+    public String getCurrentPlayerPosition() {
+        return currentPlayerPosition;
+    }
+
+    public void setCurrentPlayerPosition(String currentPlayerPosition) {
+        this.currentPlayerPosition = currentPlayerPosition;
+    }
+
+    public void selectPosition(String pos) {
+        currentPlayerPosition = pos;
+        saveGameState();
+        switch (pos) {
+            case "startingPoint":
+                startingPoint();
+                break;
+            case "weapon":
+                weapon();
+                break;
+            case "stay":
+                stay();
+                break;
+            case "openChest":
+                openChest();
+                break;
+//            case "goToTitle":
+//                gs.goToTitle();
+//                break;
+            case "alien":
+                alien();
+                break;
+            case "killed":
+                killed();
+                break;
+            case "keycard":
+                keycard();
+                break;
+            case "elevator":
+                elevator();
+                break;
+            case "locked":
+                locked();
+                break;
+            case "callElevator":
+                callElevator();
+                break;
         }
     }
+
+    public void saveGameState() {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(KEY_GAME_SAVED, true);
+        editor.putString(KEY_POSITION, currentPlayerPosition);
+        editor.putBoolean(KEY_GUN, gun);
+        editor.putBoolean(KEY_KEYCARD, keycard);
+        editor.putBoolean(KEY_SECOND_TIME, secondTime);
+        editor.apply();
+    }
+
+    public void loadGameState() {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean isGameSaved = prefs.getBoolean(KEY_GAME_SAVED, false);
+        if (isGameSaved) {
+            currentPlayerPosition = prefs.getString(KEY_POSITION, "startingPoint");
+            gun = prefs.getBoolean(KEY_GUN, false);
+            keycard = prefs.getBoolean(KEY_KEYCARD, false);
+            secondTime = prefs.getBoolean(KEY_SECOND_TIME, false);
+        }
+    }
+
+    public void restartGame() {
+        // Clear the shared preferences
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+
+        // Reset the game state variables
+        currentPlayerPosition = "startingPoint";
+        gun = false;
+        keycard = false;
+        secondTime = false;
+
+        // Start the game from the beginning
+        startingPoint();
+    }
+
+    public void startOrResumeGame() {
+        loadGameState();
+        selectPosition(currentPlayerPosition);
+    }
+
 
     public void showALlButtons(){
         gs.btn1.setVisibility(View.VISIBLE);
@@ -71,10 +160,10 @@ public class Story {
             nextPos3 = "weapon";
             nextPos4 = "stay";
         }
-
+        saveGameState();
     }
 
-    public void elevator(){
+    public void elevator() {
         gs.img.setImageResource(R.drawable.elevator);
 
         gs.tv_game_content.setText("There is an elevator ahead. Looks like it requires a keycard");
@@ -87,18 +176,17 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        if(keycard==false){
+        if (!keycard) {
             nextPos1 = "locked";
-        }else{
+        } else {
             nextPos1 = "callElevator";
         }
         nextPos2 = "startingPoint";
         nextPos3 = "";
         nextPos4 = "";
-
     }
 
-    public void locked(){
+    public void locked() {
         gs.img.setImageResource(R.drawable.padlock);
 
         gs.tv_game_content.setText("Seems like you cannot call the elevator without some sort of keycard. Try to look for one.");
@@ -151,7 +239,7 @@ public class Story {
             gs.btn3.setVisibility(View.INVISIBLE);
             gs.btn4.setVisibility(View.INVISIBLE);
 
-            if(gun==false){
+            if(!gun){
                 nextPos1 = "killed";
             }else{
                 nextPos1 = "keycard";
@@ -197,11 +285,12 @@ public class Story {
         gs.btn3.setText("");
         gs.btn4.setText("");
 
+        gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "startingPoint";
-        nextPos2 = "goToTitle";
+        nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
@@ -294,19 +383,20 @@ public class Story {
         gs.img.setImageResource(R.drawable.disintegrate);
 
         gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
-                "Speak of the devil, an alien comes into the room and brings you to the lab. " +
-                "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
+                    "Speak of the devil, an alien comes into the room and brings you to the lab. " +
+                    "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
         gs.btn1.setText("Try Again");
-        gs.btn2.setText("Back to Title");
+        gs.btn2.setText("");
         gs.btn3.setText("");
         gs.btn4.setText("");
 
+        gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "startingPoint";
-        nextPos2 = "goToTitle";
+        nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
