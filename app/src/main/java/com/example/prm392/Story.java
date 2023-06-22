@@ -43,45 +43,26 @@ public class Story {
         currentPlayerPosition = pos;
         saveGameState();
         switch (pos) {
-            case "startingPoint":
-                startingPoint();
-                break;
-            case "weapon":
-                weapon();
-                break;
-            case "stay":
-                stay();
-                break;
-            case "openChest":
-                openChest();
-                break;
-//            case "goToTitle":
-//                gs.goToTitle();
-//                break;
-            case "alien":
-                alien();
-                break;
-            case "killed":
-                killed();
-                break;
-            case "keycard":
-                keycard();
-                break;
-            case "elevator":
-                elevator();
-                break;
-            case "locked":
-                locked();
-                break;
-            case "callElevator":
-                callElevator();
-                break;
-            case "secondFloor":
-                secondFloor();
-                break;
-            case "storage":
-                storage();
-                break;
+            case "startingPoint": startingPoint(); break;
+            case "weapon": weapon(); break;
+            case "stay": stay(); break;
+            case "openChest": openChest(); break;
+//            case "goToTitle": gs.goToTitle(); break;
+            case "alien": alien(); break;
+            case "killed": killed(); break;
+            case "keycard": keycard(); break;
+            case "elevator": elevator(); break;
+            case "locked": locked(); break;
+            case "callElevator": callElevator(); break;
+            case "secondFloor": secondFloor(); break;
+            case "storage": storage(); break;
+            case "labs": labs(); break;
+            case "thirdFloor": thirdFloor(); break;
+            case "livingQuarter": livingQuarter(); break;
+            case "shop": shop(); break;
+            case "gunPart3": gunPart3(); break;
+            case "suit": suit(); break;
+            case "food": food(); break;
         }
     }
 
@@ -220,32 +201,37 @@ public class Story {
             gs.btn1.setText("Second floor");
             gs.btn2.setText("Third floor");
             gs.btn3.setText("Go back");
-            gs.btn4.setText("");
-
-            gs.btn3.setVisibility(View.VISIBLE);
-            gs.btn4.setVisibility(View.INVISIBLE);
 
             nextPos1 = "secondFloor";
             nextPos2 = "thirdFloor";
             nextPos3 = "startingPoint";
-            nextPos4 = "";
         }else if(currentFloor == 2){
             gs.tv_game_content.setText("The elevator arrived. You are on the second floor. Where will you go?");
 
             gs.btn1.setText("First floor");
             gs.btn2.setText("Third floor");
             gs.btn3.setText("Go back");
-            gs.btn4.setText("");
 
-            gs.btn3.setVisibility(View.VISIBLE);
-            gs.btn4.setVisibility(View.INVISIBLE);
 
             nextPos1 = "startingPoint";
             nextPos2 = "thirdFloor";
             nextPos3 = "secondFloor";
-            nextPos4 = "";
-        }
+        }else if(currentFloor == 3){
+            gs.tv_game_content.setText("The elevator arrived. You are on the third floor. Where will you go?");
 
+            gs.btn1.setText("First floor");
+            gs.btn2.setText("Second floor");
+            gs.btn3.setText("Go back");
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "secondFloor";
+            nextPos3 = "thirdFloor";
+
+        }
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.VISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos4 = "";
 
     }
 
@@ -457,7 +443,7 @@ public class Story {
             storageEntered = true;
             //give player 600 credits
             player.setMoney(player.getMoney() + 600);
-            gs.tv_game_content.setText("You picked up a broken gun part and 600 credits. " +
+            gs.tv_game_content.setText("You picked up Gun Part #1 and 600 credits. " +
                     "Seems like you need to collect a few more parts to craft a better gun." +
                     "\n\nThe amount of credits you currently own: " + player.getMoney());
 
@@ -475,6 +461,200 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
         nextPos1 = "secondFloor";
         nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public boolean isLabCleared = false;
+    public void labs(){
+        if(isLabCleared == false){
+            gs.img.setImageResource(R.drawable.chemicaltank);
+            gs.tv_game_content.setText("You entered the labs. It seems like the aliens are about to do an experiment " +
+                    "on a human. What shall you do?");
+
+            gs.btn1.setText("Fight the aliens");
+            gs.btn2.setText("Try to sneak your way in");
+            gs.btn3.setText("Get out for now");
+            gs.btn4.setText("");
+
+            gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "gunBlazing";
+            nextPos2 = "sneakLabs";
+            nextPos3 = "secondFloor";
+            nextPos4 = "";
+        }else{
+            gs.img.setImageResource(R.drawable.chemicaltank);
+            gs.tv_game_content.setText("You entered the labs. There are just corpses of dead aliens lying around. " +
+                    "They won't be experimenting on anything anytime soon - you thought.");
+
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "secondFloor";
+            nextPos2 = "";
+            nextPos3 = "";
+            nextPos4 = "";
+        }
+
+    }
+
+
+    //third floor content
+    public void thirdFloor() {
+        gs.img.setImageResource(R.drawable.airtighthatch);
+
+        gs.tv_game_content.setText("You are at the third floor. You feel like this is where things all end." +
+                "\n\nWhere shall you go?");
+
+        gs.btn1.setText("Hangar");
+        gs.btn2.setText("Communication Center");
+        gs.btn3.setText("Alien Living Quarter");
+        gs.btn4.setText("Elevator");
+
+        showALlButtons();
+        currentFloor = 3;
+
+        nextPos1 = "hangar";
+        nextPos2 = "commsCenter";
+        nextPos3 = "livingQuarter";
+        nextPos4 = "callElevator";
+    }
+
+    public void livingQuarter() {
+        gs.img.setImageResource(R.drawable.door);
+
+        gs.tv_game_content.setText("This is where the aliens live on the ship.\n\nWhat do you want to do here?");
+
+        gs.btn1.setText("Buy from vending machine");
+        gs.btn2.setText("Go to Room #1");
+        gs.btn3.setText("Go to Room #2");
+        gs.btn4.setText("Go back");
+
+        showALlButtons();
+
+        nextPos1 = "shop";
+        nextPos2 = "room1";
+        nextPos3 = "room2";
+        nextPos4 = "thirdFloor";
+    }
+
+    public boolean isGunPart3Bought = false;
+    public boolean isFoodBought = false;
+    public boolean isSuitBought = false;
+    public void shop() {
+        gs.img.setImageResource(R.drawable.vendingmachine);
+
+        gs.tv_game_content.setText("Alien vending machine huh? Not so different from ones from Earth." +
+                "\n\nWhat do you want to buy?");
+
+        gs.btn1.setText("Gun Part: 500 credits");
+        gs.btn2.setText("Stealth Suit: 1000 credits");
+        gs.btn3.setText("Food: 100 credits");
+        gs.btn4.setText("Do not buy anything");
+
+        showALlButtons();
+        if(isGunPart3Bought == true) gs.btn1.setVisibility(View.INVISIBLE);
+        if(isSuitBought == true) gs.btn2.setVisibility(View.INVISIBLE);
+        if(isFoodBought == true) gs.btn3.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "gunPart3";
+        nextPos2 = "suit";
+        nextPos3 = "food";
+        nextPos4 = "thirdFloor";
+    }
+
+    public void gunPart3(){
+        if(player.getMoney() >= 500){
+            gs.img.setImageResource(R.drawable.brokenassaultrifle);
+            isGunPart3Bought = true;
+            player.setMoney(player.getMoney() - 500);
+            gs.tv_game_content.setText("You bought and acquired Gun Part #3." +
+                    "\n\n The amount of credits you currently own: " + player.getMoney());
+
+            gs.btn1.setText("Keep buying");
+
+        }else{
+            gs.img.setImageResource(R.drawable.nomoney);
+            gs.tv_game_content.setText("You do not have enough credits.\nNeed: 500 credits" +
+                    "\nYou have: " + player.getMoney() + " credits");
+
+            gs.btn1.setText("Buy something else");
+            gs.btn1.setVisibility(View.VISIBLE);
+
+        }
+        gs.btn2.setText("Stop buying");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "shop";
+        nextPos2 = "thirdFloor";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void suit(){
+        if(player.getMoney() >= 1000){
+            gs.img.setImageResource(R.drawable.invisible);
+            isSuitBought = true;
+            player.setMoney(player.getMoney() - 1000);
+            gs.tv_game_content.setText("You bought and acquired Stealth Suit." +
+                    "\n\n The amount of credits you currently own: " + player.getMoney());
+
+            gs.btn1.setText("Keep buying");
+
+        }else{
+            gs.img.setImageResource(R.drawable.nomoney);
+            gs.tv_game_content.setText("You do not have enough credits.\nNeed: 1000 credits" +
+                    "\nYou have: " + player.getMoney() + " credits");
+
+            gs.btn1.setText("Buy something else");
+            gs.btn1.setVisibility(View.VISIBLE);
+        }
+        gs.btn2.setText("Stop buying");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "shop";
+        nextPos2 = "thirdFloor";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void food(){
+        if(player.getMoney() >= 100){
+            gs.img.setImageResource(R.drawable.cannedfood);
+            isFoodBought = true;
+            player.setMoney(player.getMoney() - 100);
+            gs.tv_game_content.setText("You bought and acquired Canned Food.\nThis is alien food, " +
+                    "you don't know whether it's safe to eat. You wonder why you even bought this item." +
+                    "\nThe amount of credits you currently own: " + player.getMoney());
+
+            gs.btn1.setText("Keep buying");
+
+        }else{
+            gs.img.setImageResource(R.drawable.nomoney);
+            gs.tv_game_content.setText("You do not have enough credits.\nNeed: 100 credits" +
+                    "\nYou have: " + player.getMoney() + " credits");
+
+            gs.btn1.setText("Buy something else");
+            gs.btn1.setVisibility(View.VISIBLE);
+        }
+        gs.btn2.setText("Stop buying");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "shop";
+        nextPos2 = "thirdFloor";
         nextPos3 = "";
         nextPos4 = "";
 
