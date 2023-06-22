@@ -71,6 +71,9 @@ public class SettingActivity extends AppCompatActivity {
                     volumeSeekBar.setProgress(0);
                 } else {
                     int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                    if(currentVolume==0){
+                        currentVolume=2;
+                    }
                     volumeSeekBar.setProgress(currentVolume);
                 }
 
@@ -111,9 +114,7 @@ public class SettingActivity extends AppCompatActivity {
                 // No implementation needed
             }
         });
-//        if (!isMuted) {
-//            mediaPlayer.start();
-//        }
+
         btnBack = ((ImageButton) findViewById(R.id.btn_back));
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,13 +128,6 @@ public class SettingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-    //    private void savePreferences(boolean isMuted, boolean isDarkMode) {
-//        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
-//        editor.putBoolean("isMuted", isMuted);
-//        editor.putBoolean("isDarkMode", isDarkMode);
-//        editor.apply();
-//    }
 
     @Override
     protected void onPause() {
@@ -151,9 +145,6 @@ public class SettingActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // Release the MediaPlayer resources
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        MediaPlayerSingleton.release();
     }
 }

@@ -113,6 +113,7 @@ public class GameScreen extends AppCompatActivity {
     public void chooseButton4(View view){
         story.selectPosition(story.nextPos4);
     }
+
     public void goToTitle() {
         // Save the game state before going back to the title screen
         SharedPreferences prefs = getSharedPreferences("GamePrefs", MODE_PRIVATE);
@@ -139,9 +140,6 @@ public class GameScreen extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // Release the MediaPlayer resources
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        MediaPlayerSingleton.release();
     }
 }

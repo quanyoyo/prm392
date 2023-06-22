@@ -28,7 +28,6 @@ public class Story {
     public Story(GameScreen gs, Context context) {
         this.gs = gs;
         this.context = context;
-        //player = new Player();
     }
 
     public String getCurrentPlayerPosition() {
