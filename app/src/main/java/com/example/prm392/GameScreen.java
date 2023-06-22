@@ -37,7 +37,6 @@ public class GameScreen extends AppCompatActivity {
         btn2 = ((Button)findViewById(R.id.btn2));
         btn3 = ((Button)findViewById(R.id.btn3));
         btn4 = ((Button)findViewById(R.id.btn4));
-//        Player player = new Player(story.atk, story.def);
 //        tv_game_head.setText(Integer.toString(player.getAttack()));
         btnPause = ((ImageView) findViewById(R.id.btn_pause));
 
@@ -52,14 +51,6 @@ public class GameScreen extends AppCompatActivity {
 
         resumeGame();
 
-        // Check the mute preference and handle sound accordingly
-        boolean isMuted = getPreferences(Context.MODE_PRIVATE).getBoolean("isMuted", false);
-        if (isMuted) {
-            // Mute the sound
-            //
-        } else {
-            // Unmute the sound
-        }
     }
 
     private void showPopupDialog() {
@@ -126,15 +117,5 @@ public class GameScreen extends AppCompatActivity {
         Intent titleScreen = new Intent(this, MainActivity.class);
         startActivity(titleScreen);
     }
-
-//    public void showPopup() {
-//        // Anchor popoup with layout to "center" menu
-//        RelativeLayout layout = (RelativeLayout) findViewById(R.id.menuLayout);
-//        PopupMenu popup = new PopupMenu(this, layout);
-//        popup.setOnMenuItemClickListener(this);
-//        popup.getMenuInflater().inflate(R.layout.menu, popup.getMenu());
-//        popup.show();
-//    }
-
 
 }
