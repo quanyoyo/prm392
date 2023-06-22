@@ -12,7 +12,7 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    Player player;
+    Player player = new Player(100, 0);
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
@@ -26,7 +26,6 @@ public class Story {
     private Context context;
 
     public Story(GameScreen gs, Context context) {
-    Player player = new Player();
         this.gs = gs;
         this.context = context;
         //player = new Player();
@@ -359,8 +358,10 @@ public class Story {
         gs.img.setImageResource(R.drawable.raygun);
         gun = true;
         chestOpened = true;
+        player.setMoney(player.getMoney() + 500);
 
-        gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
+        gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself." +
+                "\n You also found 500 credits. The amount of credits you currently own: " + player.getMoney());
 
         gs.btn1.setText("Take it and go back");
         gs.btn2.setText("");
