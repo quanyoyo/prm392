@@ -22,7 +22,7 @@ public class GameScreen extends AppCompatActivity {
     Button btn1, btn2, btn3, btn4;
     Story story;
     ImageView btnPause;
-
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -37,6 +37,12 @@ public class GameScreen extends AppCompatActivity {
         btn2 = ((Button)findViewById(R.id.btn2));
         btn3 = ((Button)findViewById(R.id.btn3));
         btn4 = ((Button)findViewById(R.id.btn4));
+
+        //        retrieve MediaPlayer instance
+        mediaPlayer = MediaPlayerSingleton.getInstance(this);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+
 //        tv_game_head.setText(Integer.toString(player.getAttack()));
         btnPause = ((ImageView) findViewById(R.id.btn_pause));
 
@@ -118,4 +124,24 @@ public class GameScreen extends AppCompatActivity {
         startActivity(titleScreen);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerSingleton.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MediaPlayerSingleton.resume();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Release the MediaPlayer resources
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
 }

@@ -17,26 +17,24 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 public class SettingActivity extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
-    private AudioManager audioManager;
-    private SeekBar volumeSeekBar;
     private static final String PREF_NAME = "MyPreferences";
     private static final String PREF_MUTED = "isMuted";
     private static final String PREF_VOLUME = "volumeLevel";
-
-
+    private SharedPreferences sharedPreferences;
+    private AudioManager audioManager;
+    private SeekBar volumeSeekBar;
     private CheckBox muteCheckBox;
     private ImageButton btnBack;
-
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
         // Initialize the MediaPlayer
-        mediaPlayer = MediaPlayer.create(this, R.raw.bg_music);
-//        mediaPlayer.start();
+        mediaPlayer = MediaPlayerSingleton.getInstance(this);
+        mediaPlayer.start();
+        //loop
         mediaPlayer.setLooping(true);
 
         // Initialize the AudioManager
@@ -47,7 +45,6 @@ public class SettingActivity extends AppCompatActivity {
 
         // Initialize the mute checkbox
         muteCheckBox = findViewById(R.id.muteCheckBox);
-//        darkModeBox = findViewById(R.id.darkModeCheckBox);
 
         // Initialize the volume SeekBar
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
@@ -60,13 +57,45 @@ public class SettingActivity extends AppCompatActivity {
         int savedVolumeLevel = sharedPreferences.getInt(PREF_VOLUME, 0);
         volumeSeekBar.setProgress(savedVolumeLevel);
 
-        // Set the volume change listener
+        // Restore saved state from SharedPreferences
+        boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, false);
+        muteCheckBox.setChecked(isMuted);
+        volumeSeekBar.setProgress(sharedPreferences.getInt(PREF_VOLUME, 0));
+
+        // Set muteCheckBox listener
+        muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update volumeSeekBar and its progress based on mute state
+                if (isChecked) {
+                    volumeSeekBar.setProgress(0);
+                } else {
+                    int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                    volumeSeekBar.setProgress(currentVolume);
+                }
+
+                // Save mute state in SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(PREF_MUTED, isChecked);
+                editor.apply();
+            }
+        });
+
+        // Set volumeSeekBar listener
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Adjust muteCheckBox based on progress value
+                if (progress > 0) {
+                    muteCheckBox.setChecked(false);
+                }else if(progress==0){
+                    muteCheckBox.setChecked(true);
+                }
+
+                // Update volume level
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
 
-                // Save the volume level in SharedPreferences
+                // Save volume level in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt(PREF_VOLUME, progress);
                 editor.apply();
@@ -74,43 +103,14 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // No action needed
+                // No implementation needed
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // No action needed
+                // No implementation needed
             }
         });
-
-        // Set the initial checkbox state based on the saved preference
-        boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, (savedVolumeLevel<=0)?true:false);
-        muteCheckBox.setChecked(isMuted);
-
-        // Set the mute checkbox listener
-        muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Save the mute state in SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Log.d("isChecked", "isChecked: "+isChecked);
-                editor.putBoolean(PREF_MUTED, isChecked);
-                editor.apply();
-
-                // Adjust the media player volume based on the mute state
-                if (isChecked) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                } else {
-                    // Set the desired volume level when not muted
-                    int desiredVolume = savedVolumeLevel; // Change to your preferred volume level
-                    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                    int volume = (int) (maxVolume * (desiredVolume / 10.0));
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
-                }
-            }
-        });
-
-
 //        if (!isMuted) {
 //            mediaPlayer.start();
 //        }
@@ -122,7 +122,8 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
-    public void goToHome(){
+
+    public void goToHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -133,14 +134,26 @@ public class SettingActivity extends AppCompatActivity {
 //        editor.putBoolean("isDarkMode", isDarkMode);
 //        editor.apply();
 //    }
+
     @Override
-    protected void onDestroy () {
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerSingleton.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MediaPlayerSingleton.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         // Release the MediaPlayer resources
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-
     }
 }
