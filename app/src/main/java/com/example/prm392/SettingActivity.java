@@ -26,7 +26,6 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private CheckBox muteCheckBox;
-    private CheckBox darkModeBox;
     private ImageButton btnBack;
 
     MediaPlayer mediaPlayer;
@@ -52,10 +51,6 @@ public class SettingActivity extends AppCompatActivity {
 
         // Initialize the volume SeekBar
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
-
-        // Set the initial checkbox state based on the saved preference
-        boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, false);
-
 
         // Set the maximum volume for the SeekBar
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -88,7 +83,8 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        isMuted = sharedPreferences.getBoolean(PREF_MUTED, (savedVolumeLevel<=0)?true:false);
+        // Set the initial checkbox state based on the saved preference
+        boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, (savedVolumeLevel<=0)?true:false);
         muteCheckBox.setChecked(isMuted);
 
         // Set the mute checkbox listener
@@ -97,7 +93,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Save the mute state in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-//                Log.d("isChecked", "isChecked: "+isChecked);
+                Log.d("isChecked", "isChecked: "+isChecked);
                 editor.putBoolean(PREF_MUTED, isChecked);
                 editor.apply();
 
@@ -114,18 +110,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        darkModeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // Enable dark mode
-                    savePreferences(muteCheckBox.isChecked(), darkModeBox.isChecked());
-                } else {
-                    // Disable dark mode
-                    // TODO: Implement dark mode disable logic
-                }
-            }
-        });
 
 //        if (!isMuted) {
 //            mediaPlayer.start();
@@ -143,24 +127,12 @@ public class SettingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//
-//        // Release the MediaPlayer resources
-//        if (mediaPlayer != null) {
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
+    //    private void savePreferences(boolean isMuted, boolean isDarkMode) {
+//        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+//        editor.putBoolean("isMuted", isMuted);
+//        editor.putBoolean("isDarkMode", isDarkMode);
+//        editor.apply();
 //    }
-
-
-    private void savePreferences(boolean isMuted, boolean isDarkMode) {
-        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
-        editor.putBoolean("isMuted", isMuted);
-        editor.putBoolean("isDarkMode", isDarkMode);
-        editor.apply();
-    }
     @Override
     protected void onDestroy () {
         super.onDestroy();
