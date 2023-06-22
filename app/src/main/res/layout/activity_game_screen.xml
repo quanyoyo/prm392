@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0A0A"
+    android:background="#151012"
     tools:context=".GameScreen">
 
     <LinearLayout
-        android:layout_width="409dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="653dp"
-        android:background="#0B0A0A"
+        android:background="#0E080A"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -18,11 +19,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/btn_pause"
             android:layout_width="wrap_content"
             android:layout_height="27dp"
             android:layout_marginStart="0sp"
             android:layout_marginTop="10sp"
+            android:onClick="showPopup"
             app:srcCompat="@drawable/pause" />
 
         <TextView
@@ -39,9 +41,10 @@
         <ImageView
             android:id="@+id/img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="238dp"
             android:layout_marginBottom="20dp"
-            app:srcCompat="@drawable/screen_1" />
+            android:backgroundTint="#130C0E"
+            app:srcCompat="@drawable/airtighthatch" />
 
         <TextView
             android:id="@+id/tv_game_content"
@@ -54,40 +57,84 @@
 
         <Button
             android:id="@+id/btn1"
+            style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="#FFEB3B"
+            android:elegantTextHeight="false"
             android:onClick="chooseButton1"
-            android:text="Button" />
+            android:text="Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <Button
             android:id="@+id/btn2"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="#00BCD4"
+            android:elegantTextHeight="true"
             android:onClick="chooseButton2"
-            android:text="Button" />
+            android:text="Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <Button
             android:id="@+id/btn3"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="#FFEB3B"
+            android:elegantTextHeight="true"
             android:onClick="chooseButton3"
-            android:text="Button" />
+            android:text="Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <Button
             android:id="@+id/btn4"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="#00BCD4"
             android:onClick="chooseButton4"
-            android:text="Button" />
+            android:text="Button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="353dp"
+        android:text="@string/hit_point"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/tv_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="46dp"
+        android:text="@string/coin"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_hp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
