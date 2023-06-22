@@ -12,7 +12,7 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    Player player;
+    Player player = new Player(100, 0);
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
@@ -26,7 +26,6 @@ public class Story {
     private Context context;
 
     public Story(GameScreen gs, Context context) {
-    Player player = new Player();
         this.gs = gs;
         this.context = context;
         //player = new Player();
@@ -76,6 +75,12 @@ public class Story {
                 break;
             case "callElevator":
                 callElevator();
+                break;
+            case "secondFloor":
+                secondFloor();
+                break;
+            case "storage":
+                storage();
                 break;
         }
     }
@@ -180,6 +185,7 @@ public class Story {
             nextPos1 = "locked";
         } else {
             nextPos1 = "callElevator";
+            currentFloor = 1;
         }
         nextPos2 = "startingPoint";
         nextPos3 = "";
@@ -208,21 +214,39 @@ public class Story {
 
     public void callElevator() {
         gs.img.setImageResource(R.drawable.elevatorfloor);
+        if(currentFloor == 1){
+            gs.tv_game_content.setText("The elevator arrived. You got inside. Seems like you are on the first floor. Where will you go?");
 
-        gs.tv_game_content.setText("The elevator arrived. You got inside. Seems like you are on the first floor. Where will you go?");
+            gs.btn1.setText("Second floor");
+            gs.btn2.setText("Third floor");
+            gs.btn3.setText("Go back");
+            gs.btn4.setText("");
 
-        gs.btn1.setText("Second floor");
-        gs.btn2.setText("Third floor");
-        gs.btn3.setText("Go back");
-        gs.btn4.setText("");
+            gs.btn3.setVisibility(View.VISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
-        gs.btn3.setVisibility(View.VISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "secondFloor";
+            nextPos2 = "thirdFloor";
+            nextPos3 = "startingPoint";
+            nextPos4 = "";
+        }else if(currentFloor == 2){
+            gs.tv_game_content.setText("The elevator arrived. You are on the second floor. Where will you go?");
 
-        nextPos1 = "secondFloor";
-        nextPos2 = "thirdFloor";
-        nextPos3 = "startingPoint";
-        nextPos4 = "";
+            gs.btn1.setText("First floor");
+            gs.btn2.setText("Third floor");
+            gs.btn3.setText("Go back");
+            gs.btn4.setText("");
+
+            gs.btn3.setVisibility(View.VISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "startingPoint";
+            nextPos2 = "thirdFloor";
+            nextPos3 = "secondFloor";
+            nextPos4 = "";
+        }
+
+
     }
 
     public void alien(){
@@ -359,8 +383,10 @@ public class Story {
         gs.img.setImageResource(R.drawable.raygun);
         gun = true;
         chestOpened = true;
+        player.setMoney(player.getMoney() + 500);
 
-        gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
+        gs.tv_game_content.setText("You found an alien ray gun. Nice, now you can defend yourself." +
+                "\n\nYou also found 500 credits. The amount of credits you currently own: " + player.getMoney());
 
         gs.btn1.setText("Take it and go back");
         gs.btn2.setText("");
@@ -401,4 +427,57 @@ public class Story {
         nextPos4 = "";
 
     }
+
+    //2nd Floor
+    public int currentFloor = 0; //mark the current floor the player is on (for elevator)
+    public void secondFloor() {
+        gs.img.setImageResource(R.drawable.airtighthatch);
+
+        gs.tv_game_content.setText("You are at the second floor. Luckily there are signs on the doors this time." +
+                "\n\nWhere will you go?");
+
+        gs.btn1.setText("Labs");
+        gs.btn2.setText("Prison");
+        gs.btn3.setText("Storage");
+        gs.btn4.setText("Elevator");
+
+        showALlButtons();
+        currentFloor = 2;
+
+        nextPos1 = "labs";
+        nextPos2 = "prison";
+        nextPos3 = "storage";
+        nextPos4 = "callElevator";
+    }
+
+    public boolean storageEntered = false;
+    public void storage(){
+        if(storageEntered == false){
+            gs.img.setImageResource(R.drawable.brokenassaultrifle);
+            storageEntered = true;
+            //give player 600 credits
+            player.setMoney(player.getMoney() + 600);
+            gs.tv_game_content.setText("You picked up a broken gun part and 600 credits. " +
+                    "Seems like you need to collect a few more parts to craft a better gun." +
+                    "\n\nThe amount of credits you currently own: " + player.getMoney());
+
+        }else{
+            gs.img.setImageResource(R.drawable.openchest);
+            gs.tv_game_content.setText("There is nothing left in this room. Why did you come back here?");
+
+        }
+        gs.btn1.setText("Go back");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "secondFloor";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
 }
