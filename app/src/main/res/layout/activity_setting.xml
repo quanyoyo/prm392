@@ -38,7 +38,6 @@
         android:layout_weight="0"
         android:text="Mute"
         android:textColor="@color/white"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
