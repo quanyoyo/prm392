@@ -39,6 +39,7 @@ public class Story {
 
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
+        saveGameState();
         switch (pos) {
             case "startingPoint":
                 startingPoint();
@@ -95,22 +96,6 @@ public class Story {
             keycard = prefs.getBoolean(KEY_KEYCARD, false);
             secondTime = prefs.getBoolean(KEY_SECOND_TIME, false);
         }
-    }
-
-    public void restartGame() {
-        // Clear the shared preferences
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.apply();
-
-        // Reset the game state variables
-        currentPlayerPosition = "startingPoint";
-        gun = false;
-        keycard = false;
-        secondTime = false;
-
-        // Start the game from the beginning
-        startingPoint();
     }
 
     public void startOrResumeGame() {
