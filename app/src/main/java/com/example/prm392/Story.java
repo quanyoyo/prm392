@@ -56,9 +56,9 @@ public class Story {
             case "openChest":
                 openChest();
                 break;
-            case "goToTitle":
-                gs.goToTitle();
-                break;
+//            case "goToTitle":
+//                gs.goToTitle();
+//                break;
             case "alien":
                 alien();
                 break;
@@ -239,7 +239,7 @@ public class Story {
             gs.btn3.setVisibility(View.INVISIBLE);
             gs.btn4.setVisibility(View.INVISIBLE);
 
-            if(gun==false){
+            if(!gun){
                 nextPos1 = "killed";
             }else{
                 nextPos1 = "keycard";
@@ -285,11 +285,12 @@ public class Story {
         gs.btn3.setText("");
         gs.btn4.setText("");
 
+        gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "startingPoint";
-        nextPos2 = "goToTitle";
+        nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
@@ -386,15 +387,16 @@ public class Story {
                     "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
         gs.btn1.setText("Try Again");
-        gs.btn2.setText("Back to Title");
+        gs.btn2.setText("");
         gs.btn3.setText("");
         gs.btn4.setText("");
 
+        gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "startingPoint";
-        nextPos2 = "goToTitle";
+        nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
