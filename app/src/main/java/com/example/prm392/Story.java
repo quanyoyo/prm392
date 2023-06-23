@@ -249,11 +249,10 @@ public class Story {
             gs.btn3.setVisibility(View.INVISIBLE);
             gs.btn4.setVisibility(View.INVISIBLE);
 
-            if(!gun){
+            if(gun == false){
                 nextPos1 = "killed";
             }else{
                 nextPos1 = "keycard";
-                alienDead = true;
             }
             nextPos2 = "startingPoint";
         }else{
@@ -309,6 +308,7 @@ public class Story {
     public void keycard(){
         gs.img.setImageResource(R.drawable.keycard);
         keycard = true;
+        alienDead = true;
 
         gs.tv_game_content.setText("You defeated the alien with the ray gun you found. You picked up a keycard from the dead alien.");
 
