@@ -63,6 +63,19 @@ public class Story {
             case "gunPart3": gunPart3(); break;
             case "suit": suit(); break;
             case "food": food(); break;
+            case "gunBlazing": gunBlazing(); break;
+            case "sneakLabs": sneakLabs(); break;
+            case "rescueSuccessful": rescueSuccessful(); break;
+            case "prison": prison(); break;
+            case "wardensRoom": wardensRoom(); break;
+            case "suicide": suicide(); break;
+            case "alienCell": alienCell(); break;
+            case "help": help(); break;
+            case "secretPath": secretPath(); break;
+            case "controlPanel": controlPanel(); break;
+            case "unlockAlienCell": unlockAlienCell(); break;
+            case "unlockWeaponLocker": unlockWeaponLocker(); break;
+            case "unlockAmeliaCell": unlockAmeliaCell(); break;
         }
     }
 
@@ -466,6 +479,303 @@ public class Story {
 
     }
 
+    public void prison() {
+        gs.img.setImageResource(R.drawable.airtighthatch);
+
+        gs.tv_game_content.setText("You are at the prison. You wonder what kind of surprises " +
+                "awaits." +
+                "\n\nWhere will you go?");
+
+        gs.btn1.setText("Wardens' room");
+        gs.btn2.setText("Cell #1");
+        gs.btn3.setText("Cell #2");
+        gs.btn4.setText("Go back");
+
+        showALlButtons();
+
+        nextPos1 = "wardensRoom";
+        nextPos2 = "alienCell";
+        nextPos3 = "ameliaCell";
+        nextPos4 = "secondFloor";
+    }
+
+    boolean isQuestGiven = false;
+    boolean isWardensCleared = false;
+    public void wardensRoom(){
+        if(!isWardensCleared){
+            gs.img.setImageResource(R.drawable.wardenroom);
+
+            gs.tv_game_content.setText("This is the wardens' room. There are alien guards inside." +
+                    "\n\nWhat will you do?");
+
+            gs.btn1.setText("Kill all");
+            gs.btn2.setText("Use the secret path");
+            gs.btn3.setText("Go back for now");
+            gs.btn4.setText("");
+
+            showALlButtons();
+            gs.btn4.setVisibility(View.INVISIBLE);
+            if(!isQuestGiven){
+                gs.btn2.setVisibility(View.INVISIBLE);
+            }
+
+            nextPos1 = "suicide";
+            nextPos2 = "secretPath";
+            nextPos3 = "secondFloor";
+            nextPos4 = "";
+        }else{
+            gs.img.setImageResource(R.drawable.wardenroom);
+
+            gs.tv_game_content.setText("You entered the wardens' room. The alien guards lie lifeless on the floor." +
+                    "\n\nWhat will you do?");
+
+            gs.btn1.setText("Access the control panel");
+            gs.btn2.setText("Go back for now");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            showALlButtons();
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "controlPanel";
+            nextPos2 = "secondFloor";
+            nextPos3 = "";
+            nextPos4 = "";
+        }
+
+    }
+
+    public void secretPath(){
+        gs.img.setImageResource(R.drawable.secretpath);
+
+        gs.tv_game_content.setText("You tried to use the secret path the alien told you about. " +
+                "Seemed like it wasn't lying. You infiltrated the room and quietly eliminated each and every warden alien. " +
+                "Geez, what a serial killer you are. Is killing the only option?");
+        isWardensCleared = true;
+        gs.btn1.setText("Shut up. This is just a game.");
+        gs.btn2.setText("I don't want to, it can't be helped");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "controlPanel";
+        nextPos2 = "controlPanel";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void controlPanel(){
+        gs.img.setImageResource(R.drawable.security);
+
+        gs.tv_game_content.setText("You accessed the monitor area. The prison control panel is now in your hand. What shall you do");
+        gs.btn1.setText("Unlock the alien's cell");
+        gs.btn2.setText("Unlock Amelia's cell");
+        gs.btn3.setText("Unlock the weapon locker in the room");
+        gs.btn4.setText("Go back");
+
+        showALlButtons();
+        if(isReleased) gs.btn1.setVisibility(View.INVISIBLE);
+        if(!isLabCleared) gs.btn2.setVisibility(View.INVISIBLE);
+        if(isAmeliaCellUnlocked) gs.btn2.setVisibility(View.INVISIBLE);
+        if(isWeaponLockerUnlocked) gs.btn3.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "unlockAlienCell";
+        nextPos2 = "unlockAmeliaCell";
+        nextPos3 = "unlockWeaponLocker";
+        nextPos4 = "prison";
+    }
+
+    public void unlockAlienCell(){
+        gs.img.setImageResource(R.drawable.unlocked);
+
+        gs.tv_game_content.setText("You unlocked the alien cell");
+        gs.btn1.setText("Keep using control panel");
+        gs.btn2.setText("Go back");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        isReleased = true;
+        showALlButtons();
+
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "controlPanel";
+        nextPos2 = "prison";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    boolean isWeaponLockerUnlocked = false;
+    public void unlockWeaponLocker(){
+        gs.img.setImageResource(R.drawable.brokenassaultrifle);
+        player.setMoney(player.getMoney() + 500);
+        gs.tv_game_content.setText("You unlocked the weapon locker in the room. You acquired Gun Part #2 and 500 credits." +
+                "\n\nThe amount of credits you currently own: " + player.getMoney());
+
+        gs.btn1.setText("Keep using control panel");
+        gs.btn2.setText("Go back");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        isWeaponLockerUnlocked = true;
+
+        showALlButtons();
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "controlPanel";
+        nextPos2 = "prison";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    boolean isAmeliaCellUnlocked = false;
+
+    public void unlockAmeliaCell(){
+        gs.img.setImageResource(R.drawable.unlocked);
+
+        gs.tv_game_content.setText("You unlocked Amelia's cell");
+        gs.btn1.setText("Keep using control panel");
+        gs.btn2.setText("Go back");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        isAmeliaCellUnlocked = true;
+        showALlButtons();
+
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "controlPanel";
+        nextPos2 = "prison";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void suicide(){
+        gs.img.setImageResource(R.drawable.brokenskull);
+
+        gs.tv_game_content.setText("You tried to go in rambo styled, but the aliens are very well equipped " +
+                "(of course wardens have good gears, duh?). You quickly got outgunned and killed in action." +
+                "\nEnding #5: This One Simply Never Learns");
+
+        gs.btn1.setText("Retry");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "wardensRoom";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    boolean isReleased = false;
+    boolean isQuestCompleted = false;
+
+    public void alienCell(){
+        if(!isQuestCompleted){
+            if(!isReleased){
+                gs.img.setImageResource(R.drawable.prisoner);
+
+                gs.tv_game_content.setText("This cell holds an Alien prisoner. The alien looks tired. " +
+                        "It looks at you, as if to beg for help." +
+                        "\n\nWhat would you do?");
+
+                gs.btn1.setText("Help it");
+                gs.btn2.setText("Ignore for now");
+                gs.btn3.setText("");
+                gs.btn4.setText("");
+
+                gs.btn3.setVisibility(View.INVISIBLE);
+                gs.btn4.setVisibility(View.INVISIBLE);
+
+                nextPos1 = "help";
+                nextPos2 = "prison";
+            }else{
+                gs.img.setImageResource(R.drawable.prisoner);
+
+                gs.tv_game_content.setText("The alien thanked you again for having rescued it. " +
+                        "As promised, it gave you the password to a room in the living quarter in the third floor. " +
+                        "You looked at the alien as it ran away");
+                isQuestCompleted = true;
+                gs.btn1.setText("Keep going");
+                gs.btn2.setText("");
+                gs.btn3.setText("");
+                gs.btn4.setText("");
+
+                gs.btn2.setVisibility(View.INVISIBLE);
+                gs.btn3.setVisibility(View.INVISIBLE);
+                gs.btn4.setVisibility(View.INVISIBLE);
+
+                nextPos1 = "prison";
+                nextPos2 = "";
+            }
+        }else{
+            gs.img.setImageResource(R.drawable.openedcell);
+
+            gs.tv_game_content.setText("The cell is empty. You wonder where the alien you rescued has run off to.");
+            gs.btn1.setText("Keep going");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "prison";
+            nextPos2 = "";
+        }
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void help(){
+        if(isFoodBought){
+            gs.img.setImageResource(R.drawable.give);
+
+            gs.tv_game_content.setText("You gave the alien prisoner the food you bought earlier. " +
+                    "It thanked you and show you a secret path into the wardens' room. It also wanted " +
+                    "you to release it and promise to give you another reward.");
+
+            gs.btn1.setText("Accept favor");
+            gs.btn2.setText("It doesn't hurt to help");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+            isQuestGiven = true;
+
+            nextPos1 = "prison";
+            nextPos2 = "prison";
+        }else{
+            gs.img.setImageResource(R.drawable.starve);
+
+            gs.tv_game_content.setText("You don't have anything to give it. The alien still looks tired.");
+
+            gs.btn1.setText("Ignore for now");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "prison";
+            nextPos2 = "";
+        }
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+
+
     public boolean isLabCleared = false;
     public void labs(){
         if(isLabCleared == false){
@@ -477,7 +787,7 @@ public class Story {
             gs.btn2.setText("Try to sneak your way in");
             gs.btn3.setText("Get out for now");
             gs.btn4.setText("");
-
+            showALlButtons();
             gs.btn4.setVisibility(View.INVISIBLE);
             nextPos1 = "gunBlazing";
             nextPos2 = "sneakLabs";
@@ -502,6 +812,94 @@ public class Story {
             nextPos4 = "";
         }
 
+    }
+
+    boolean newGunAcquired = true; //have this on true for now for testing purposes
+    public void gunBlazing() {
+
+        if(newGunAcquired == true){
+            gs.img.setImageResource(R.drawable.takedown);
+            gs.tv_game_content.setText("You tried to go in gun-blazing. With your newly acquired gun, the aliens" +
+                    " are no match for you. You defeated them and successfully rescued the human captive.");
+            isLabCleared = true;
+            gs.btn1.setText("Talk to the captive");
+
+            nextPos1 = "rescueSuccessful";
+        }else{
+            gs.img.setImageResource(R.drawable.brokenskull);
+            gs.tv_game_content.setText("You tried to go in gun-blazing, but you are undergeared " +
+                    "and quickly got outgunned by the alien. You died. GAME OVER" +
+                    "\n\n Ending #3: History often repeats itself.");
+
+            gs.btn1.setText("Try Again");
+
+            nextPos1 = "labs";
+        }
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void sneakLabs() {
+        if(isSuitBought == false){
+            gs.img.setImageResource(R.drawable.brokenskull);
+            gs.tv_game_content.setText("You tried to sneak your way in, but you are not a ninja. Everyone can see you. " +
+                    "You quickly got detected and killed. Maybe next time bring something like Harry Potter's invisible cloak" +
+                    ", it may change the outcome of this decision. You died. GAME OVER" +
+                    "\n Ending #4: The Emperor's New Clothes.");
+
+            gs.btn1.setText("Try Again");
+
+            nextPos1 = "labs";
+        }else{
+            gs.img.setImageResource(R.drawable.stealthsuit);
+            gs.tv_game_content.setText("You tried to sneak your way in. With your stealth suit, no one could detect your presence." +
+                    " you quickly assassinated the aliens one by one and successfully rescued the human captive.");
+            isLabCleared = true;
+            gs.btn1.setText("Talk to the captive");
+
+            nextPos1 = "rescueSuccessful";
+        }
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+
+    public void rescueSuccessful(){
+        gs.img.setImageResource(R.drawable.talk);
+
+        gs.tv_game_content.setText("The captive is a female human, who was also captured by the aliens. " +
+                "She was about to be dissected when you intervened.\n\n" +
+                "Captive: Thank you so much for rescuing me from those awful creatures");
+
+        gs.btn1.setText("- Who are you?");
+        gs.btn2.setText("- Are you OK?");
+        gs.btn3.setText("- Any ideas how to escape?");
+        gs.btn4.setText("- No more talking, let's go.");
+
+        showALlButtons();
+
+        nextPos1 = "";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "secondFloor";
     }
 
 
@@ -588,6 +986,7 @@ public class Story {
             gs.btn1.setVisibility(View.VISIBLE);
 
         }
+        showALlButtons();
         gs.btn2.setText("Stop buying");
         gs.btn3.setText("");
         gs.btn4.setText("");
@@ -617,6 +1016,7 @@ public class Story {
             gs.btn1.setText("Buy something else");
             gs.btn1.setVisibility(View.VISIBLE);
         }
+        showALlButtons();
         gs.btn2.setText("Stop buying");
         gs.btn3.setText("");
         gs.btn4.setText("");
@@ -648,6 +1048,7 @@ public class Story {
             gs.btn1.setText("Buy something else");
             gs.btn1.setVisibility(View.VISIBLE);
         }
+        showALlButtons();
         gs.btn2.setText("Stop buying");
         gs.btn3.setText("");
         gs.btn4.setText("");
