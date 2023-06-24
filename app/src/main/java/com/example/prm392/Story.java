@@ -76,6 +76,7 @@ public class Story {
             case "unlockAlienCell": unlockAlienCell(); break;
             case "unlockWeaponLocker": unlockWeaponLocker(); break;
             case "unlockAmeliaCell": unlockAmeliaCell(); break;
+            case "assaultRifle": assaultRifle(); break;
         }
     }
 
@@ -456,27 +457,64 @@ public class Story {
             storageEntered = true;
             //give player 600 credits
             player.setMoney(player.getMoney() + 600);
-            gs.tv_game_content.setText("You picked up Gun Part #1 and 600 credits. " +
-                    "Seems like you need to collect a few more parts to craft a better gun." +
+            gs.tv_game_content.setText("You picked up Gun Part #1 and 600 credits." +
                     "\n\nThe amount of credits you currently own: " + player.getMoney());
 
+            if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
+                finishedAtWhichPart = 1;
+                gs.btn1.setText("Craft new gun");
+                nextPos1 = "assaultRifle";
+            }else{
+                gs.btn1.setText("Go back");
+                nextPos1 = "secondFloor";
+            }
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
         }else{
             gs.img.setImageResource(R.drawable.openchest);
             gs.tv_game_content.setText("There is nothing left in this room. Why did you come back here?");
-
+            gs.btn1.setText("Go back");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "secondFloor";
         }
-        gs.btn1.setText("Go back");
-        gs.btn2.setText("");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
-        gs.btn2.setVisibility(View.INVISIBLE);
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
-        nextPos1 = "secondFloor";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+    }
 
+    int finishedAtWhichPart = 0;
+
+    //switch to this screen when player found all 3 gun parts
+    //at 3 different locations namely storage room, weapon locker and vending machine
+    public void assaultRifle(){
+        gs.img.setImageResource(R.drawable.assaultrifle);
+        newGunAcquired = true;
+        gs.tv_game_content.setText("You finally acquired all 3 gun parts and assembled an assault rifle. " +
+                "Now you truly are a force to be reckoned with.");
+
+        gs.btn1.setText("Nice");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        if(finishedAtWhichPart == 3) nextPos1 = "shop";
+        if(finishedAtWhichPart == 2) nextPos1 = "controlPanel";
+        if(finishedAtWhichPart == 1) nextPos1 = "secondFloor";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
     }
 
     public void prison() {
@@ -614,19 +652,29 @@ public class Story {
         player.setMoney(player.getMoney() + 500);
         gs.tv_game_content.setText("You unlocked the weapon locker in the room. You acquired Gun Part #2 and 500 credits." +
                 "\n\nThe amount of credits you currently own: " + player.getMoney());
-
-        gs.btn1.setText("Keep using control panel");
-        gs.btn2.setText("Go back");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
         isWeaponLockerUnlocked = true;
 
         showALlButtons();
+        if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
+            finishedAtWhichPart = 2;
+            gs.btn1.setText("Craft new weapon");
+            gs.btn2.setText("");
+            gs.btn2.setVisibility(View.INVISIBLE);
+            nextPos1 = "assaultRifle";
+            nextPos2 = "";
+        }else{
+            gs.btn1.setText("Keep using control panel");
+            gs.btn2.setText("Go back");
+            nextPos1 = "controlPanel";
+            nextPos2 = "prison";
+        }
+
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "controlPanel";
-        nextPos2 = "prison";
         nextPos3 = "";
         nextPos4 = "";
     }
@@ -681,22 +729,40 @@ public class Story {
     public void alienCell(){
         if(!isQuestCompleted){
             if(!isReleased){
-                gs.img.setImageResource(R.drawable.prisoner);
+                if(!isQuestGiven){
+                    gs.img.setImageResource(R.drawable.prisoner);
 
-                gs.tv_game_content.setText("This cell holds an Alien prisoner. The alien looks tired. " +
-                        "It looks at you, as if to beg for help." +
-                        "\n\nWhat would you do?");
+                    gs.tv_game_content.setText("This cell holds an Alien prisoner. The alien looks tired. " +
+                            "It looks at you, as if to beg for help." +
+                            "\n\nWhat would you do?");
 
-                gs.btn1.setText("Help it");
-                gs.btn2.setText("Ignore for now");
-                gs.btn3.setText("");
-                gs.btn4.setText("");
+                    gs.btn1.setText("Help it");
+                    gs.btn2.setText("Ignore for now");
+                    gs.btn3.setText("");
+                    gs.btn4.setText("");
 
-                gs.btn3.setVisibility(View.INVISIBLE);
-                gs.btn4.setVisibility(View.INVISIBLE);
+                    gs.btn3.setVisibility(View.INVISIBLE);
+                    gs.btn4.setVisibility(View.INVISIBLE);
 
-                nextPos1 = "help";
-                nextPos2 = "prison";
+                    nextPos1 = "help";
+                    nextPos2 = "prison";
+                }else{
+                    gs.img.setImageResource(R.drawable.prisoner);
+
+                    gs.tv_game_content.setText("The alien still waits for you to open its cell.");
+
+                    gs.btn1.setText("Get going");
+                    gs.btn2.setText("");
+                    gs.btn3.setText("");
+                    gs.btn4.setText("");
+
+                    gs.btn2.setVisibility(View.INVISIBLE);
+                    gs.btn3.setVisibility(View.INVISIBLE);
+                    gs.btn4.setVisibility(View.INVISIBLE);
+
+                    nextPos1 = "prison";
+                    nextPos2 = "";
+                }
             }else{
                 gs.img.setImageResource(R.drawable.prisoner);
 
@@ -802,7 +868,7 @@ public class Story {
             gs.btn2.setText("");
             gs.btn3.setText("");
             gs.btn4.setText("");
-
+            showALlButtons();
             gs.btn2.setVisibility(View.INVISIBLE);
             gs.btn3.setVisibility(View.INVISIBLE);
             gs.btn4.setVisibility(View.INVISIBLE);
@@ -814,7 +880,7 @@ public class Story {
 
     }
 
-    boolean newGunAcquired = true; //have this on true for now for testing purposes
+    boolean newGunAcquired = false;
     public void gunBlazing() {
 
         if(newGunAcquired == true){
@@ -975,7 +1041,25 @@ public class Story {
             gs.tv_game_content.setText("You bought and acquired Gun Part #3." +
                     "\n\n The amount of credits you currently own: " + player.getMoney());
 
-            gs.btn1.setText("Keep buying");
+            showALlButtons();
+            if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
+                finishedAtWhichPart = 3;
+                gs.btn1.setText("Craft new gun");
+                gs.btn2.setText("");
+                gs.btn2.setVisibility(View.INVISIBLE);
+                nextPos1 = "assaultRifle";
+                nextPos2 = "";
+            }else{
+                gs.btn1.setText("Keep buying");
+                gs.btn2.setText("Stop buying");
+                nextPos1 = "shop";
+                nextPos2 = "thirdFloor";
+            }
+
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
 
         }else{
             gs.img.setImageResource(R.drawable.nomoney);
@@ -984,18 +1068,19 @@ public class Story {
 
             gs.btn1.setText("Buy something else");
             gs.btn1.setVisibility(View.VISIBLE);
+            showALlButtons();
+            gs.btn2.setText("Stop buying");
+            gs.btn3.setText("");
+            gs.btn4.setText("");
+            gs.btn3.setVisibility(View.INVISIBLE);
+            gs.btn4.setVisibility(View.INVISIBLE);
+            nextPos1 = "shop";
+            nextPos2 = "thirdFloor";
 
         }
-        showALlButtons();
-        gs.btn2.setText("Stop buying");
-        gs.btn3.setText("");
-        gs.btn4.setText("");
-        gs.btn3.setVisibility(View.INVISIBLE);
-        gs.btn4.setVisibility(View.INVISIBLE);
-        nextPos1 = "shop";
-        nextPos2 = "thirdFloor";
         nextPos3 = "";
         nextPos4 = "";
+
     }
 
     public void suit(){
