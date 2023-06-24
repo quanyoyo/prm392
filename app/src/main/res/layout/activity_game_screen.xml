@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#151012"
+    android:background="@color/black"
     tools:context=".GameScreen">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="653dp"
-        android:background="#0E080A"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,7 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="238dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="#130C0E"
             app:srcCompat="@drawable/airtighthatch" />
 
         <TextView
@@ -62,11 +60,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="#FFEB3B"
             android:elegantTextHeight="false"
             android:onClick="chooseButton1"
+            android:backgroundTint="#6750A4"
+            android:textColor="@color/white"
             android:text="Button"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <!--        android:backgroundTint="#FFEB3B"-->
 
         <Button
             android:id="@+id/btn2"
@@ -75,11 +75,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="#00BCD4"
             android:elegantTextHeight="true"
             android:onClick="chooseButton2"
+            android:backgroundTint="#6750A4"
+            android:textColor="@color/white"
             android:text="Button"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <!--            android:backgroundTint="#00BCD4"-->
+
 
         <Button
             android:id="@+id/btn3"
@@ -88,11 +91,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="#FFEB3B"
             android:elegantTextHeight="true"
             android:onClick="chooseButton3"
+            android:backgroundTint="#6750A4"
+            android:textColor="@color/white"
             android:text="Button"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <!--        android:backgroundTint="#FFEB3B"-->
 
         <Button
             android:id="@+id/btn4"
@@ -101,40 +106,45 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="#00BCD4"
             android:onClick="chooseButton4"
+            android:backgroundTint="#6750A4"
+            android:textColor="@color/white"
             android:text="Button"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_hp"
+                android:layout_width="39dp"
+                android:layout_height="wrap_content"
+                android:text="@string/hit_point"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Money"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_hp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="353dp"
-        android:text="@string/hit_point"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <TextView
-        android:id="@+id/tv_coin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="46dp"
-        android:text="@string/coin"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_hp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
