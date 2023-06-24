@@ -77,6 +77,7 @@ public class Story {
             case "unlockWeaponLocker": unlockWeaponLocker(); break;
             case "unlockAmeliaCell": unlockAmeliaCell(); break;
             case "assaultRifle": assaultRifle(); break;
+            case "ameliaCell": ameliaCell(); break;
         }
     }
 
@@ -560,7 +561,6 @@ public class Story {
             nextPos1 = "suicide";
             nextPos2 = "secretPath";
             nextPos3 = "secondFloor";
-            nextPos4 = "";
         }else{
             gs.img.setImageResource(R.drawable.wardenroom);
 
@@ -579,8 +579,8 @@ public class Story {
             nextPos1 = "controlPanel";
             nextPos2 = "secondFloor";
             nextPos3 = "";
-            nextPos4 = "";
         }
+        nextPos4 = "";
 
     }
 
@@ -609,14 +609,14 @@ public class Story {
         gs.img.setImageResource(R.drawable.security);
 
         gs.tv_game_content.setText("You accessed the monitor area. The prison control panel is now in your hand. What shall you do");
-        gs.btn1.setText("Unlock the alien's cell");
-        gs.btn2.setText("Unlock Amelia's cell");
+        gs.btn1.setText("Unlock the alien's cell (cell #1)");
+        if(isLabCleared) gs.btn2.setText("Unlock Amelia's cell");
+        else gs.btn2.setText("Unlock cell #2");
         gs.btn3.setText("Unlock the weapon locker in the room");
         gs.btn4.setText("Go back");
 
         showALlButtons();
         if(isReleased) gs.btn1.setVisibility(View.INVISIBLE);
-        if(!isLabCleared) gs.btn2.setVisibility(View.INVISIBLE);
         if(isAmeliaCellUnlocked) gs.btn2.setVisibility(View.INVISIBLE);
         if(isWeaponLockerUnlocked) gs.btn3.setVisibility(View.INVISIBLE);
 
@@ -684,7 +684,8 @@ public class Story {
     public void unlockAmeliaCell(){
         gs.img.setImageResource(R.drawable.unlocked);
 
-        gs.tv_game_content.setText("You unlocked Amelia's cell");
+        if(isLabCleared) gs.tv_game_content.setText("You unlocked Amelia's cell");
+        else gs.tv_game_content.setText("You unlocked cell #2");
         gs.btn1.setText("Keep using control panel");
         gs.btn2.setText("Go back");
         gs.btn3.setText("");
@@ -840,6 +841,59 @@ public class Story {
         nextPos4 = "";
     }
 
+    boolean isHangarKeycardAcquired = false;
+    public void ameliaCell(){
+        if(isLabCleared){
+            if(isAmeliaCellUnlocked){
+                if(isHangarKeycardAcquired){
+                    gs.img.setImageResource(R.drawable.openedcell);
+
+                    gs.tv_game_content.setText("You entered Amelia's cell. There is nothing else to do here.");
+                }else{
+                    gs.img.setImageResource(R.drawable.openedcell);
+
+                    gs.tv_game_content.setText("You entered Amelia's cell. Just as she told you, a keycard to the hangar " +
+                            "was carefully hidden behind a small crack in the wall. You took it and moved on.");
+                    isHangarKeycardAcquired = true;
+                }
+            }else{
+                gs.img.setImageResource(R.drawable.openedcell);
+
+                gs.tv_game_content.setText("This is Amelia's cell. You need to unlock it to get the keycard to the hangar she hid inside.");
+
+            }
+        }else{
+            if(isAmeliaCellUnlocked){
+                if(isHangarKeycardAcquired){
+                    gs.img.setImageResource(R.drawable.openedcell);
+
+                    gs.tv_game_content.setText("You entered the cell. There is nothing else to do here.");
+                }else{
+                    gs.img.setImageResource(R.drawable.openedcell);
+
+                    gs.tv_game_content.setText("You entered the cell. There is no one here. However, you spotted a keycard " +
+                            "to the hangar carefully hidden behind a small crack in the wall. You took it and moved on.");
+                    isHangarKeycardAcquired = true;
+                }
+            }else {
+                gs.img.setImageResource(R.drawable.openedcell);
+
+                gs.tv_game_content.setText("This is someone's cell. There is nothing extraordinary about it.");
+
+            }
+        }
+        gs.btn1.setText("Go back");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "prison";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
 
 
     public boolean isLabCleared = false;
