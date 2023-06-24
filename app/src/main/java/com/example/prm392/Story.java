@@ -78,6 +78,14 @@ public class Story {
             case "unlockAmeliaCell": unlockAmeliaCell(); break;
             case "assaultRifle": assaultRifle(); break;
             case "ameliaCell": ameliaCell(); break;
+            case "who": who(); break;
+            case "heisenberg": heisenberg(); break;
+            case "honestReply": honestReply(); break;
+            case "familiar": familiar(); break;
+            case "ensure": ensure(); break;
+            case "escapeChoice": escapeChoice(); break;
+            case "escapeChoice2": escapeChoice2(); break;
+
         }
     }
 
@@ -912,7 +920,6 @@ public class Story {
             nextPos1 = "gunBlazing";
             nextPos2 = "sneakLabs";
             nextPos3 = "secondFloor";
-            nextPos4 = "";
         }else{
             gs.img.setImageResource(R.drawable.chemicaltank);
             gs.tv_game_content.setText("You entered the labs. There are just corpses of dead aliens lying around. " +
@@ -929,8 +936,8 @@ public class Story {
             nextPos1 = "secondFloor";
             nextPos2 = "";
             nextPos3 = "";
-            nextPos4 = "";
         }
+        nextPos4 = "";
 
     }
 
@@ -1016,10 +1023,155 @@ public class Story {
 
         showALlButtons();
 
-        nextPos1 = "";
+        nextPos1 = "who";
+        nextPos2 = "ensure";
+        nextPos3 = "escapeChoice";
+        nextPos4 = "secondFloor";
+    }
+
+    public void who(){
+        gs.img.setImageResource(R.drawable.pilot);
+
+        gs.tv_game_content.setText("My name is Amelia. I'm a pilot back on Earth. I got kidnapped by " +
+                "these Aliens while I was on trying to fly across the world. And you are?");
+
+        gs.btn1.setText("- I'm Heisenberg. Now say my name.");
+        gs.btn2.setText("- I was brought onto this ship by the aliens as well.");
+        gs.btn3.setText("- Wait a minute... I think I recognize you somewhere");
+        gs.btn4.setText("");
+
+        showALlButtons();
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "heisenberg";
+        nextPos2 = "honestReply";
+        nextPos3 = "familiar";
+        nextPos4 = "";
+    }
+
+    public void heisenberg(){
+        gs.img.setImageResource(R.drawable.heisenberg);
+
+        gs.tv_game_content.setText("Heisenberg?");
+
+        gs.btn1.setText("- You're goddamn right.");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "rescueSuccessful";
         nextPos2 = "";
         nextPos3 = "";
-        nextPos4 = "secondFloor";
+        nextPos4 = "";
+    }
+
+    public void honestReply(){
+        gs.img.setImageResource(R.drawable.pilot);
+
+        gs.tv_game_content.setText("I still don't catch your name. Hmm, doesn't matter. I'll call you Shepard.");
+
+        gs.btn1.setText("- Sure, I guess..");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "rescueSuccessful";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void familiar(){
+        gs.img.setImageResource(R.drawable.pilot);
+
+        gs.tv_game_content.setText("Well, I'm not surprised. I'd say I am quite famous back on Earth." +
+                " But I'm sure as hell I don't recognize you.");
+
+        gs.btn1.setText("...");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "rescueSuccessful";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void ensure(){
+        gs.img.setImageResource(R.drawable.ok);
+
+        gs.tv_game_content.setText("Yes, I'm fine, thanks to you. But my time on this god-forsaken " +
+                "place has not been very pleasant.");
+
+        gs.btn1.setText("- Glad you're not hurt.");
+        gs.btn2.setText("- Must be tough");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "rescueSuccessful";
+        nextPos2 = "rescueSuccessful";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void escapeChoice(){
+        gs.img.setImageResource(R.drawable.hangar);
+
+        gs.tv_game_content.setText("Glad you asked. You can hijack a starship in the hangar, but you will need a keycard. " +
+                "Lucky for you, I managed to hid one in my cell, so we will need to go there and get it. Also, you will " +
+                "need me since you probably cannot fly an aircraft.");
+
+        gs.btn1.setText("- Is that all?");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "escapeChoice2";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void escapeChoice2(){
+        gs.img.setImageResource(R.drawable.commsroom);
+
+        gs.tv_game_content.setText("Another way is to reach the comms room on this ship and call for help from Earth. " +
+                "But I heard there is a big bad enemy waiting for us there. Better prepare ourselves if we decide to " +
+                "cross its path.");
+
+        gs.btn1.setText("- Alright");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "rescueSuccessful";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
     }
 
 
