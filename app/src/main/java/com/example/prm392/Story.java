@@ -85,7 +85,12 @@ public class Story {
             case "ensure": ensure(); break;
             case "escapeChoice": escapeChoice(); break;
             case "escapeChoice2": escapeChoice2(); break;
-
+            case "room1": room1(); break;
+            case "quiz": quiz(); break;
+            case "incorrect": incorrect(); break;
+            case "correct": correct(); break;
+            case "room2": room2(); break;
+            case "trueEnd": trueEnd(); break;
         }
     }
 
@@ -1213,6 +1218,146 @@ public class Story {
         nextPos3 = "room2";
         nextPos4 = "thirdFloor";
     }
+
+    public void room1() {
+        gs.img.setImageResource(R.drawable.computer);
+
+        gs.tv_game_content.setText("There is a computer in the room. A note is displayed on the screen: \"do not forget " +
+                "passcode to the Comms Room. Run the quiz app to remind yourself of the passcode.\"");
+
+        gs.btn1.setText("Run the quiz app");
+        gs.btn2.setText("Hell naw I'm not doing this");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        showALlButtons();
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "quiz";
+        nextPos2 = "livingQuarter";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void quiz() {
+        gs.img.setImageResource(R.drawable.quiz);
+
+        gs.tv_game_content.setText("The app presents you with a question: Why haven't aliens visited earth?");
+
+        gs.btn1.setText("Because the government hides alien encounters from the public.");
+        gs.btn2.setText("The Fermi paradox is the discrepancy between the lack of conclusive evidence " +
+                "of advanced extraterrestrial life and the apparently high likelihood of its existence.");
+        gs.btn3.setText("How should I know????");
+        gs.btn4.setText("Because it's rated 1 star");
+
+        showALlButtons();
+
+        nextPos1 = "incorrect";
+        nextPos2 = "incorrect";
+        nextPos3 = "incorrect";
+        nextPos4 = "correct";
+    }
+
+    public void incorrect() {
+        gs.img.setImageResource(R.drawable.cross);
+
+        gs.tv_game_content.setText("Incorrect. That is not even close. Try again.");
+
+        gs.btn1.setText("Try again");
+        gs.btn2.setText("Screw this, I'm out");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "quiz";
+        nextPos2 = "room1";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void correct() {
+        gs.img.setImageResource(R.drawable.check);
+
+        gs.tv_game_content.setText("\"Correct. Earth was so meh! Been there, done that!.\" - said the AI voice. " +
+                "It gave you the passcode sequence afterwards:\n\nX O ◻ △");
+
+        gs.btn1.setText("Go back");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "room1";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void room2() {
+        showALlButtons();
+        if(!isQuestCompleted){
+            gs.img.setImageResource(R.drawable.smartlock);
+
+            gs.tv_game_content.setText("The room is locked. Seems like you need a passcode to open this door.");
+
+            gs.btn1.setText("Leave it for now");
+            gs.btn2.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "livingQuarter";
+            nextPos2 = "";
+        }else{
+            gs.img.setImageResource(R.drawable.bunkbeds);
+
+            gs.tv_game_content.setText("There is not much here. Just another room in the living quarter. Yet that bed you see " +
+                    "is pretty cozy. You are quite tired of your adventure so far and your body tells you to take a little nap." +
+                    "\nWhat shall you do?");
+
+            gs.btn1.setText("Take a nap");
+            gs.btn2.setText("Leave the room");
+
+            nextPos1 = "trueEnd";
+            nextPos2 = "livingQuarter";
+        }
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void trueEnd() {
+        gs.img.setImageResource(R.drawable.wakeup);
+
+        gs.tv_game_content.setText("After a while, you wake up. You suddenly realize this isn't the " +
+                "bed on the alien ship, but at home. Your brother comes in. You explain the " +
+                "situation to him. But he assure you this is the year 2007, nothing like an aliens invasion " +
+                "ever happened and that you had just been having a bad dream. TRUE ENDING: It's all just a dream!");
+
+        gs.btn1.setText("Try again");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "room2";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
 
     public boolean isGunPart3Bought = false;
     public boolean isFoodBought = false;
