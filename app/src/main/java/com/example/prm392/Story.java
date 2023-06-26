@@ -91,6 +91,10 @@ public class Story {
             case "correct": correct(); break;
             case "room2": room2(); break;
             case "trueEnd": trueEnd(); break;
+            case "hangar": hangar(); break;
+            case "gunfight": gunfight(); break;
+            case "silentTakeDown": silentTakeDown(); break;
+            case "starship": starship(); break;
         }
     }
 
@@ -863,7 +867,7 @@ public class Story {
 
                     gs.tv_game_content.setText("You entered Amelia's cell. There is nothing else to do here.");
                 }else{
-                    gs.img.setImageResource(R.drawable.openedcell);
+                    gs.img.setImageResource(R.drawable.keycard);
 
                     gs.tv_game_content.setText("You entered Amelia's cell. Just as she told you, a keycard to the hangar " +
                             "was carefully hidden behind a small crack in the wall. You took it and moved on.");
@@ -882,7 +886,7 @@ public class Story {
 
                     gs.tv_game_content.setText("You entered the cell. There is nothing else to do here.");
                 }else{
-                    gs.img.setImageResource(R.drawable.openedcell);
+                    gs.img.setImageResource(R.drawable.keycard);
 
                     gs.tv_game_content.setText("You entered the cell. There is no one here. However, you spotted a keycard " +
                             "to the hangar carefully hidden behind a small crack in the wall. You took it and moved on.");
@@ -1343,7 +1347,7 @@ public class Story {
                 "situation to him. But he assure you this is the year 2007, nothing like an aliens invasion " +
                 "ever happened and that you had just been having a bad dream. TRUE ENDING: It's all just a dream!");
 
-        gs.btn1.setText("Try again");
+        gs.btn1.setText("Try another ending");
         gs.btn2.setText("");
         gs.btn3.setText("");
         gs.btn4.setText("");
@@ -1492,6 +1496,136 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
         nextPos1 = "shop";
         nextPos2 = "thirdFloor";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void hangar() {
+        showALlButtons();
+        if(isHangarKeycardAcquired){
+            gs.img.setImageResource(R.drawable.hangar);
+
+            gs.tv_game_content.setText("You entered the hangar. All that's left to do is to hijack a starship and" +
+                    "get back to Earth. However, there are too many aliens here. What's the plan?");
+
+            gs.btn1.setText("Gun them all down");
+            gs.btn2.setText("Take them down silently");
+            gs.btn3.setText("Wait, I'm not ready yet");
+
+            nextPos1 = "gunfight";
+            nextPos2 = "silentTakeDown";
+            nextPos3 = "thirdFloor";
+        }else{
+            gs.img.setImageResource(R.drawable.keycardlock);
+
+            gs.tv_game_content.setText("The gate is locked. You need some sort of keycard to swipe it open.");
+
+            gs.btn1.setText("Go back for now");
+            gs.btn2.setText("");
+            gs.btn3.setText("");
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+            gs.btn3.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "thirdFloor";
+            nextPos2 = "";
+            nextPos3 = "";
+        }
+        gs.btn4.setText("");
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos4 = "";
+    }
+
+
+    public void gunfight() {
+        if(newGunAcquired){
+            gs.img.setImageResource(R.drawable.shooting);
+            gs.tv_game_content.setText("You started a fight with the aliens. With the power of your new rifle and your " +
+                    "experience thus far, you finally managed to clear a path to a starship.");
+
+            gs.btn1.setText("Board the ship");
+
+            nextPos1 = "starship";
+        }else{
+            gs.img.setImageResource(R.drawable.brokenskull);
+            gs.tv_game_content.setText("You started a fight with the aliens. Not sure what you were thinking, because " +
+                    "there are simply too many of them. The aliens' firepower quickly overwhelms you and you died. " +
+                    "GAME OVER. Ending #6: Underpowered");
+
+            gs.btn1.setText("Try again");
+
+            nextPos1 = "hangar";
+        }
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void silentTakeDown() {
+        if(isSuitBought){
+            gs.img.setImageResource(R.drawable.stealthsuit);
+            gs.tv_game_content.setText("You decided to sneak your way through to the starship. With the stealth suit, you " +
+                    "successfully infiltrated the area and took down guards as they got in your way.");
+
+            gs.btn1.setText("Board the ship");
+
+            nextPos1 = "starship";
+        }else{
+            gs.img.setImageResource(R.drawable.brokenskull);
+            gs.tv_game_content.setText("You decided to sneak your way through to the starship. Not sure what you were thinking, because " +
+                    "there are simply too many of them. The aliens quickly detected and killed you. You died. " +
+                    "GAME OVER. Ending #8: Mission Impossible But You're Not Ethan Hunt");
+
+            gs.btn1.setText("Try again");
+
+            nextPos1 = "hangar";
+        }
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+
+    }
+
+    public void starship() {
+        if(isLabCleared){
+            gs.img.setImageResource(R.drawable.counterearth);
+            gs.tv_game_content.setText("You finally made it onto the starship with Amelia. She quickly started the engines " +
+                    "and flew you both back to Earth. However, this \"Earth\" wasn't the same Earth you knew. Everything was inverted, " +
+                    "as if this were a mirrored world. Looks like you have yet to make it back.\nEnding #7: Counter-Earth");
+
+        }else{
+            gs.img.setImageResource(R.drawable.controlroom);
+            gs.tv_game_content.setText("You finally made it onto the starship. However, you hadn't thought one thing through." +
+                    " You do not know how to start and fly a starship. You took too long to learn the " +
+                    "controls and the aliens finally caught up to you. GAME OVER. Ending #9: I Believe I Can Fly");
+
+        }
+        gs.btn1.setText("Try another ending");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos1 = "hangar";
+        nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
