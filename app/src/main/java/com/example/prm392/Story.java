@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Story {
 
@@ -20,6 +23,7 @@ public class Story {
     private static final String KEY_GUN = "HasGun";
     private static final String KEY_KEYCARD = "HasKeycard";
     private static final String KEY_SECOND_TIME = "IsSecondTime";
+    int firstChar = 0;
     boolean chestOpened = false;
     boolean alienDead = false;
 
@@ -95,6 +99,12 @@ public class Story {
             case "gunfight": gunfight(); break;
             case "silentTakeDown": silentTakeDown(); break;
             case "starship": starship(); break;
+            case "commsCenter": commsCenter(); break;
+            case "engageBoss": engageBoss(); break;
+            case "callForHelp": callForHelp(); break;
+            case "callNASA": callNASA(); break;
+            case "callSaul": callSaul(); break;
+            case "avengers": avengers(); break;
         }
     }
 
@@ -1282,12 +1292,13 @@ public class Story {
         nextPos4 = "";
     }
 
+
     public void correct() {
         gs.img.setImageResource(R.drawable.check);
 
         gs.tv_game_content.setText("\"Correct. Earth was so meh! Been there, done that!.\" - said the AI voice. " +
-                "It gave you the passcode sequence afterwards:\n\nX O ◻ △");
-
+                "It gave you the passcode sequence afterwards");
+        isCommsCenterUnlocked = true;
         gs.btn1.setText("Go back");
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1631,4 +1642,164 @@ public class Story {
 
     }
 
+    boolean isCommsCenterUnlocked = false;
+    public void commsCenter() {
+        showALlButtons();
+        if(!isCommsCenterUnlocked){
+            gs.img.setImageResource(R.drawable.smartlock);
+            gs.tv_game_content.setText("The door is locked. You need to input the passcode.");
+
+            gs.btn1.setText("Go back for now");
+            gs.btn2.setText("");
+
+
+            gs.btn2.setVisibility(View.INVISIBLE);
+
+            nextPos1 = "thirdFloor";
+            nextPos2 = "";
+        }else{
+            if(!isCommsRoomCleared){
+                gs.img.setImageResource(R.drawable.alienboss);
+                gs.tv_game_content.setText("You're in. As expected, there is a big bad alien in the room. There is no other way than" +
+                        " to face it head on. What will you do?");
+
+                gs.btn1.setText("What else? FIGHT!");
+                gs.btn2.setText("Retreat, I'm not ready yet");
+
+                nextPos1 = "engageBoss";
+            }else{
+                gs.img.setImageResource(R.drawable.commsroom);
+                gs.tv_game_content.setText("You're at the Communication's Center. All the aliens in the vicinity are dead. There " +
+                        "is no one else here to stop you contacting for help.");
+
+                gs.btn1.setText("Call for help");
+                gs.btn2.setText("Go back");
+
+                nextPos1 = "callForHelp";
+            }
+            nextPos2 = "thirdFloor";
+        }
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    boolean isCommsRoomCleared = false;
+
+    public void engageBoss(){
+        if (!newGunAcquired){
+            gs.img.setImageResource(R.drawable.die);
+            gs.tv_game_content.setText("You decided to engage the boss... with the first ray gun you picked up. And you expect to win this? " +
+                    "In your dream. You stood no chance and the big bad alien killed you. You died. GAME OVER.\n" +
+                    "Ending #10: Difference in Technology");
+
+            gs.btn1.setText("Try again");
+
+            nextPos1 = "commsCenter";
+        }else{
+            gs.img.setImageResource(R.drawable.killboss);
+            gs.tv_game_content.setText("You decided to engage the boss. With the new gun you crafted, you put up a good fight " +
+                    "against this tough enemy. Then, outta nowhere, the alien you rescued from the prison also came to help you a hand. " +
+                    "You finally emerged victorious.");
+            isCommsRoomCleared = true;
+
+            gs.btn1.setText("All in a day's work");
+
+            nextPos1 = "callForHelp";
+        }
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void callForHelp(){
+        gs.img.setImageResource(R.drawable.commsroom);
+
+        gs.tv_game_content.setText("Finally, you are in control of the Communication Center. All that's left to do " +
+                "is to call for help. But.. who to call?");
+
+        gs.btn1.setText("Call NASA");
+        gs.btn2.setText("Call The Avengers");
+        gs.btn3.setText("Call Saul");
+        gs.btn4.setText("Go back");
+
+        showALlButtons();
+
+        nextPos1 = "callNASA";
+        nextPos2 = "avengers";
+        nextPos3 = "callSaul";
+        nextPos4 = "thirdFloor";
+    }
+
+    public void callNASA(){
+        gs.img.setImageResource(R.drawable.nasa);
+
+        gs.tv_game_content.setText("NASA picked up. You asked for help from them. However, they replied that they " +
+                "did not have the technology to rescue you from outer space, and that you should ask SpaceX instead.");
+
+        gs.btn1.setText("Goddamn it");
+        gs.btn2.setText("I knew it, shoulda called SpaceX");
+        gs.btn3.setText("....");
+        gs.btn4.setText("");
+
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "callForHelp";
+        nextPos2 = "callForHelp";
+        nextPos3 = "callForHelp";
+        nextPos4 = "";
+    }
+
+    public void callSaul(){
+        gs.img.setImageResource(R.drawable.saul);
+
+        gs.tv_game_content.setText("Hi. I'm Saul Goodman.\uD83D\uDC68\uD83C\uDFFC\u200D⚖️\uD83D\uDC68\uD83C\uDFFC\u200D⚖️ \uD83D\uDC68\uD83C\uDFFC\u200D⚖️ " +
+                "Did you know that you have rights? \uD83E\uDD28\uD83E\uDD28\uD83E\uDD28 The Constitution says you do.\uD83D\uDCDC\uD83D\uDCDC" +
+                "And so do I.\uD83D\uDE4B\uD83C\uDFFC\u200D♂️\uD83D\uDE4B\uD83C\uDFFC\u200D♂️\uD83D\uDE4B\uD83C\uDFFC\u200D♂️ I believe, that until proven guilty,⚖️⚖️⚖️" +
+                "every man, woman, and child in this country is innocent.✅✅✅" +
+                "And that's why I fight for you, Albuquerque! Better call Saul. \uD83D\uDDFD\uD83D\uDDFD\uD83D\uDDFD");
+
+        gs.btn1.setText("What was I expecting lol");
+        gs.btn2.setText("...");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "callForHelp";
+        nextPos2 = "callForHelp";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
+
+    public void avengers(){
+        gs.img.setImageResource(R.drawable.avengers);
+
+        gs.tv_game_content.setText("\"Avengers, ASSEMBLE!\" Holy, it's like endgame all over again. You swiped your " +
+                "tear in happiness as they rescue you from this alien space ship. THE END.\n\n Ending #11: Avengers");
+
+        gs.btn1.setText("Try another ending");
+        gs.btn2.setText("");
+        gs.btn3.setText("");
+        gs.btn4.setText("");
+
+        gs.btn2.setVisibility(View.INVISIBLE);
+        gs.btn3.setVisibility(View.INVISIBLE);
+        gs.btn4.setVisibility(View.INVISIBLE);
+
+        nextPos1 = "commsCenter";
+        nextPos2 = "";
+        nextPos3 = "";
+        nextPos4 = "";
+    }
 }
