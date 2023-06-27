@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ public class GameScreen extends AppCompatActivity {
     Button btn1, btn2, btn3, btn4;
     Story story;
     ImageView btnPause;
+    ImageButton btnInventory;
     private MediaPlayer mediaPlayer;
 
 
@@ -52,13 +54,23 @@ public class GameScreen extends AppCompatActivity {
                 showPopupDialog();
             }
         });
+        btnInventory =((ImageButton)findViewById(R.id.btn_inventory));
+        btnInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInventory();
+            }
+        });
 
         story = new Story(this, getApplicationContext());
 
         resumeGame();
 
     }
-
+    private void showInventory(){
+        Intent intent = new Intent(this, InventoryScreen.class);
+        startActivity(intent);
+    }
     private void showPopupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Game Paused");
