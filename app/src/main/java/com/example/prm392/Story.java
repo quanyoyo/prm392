@@ -24,6 +24,8 @@ public class Story {
     private Context context;
 
     public Story(GameScreen gs, Context context) {
+    Player player = new Player();
+    public Story(GameScreen gs) {
         this.gs = gs;
         this.context = context;
         //player = new Player();
@@ -220,6 +222,8 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
 
         if (!gun) {
+        if(gun==false){
+            def-=50;
             nextPos1 = "killed";
         } else {
             nextPos1 = "keycard";
@@ -299,6 +303,7 @@ public class Story {
     public void openChest() {
         gs.img.setImageResource(R.drawable.raygun);
         gun = true;
+        atk=atk+100;
 
         gs.tv_game_content.setText("You found an alien ray gun.\n\nNice, now you can defend yourself.");
 
