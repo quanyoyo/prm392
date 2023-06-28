@@ -17,6 +17,9 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameScreen extends AppCompatActivity {
     TextView tv_game_head, tv_game_content;
     ImageView img;
