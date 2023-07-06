@@ -26,17 +26,6 @@
             android:onClick="showPopup"
             app:srcCompat="@drawable/pause" />
 
-        <TextView
-            android:id="@+id/tv_game_head"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-
         <ImageView
             android:id="@+id/img"
             android:layout_width="match_parent"
@@ -114,7 +103,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25sp" />
+            android:layout_height="50sp" />
 
 
         <LinearLayout
@@ -122,19 +111,9 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_hp"
-                android:layout_width="39dp"
-                android:layout_height="wrap_content"
-                android:text="@string/hit_point"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
             <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_width="166sp"
+                android:layout_height="wrap_content" />
 
             <ImageButton
                 android:id="@+id/btn_inventory"
