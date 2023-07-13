@@ -35,7 +35,6 @@ public class GameScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
 
-        tv_game_head = ((TextView)findViewById(R.id.tv_game_head));
         tv_game_content = ((TextView)findViewById(R.id.tv_game_content));
         img = (ImageView) findViewById(R.id.img);
         btn1 = ((Button)findViewById(R.id.btn1));

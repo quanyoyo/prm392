@@ -30,11 +30,13 @@
         android:layout_below="@id/titleTextView"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="#F44336"
         android:text="Start Game"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_restart"
         app:layout_constraintEnd_toEndOf="@+id/titleTextView"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -45,14 +47,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="37dp"
         android:backgroundTint="#8BC34A"
         android:text="Setting"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/startButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/startButton"
-        app:layout_constraintTop_toBottomOf="@+id/startButton" />
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/btn_restart"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btn_restart"
+        app:layout_constraintTop_toBottomOf="@+id/btn_restart" />
 
     <Button
         android:id="@+id/btn_restart"
@@ -63,7 +66,9 @@
         android:onClick="restartGame"
         android:text="Restart"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/settingButton"
         app:layout_constraintEnd_toEndOf="@+id/startButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/startButton"
         app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
@@ -77,5 +82,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView"
         app:srcCompat="@drawable/game_logo" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="Game record"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/settingButton"
+        app:layout_constraintTop_toBottomOf="@+id/settingButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

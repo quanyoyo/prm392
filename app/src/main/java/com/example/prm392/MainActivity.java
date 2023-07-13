@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Clear the saved game data
                 clearSavedGameData();
-
+                Story.deleteAllItems();
                 // Start the game activity
                 startGame();
             }

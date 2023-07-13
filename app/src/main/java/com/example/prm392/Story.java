@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.room.Room;
 
 
 public class Story {
@@ -15,7 +14,11 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    Player player = new Player(100, 0);
+    int money = getPlayerMoney();
+    public static Player player = new Player(0);
+    public static int getPlayerMoney(){
+        return player.getMoney();
+    }
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
@@ -27,11 +30,30 @@ public class Story {
     boolean chestOpened = false;
     boolean alienDead = false;
 
+    private static Database database;
+
+    public static Database getItemDatabase() {
+        return database;
+    }
+
     private Context context;
 
     public Story(GameScreen gs, Context context) {
         this.gs = gs;
         this.context = context;
+    }
+
+    public Database initialDatabase() {
+        if (database == null) {
+            // Create or obtain the database instance
+            database = createItemDatabase();
+        }
+        return database;
+    }
+
+    private Database createItemDatabase() {
+        return Room.databaseBuilder(context, Database.class, "db-item")
+                .allowMainThreadQueries().build();
     }
 
     public String getCurrentPlayerPosition() {
@@ -42,9 +64,30 @@ public class Story {
         this.currentPlayerPosition = currentPlayerPosition;
     }
 
+    private void addItem(String name, int imgSrc){
+        //add item to db
+        Item item = new Item(name,imgSrc);
+        database.itemDao().insertItem(item);
+    }
+
+    private void deleteItem(String name){
+        Item existItem = database.itemDao().getItemById(name);
+        if(existItem!=null){
+            database.itemDao().deleteItem(existItem);
+        }
+    }
+
+    public static void deleteAllItems(){
+        player.setMoney(0);
+        database.itemDao().deleteAllItems();
+    }
+
+
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
         saveGameState();
+        //create or retrieve the database instance
+        initialDatabase();
         switch (pos) {
             case "startingPoint": startingPoint(); break;
             case "weapon": weapon(); break;
@@ -114,6 +157,7 @@ public class Story {
         editor.putBoolean(KEY_GUN, gun);
         editor.putBoolean(KEY_KEYCARD, keycard);
         editor.putBoolean(KEY_SECOND_TIME, secondTime);
+//        editor.putInt(getPlayerMoney(),)
         editor.apply();
     }
 
@@ -128,21 +172,21 @@ public class Story {
         }
     }
 
-    public void restartGame() {
-        // Clear the shared preferences
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.apply();
-
-        // Reset the game state variables
-        currentPlayerPosition = "startingPoint";
-        gun = false;
-        keycard = false;
-        secondTime = false;
-
-        // Start the game from the beginning
-        startingPoint();
-    }
+//    public void restartGame() {
+//        // Clear the shared preferences
+//        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+//        editor.clear();
+//        editor.apply();
+//
+//        // Reset the game state variables
+//        currentPlayerPosition = "startingPoint";
+//        gun = false;
+//        keycard = false;
+//        secondTime = false;
+//
+//        // Start the game from the beginning
+//        startingPoint();
+//    }
 
     public void startOrResumeGame() {
         loadGameState();
@@ -323,7 +367,7 @@ public class Story {
 
     //Ending #2: Rookie Mistake
     public void killed(){
-
+        deleteAllItems();
         gs.img.setImageResource(R.drawable.brokenskull);
 
         gs.tv_game_content.setText("You tried to fight an alien without any weapons. " +
@@ -351,6 +395,7 @@ public class Story {
         keycard = true;
         alienDead = true;
 
+        addItem("keycardElevator",R.drawable.keycard);
         gs.tv_game_content.setText("You defeated the alien with the ray gun you found. You picked up a keycard from the dead alien.");
 
         gs.btn1.setText("Take it and go back");
@@ -415,6 +460,9 @@ public class Story {
         gs.tv_game_content.setText("You found an alien ray gun. Nice, now you can defend yourself." +
                 "\n\nYou also found 500 credits. The amount of credits you currently own: " + player.getMoney());
 
+        //add item to db
+        addItem("ray gun",R.drawable.raygun);
+
         gs.btn1.setText("Take it and go back");
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -432,7 +480,7 @@ public class Story {
 
     //ending #1: dumb ways to die
     public void stay(){
-
+        deleteAllItems();
         gs.img.setImageResource(R.drawable.disintegrate);
 
         gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
@@ -487,6 +535,9 @@ public class Story {
             gs.tv_game_content.setText("You picked up Gun Part #1 and 600 credits." +
                     "\n\nThe amount of credits you currently own: " + player.getMoney());
 
+            //add item to db
+            addItem("Gun Part #1",R.drawable.brokenassaultrifle);
+
             if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
                 finishedAtWhichPart = 1;
                 gs.btn1.setText("Craft new gun");
@@ -528,6 +579,10 @@ public class Story {
         gs.tv_game_content.setText("You finally acquired all 3 gun parts and assembled an assault rifle. " +
                 "Now you truly are a force to be reckoned with.");
 
+        addItem("assaultRifle",R.drawable.assaultrifle);
+        deleteItem("Gun Part #1");
+        deleteItem("Gun Part #2");
+        deleteItem("Gun Part #3");
         gs.btn1.setText("Nice");
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -626,6 +681,7 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "controlPanel";
+//        ??
         nextPos2 = "controlPanel";
         nextPos3 = "";
         nextPos4 = "";
@@ -680,6 +736,8 @@ public class Story {
                 "\n\nThe amount of credits you currently own: " + player.getMoney());
         isWeaponLockerUnlocked = true;
 
+        //add
+        addItem("Gun Part #2",R.drawable.brokenassaultrifle);
         showALlButtons();
         if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
             finishedAtWhichPart = 2;
@@ -1399,12 +1457,15 @@ public class Story {
     }
 
     public void gunPart3(){
-        if(player.getMoney() >= 500){
+        if(player.getMoney() >= 500 && !isGunPart3Bought){
             gs.img.setImageResource(R.drawable.brokenassaultrifle);
             isGunPart3Bought = true;
             player.setMoney(player.getMoney() - 500);
             gs.tv_game_content.setText("You bought and acquired Gun Part #3." +
                     "\n\n The amount of credits you currently own: " + player.getMoney());
+
+            //add
+            addItem("Gun Part #3",R.drawable.brokenassaultrifle);
 
             showALlButtons();
             if(isGunPart3Bought && storageEntered && isWeaponLockerUnlocked){
@@ -1488,6 +1549,7 @@ public class Story {
                     "you don't know whether it's safe to eat. You wonder why you even bought this item." +
                     "\nThe amount of credits you currently own: " + player.getMoney());
 
+            addItem("Canned Food",R.drawable.cannedfood);
             gs.btn1.setText("Keep buying");
 
         }else{

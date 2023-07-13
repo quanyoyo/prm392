@@ -6,23 +6,23 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryScreen extends AppCompatActivity {
     private GridView inventoryGrid;
     private InventoryAdaptor inventoryAdaptor;
-    private List<Item> itemList;
     private ImageButton btnBack;
     MediaPlayer mediaPlayer;
+
+    private List<Item> itemList;
+    private Database database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         setContentView(R.layout.activity_inventory_screen);
 
         mediaPlayer = MediaPlayerSingleton.getInstance(this);
@@ -32,16 +32,9 @@ public class InventoryScreen extends AppCompatActivity {
         // Retrieve the GridView
         inventoryGrid = findViewById(R.id.inventory_grid);
 
-        // Prepare item data
-        itemList = new ArrayList<>();
-        itemList.add(new Item("Item 1", R.drawable.keycard));
-        itemList.add(new Item("Item 2", R.drawable.raygun));
-        itemList.add(new Item("Item 3", R.drawable.brokenassaultrifle));
-        // Add more items as needed
-
-        // Create and set the adapter
-        inventoryAdaptor = new InventoryAdaptor(itemList, this);
-        inventoryGrid.setAdapter(inventoryAdaptor);
+        // Retrieve the items from the database
+        database = Story.getItemDatabase();
+        retrieveItemsFromDatabase();
 
         btnBack = ((ImageButton) findViewById(R.id.btn_back));
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +43,29 @@ public class InventoryScreen extends AppCompatActivity {
                 goToGameScreen();
             }
         });
+    }
+    private void retrieveItemsFromDatabase() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Access the item DAO and retrieve all items
+                itemList = database.itemDao().getAll();
+
+                // Create a new item for the player's money
+                int playerMoney = Story.getPlayerMoney(); // Replace this with your own method to get the player's money
+                Item playerMoneyItem = new Item(""+playerMoney, R.drawable.money);
+                itemList.add(0, playerMoneyItem); // Add it at the beginning of the item list
+                // Run the UI updates on the main thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Create and set the adapter
+                        inventoryAdaptor = new InventoryAdaptor(InventoryScreen.this, itemList);
+                        inventoryGrid.setAdapter(inventoryAdaptor);
+                    }
+                });
+            }
+        }).start();
     }
     public void goToGameScreen() {
         Intent intent = new Intent(this, GameScreen.class);

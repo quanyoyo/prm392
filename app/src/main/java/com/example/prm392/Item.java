@@ -1,6 +1,13 @@
 package com.example.prm392;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "item")
 public class Item {
+    @NonNull
+    @PrimaryKey
     private String name;
     private int imageResource;
 

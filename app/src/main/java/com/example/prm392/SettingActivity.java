@@ -72,7 +72,7 @@ public class SettingActivity extends AppCompatActivity {
                 } else {
                     int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                     if(currentVolume==0){
-                        currentVolume=2;
+                        currentVolume=4;
                     }
                     volumeSeekBar.setProgress(currentVolume);
                 }

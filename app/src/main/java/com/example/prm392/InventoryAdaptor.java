@@ -12,11 +12,12 @@ import java.util.List;
 
 public class InventoryAdaptor extends BaseAdapter {
     private List<Item> itemList;
+    private Player player;
     private Context context;
 
-    public InventoryAdaptor(List<Item> itemList, Context context) {
-        this.itemList = itemList;
+    public InventoryAdaptor(Context context, List<Item> itemList) {
         this.context = context;
+        this.itemList = itemList;
     }
 
     @Override
