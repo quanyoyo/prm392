@@ -33,7 +33,7 @@ public class InventoryScreen extends AppCompatActivity {
         inventoryGrid = findViewById(R.id.inventory_grid);
 
         // Retrieve the items from the database
-        database = Story.getItemDatabase();
+        database = Story.getDatabase();
         retrieveItemsFromDatabase();
 
         btnBack = ((ImageButton) findViewById(R.id.btn_back));

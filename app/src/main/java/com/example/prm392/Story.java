@@ -1,12 +1,13 @@
 package com.example.prm392;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 
 import androidx.room.Room;
 
-
+@SuppressLint("SetTextI18n")
 public class Story {
 
     GameScreen gs;
@@ -14,7 +15,6 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    int money = getPlayerMoney();
     public static Player player = new Player(0);
     public static int getPlayerMoney(){
         return player.getMoney();
@@ -26,13 +26,12 @@ public class Story {
     private static final String KEY_GUN = "HasGun";
     private static final String KEY_KEYCARD = "HasKeycard";
     private static final String KEY_SECOND_TIME = "IsSecondTime";
-    int firstChar = 0;
     boolean chestOpened = false;
     boolean alienDead = false;
 
     private static Database database;
 
-    public static Database getItemDatabase() {
+    public static Database getDatabase() {
         return database;
     }
 
@@ -46,22 +45,19 @@ public class Story {
     public Database initialDatabase() {
         if (database == null) {
             // Create or obtain the database instance
-            database = createItemDatabase();
+            database = createDatabase();
         }
         return database;
     }
 
-    private Database createItemDatabase() {
-        return Room.databaseBuilder(context, Database.class, "db-item")
+    private Database createDatabase() {
+        return Room.databaseBuilder(context, Database.class, "db-game")
                 .allowMainThreadQueries().build();
     }
 
-    public String getCurrentPlayerPosition() {
-        return currentPlayerPosition;
-    }
-
-    public void setCurrentPlayerPosition(String currentPlayerPosition) {
-        this.currentPlayerPosition = currentPlayerPosition;
+    private void addGameRecord(int id, String des){
+        GameRecord gameRecord = new GameRecord(id, des);
+        database.gameRecordDao().insertGameRecord(gameRecord);
     }
 
     private void addItem(String name, int imgSrc){
@@ -82,6 +78,13 @@ public class Story {
         database.itemDao().deleteAllItems();
     }
 
+    public String getCurrentPlayerPosition() {
+        return currentPlayerPosition;
+    }
+
+    public void setCurrentPlayerPosition(String currentPlayerPosition) {
+        this.currentPlayerPosition = currentPlayerPosition;
+    }
 
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
@@ -203,7 +206,7 @@ public class Story {
 
 
     public void startingPoint(){
-        if(secondTime == false){
+        if(!secondTime){
             gs.img.setImageResource(R.drawable.airtighthatch);
             gs.tv_game_content.setText("You woke up to an unfamiliar ceiling. There are 3 doors.\n\nWhich one will you take?");
             gs.btn1.setText("The one in front");
@@ -321,7 +324,7 @@ public class Story {
     }
 
     public void alien(){
-        if(alienDead == false){
+        if(!alienDead){
             gs.img.setImageResource(R.drawable.metroid);
 
             gs.tv_game_content.setText("You encountered an alien! What shall you do?");
@@ -334,7 +337,7 @@ public class Story {
             gs.btn3.setVisibility(View.INVISIBLE);
             gs.btn4.setVisibility(View.INVISIBLE);
 
-            if(gun == false){
+            if(!gun){
                 nextPos1 = "killed";
             }else{
                 nextPos1 = "keycard";
@@ -367,7 +370,7 @@ public class Story {
 
     //Ending #2: Rookie Mistake
     public void killed(){
-        deleteAllItems();
+        addGameRecord(2,"Rookie Mistake");
         gs.img.setImageResource(R.drawable.brokenskull);
 
         gs.tv_game_content.setText("You tried to fight an alien without any weapons. " +
@@ -414,7 +417,7 @@ public class Story {
     }
 
     public void weapon(){
-        if(chestOpened == false){
+        if(!chestOpened){
             gs.img.setImageResource(R.drawable.chest);
 
             gs.tv_game_content.setText("You found a box. \n\nMight be something good inside.");
@@ -480,7 +483,7 @@ public class Story {
 
     //ending #1: dumb ways to die
     public void stay(){
-        deleteAllItems();
+        addGameRecord(1,"Dumb ways to die");
         gs.img.setImageResource(R.drawable.disintegrate);
 
         gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
@@ -527,7 +530,7 @@ public class Story {
 
     public boolean storageEntered = false;
     public void storage(){
-        if(storageEntered == false){
+        if(!storageEntered){
             gs.img.setImageResource(R.drawable.brokenassaultrifle);
             storageEntered = true;
             //give player 600 credits
@@ -787,6 +790,7 @@ public class Story {
     }
 
     public void suicide(){
+        addGameRecord(5,"This One Simply Never Learns");
         gs.img.setImageResource(R.drawable.brokenskull);
 
         gs.tv_game_content.setText("You tried to go in rambo styled, but the aliens are very well equipped " +
@@ -982,7 +986,7 @@ public class Story {
 
     public boolean isLabCleared = false;
     public void labs(){
-        if(isLabCleared == false){
+        if(!isLabCleared){
             gs.img.setImageResource(R.drawable.chemicaltank);
             gs.tv_game_content.setText("You entered the labs. It seems like the aliens are about to do an experiment " +
                     "on a human. What shall you do?");
@@ -1020,7 +1024,7 @@ public class Story {
     boolean newGunAcquired = false;
     public void gunBlazing() {
 
-        if(newGunAcquired == true){
+        if(newGunAcquired){
             gs.img.setImageResource(R.drawable.takedown);
             gs.tv_game_content.setText("You tried to go in gun-blazing. With your newly acquired gun, the aliens" +
                     " are no match for you. You defeated them and successfully rescued the human captive.");
@@ -1029,6 +1033,7 @@ public class Story {
 
             nextPos1 = "rescueSuccessful";
         }else{
+            addGameRecord(3,"History often repeats itself");
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You tried to go in gun-blazing, but you are undergeared " +
                     "and quickly got outgunned by the alien. You died. GAME OVER" +
@@ -1052,7 +1057,8 @@ public class Story {
     }
 
     public void sneakLabs() {
-        if(isSuitBought == false){
+        if(!isSuitBought){
+            addGameRecord(4,"The Emperor's New Clothes");
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You tried to sneak your way in, but you are not a ninja. Everyone can see you. " +
                     "You quickly got detected and killed. Maybe next time bring something like Harry Potter's invisible cloak" +
@@ -1408,6 +1414,7 @@ public class Story {
     }
 
     public void trueEnd() {
+        addGameRecord(0,"TRUE ENDING: It's all just a dream!");
         gs.img.setImageResource(R.drawable.wakeup);
 
         gs.tv_game_content.setText("After a while, you wake up. You suddenly realize this isn't the " +
@@ -1446,9 +1453,9 @@ public class Story {
         gs.btn4.setText("Do not buy anything");
 
         showALlButtons();
-        if(isGunPart3Bought == true) gs.btn1.setVisibility(View.INVISIBLE);
-        if(isSuitBought == true) gs.btn2.setVisibility(View.INVISIBLE);
-        if(isFoodBought == true) gs.btn3.setVisibility(View.INVISIBLE);
+        if(isGunPart3Bought) gs.btn1.setVisibility(View.INVISIBLE);
+        if(isSuitBought) gs.btn2.setVisibility(View.INVISIBLE);
+        if(isFoodBought) gs.btn3.setVisibility(View.INVISIBLE);
 
         nextPos1 = "gunPart3";
         nextPos2 = "suit";
@@ -1620,6 +1627,7 @@ public class Story {
 
             nextPos1 = "starship";
         }else{
+            addGameRecord(6,"Underpowered");
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You started a fight with the aliens. Not sure what you were thinking, because " +
                     "there are simply too many of them. The aliens' firepower quickly overwhelms you and you died. " +
@@ -1652,6 +1660,7 @@ public class Story {
 
             nextPos1 = "starship";
         }else{
+            addGameRecord(8,"Mission Impossible But You're Not Ethan Hunt");
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You decided to sneak your way through to the starship. Not sure what you were thinking, because " +
                     "there are simply too many of them. The aliens quickly detected and killed you. You died. " +
@@ -1676,12 +1685,14 @@ public class Story {
 
     public void starship() {
         if(isLabCleared){
+            addGameRecord(7,"Counter-Earth");
             gs.img.setImageResource(R.drawable.counterearth);
             gs.tv_game_content.setText("You finally made it onto the starship with Amelia. She quickly started the engines " +
                     "and flew you both back to Earth. However, this \"Earth\" wasn't the same Earth you knew. Everything was inverted, " +
                     "as if this were a mirrored world. Looks like you have yet to make it back.\nEnding #7: Counter-Earth");
 
         }else{
+            addGameRecord(9,"I Believe I Can Fly");
             gs.img.setImageResource(R.drawable.controlroom);
             gs.tv_game_content.setText("You finally made it onto the starship. However, you hadn't thought one thing through." +
                     " You do not know how to start and fly a starship. You took too long to learn the " +
@@ -1752,6 +1763,7 @@ public class Story {
 
     public void engageBoss(){
         if (!newGunAcquired){
+            addGameRecord(10,"Difference in Technology");
             gs.img.setImageResource(R.drawable.die);
             gs.tv_game_content.setText("You decided to engage the boss... with the first ray gun you picked up. And you expect to win this? " +
                     "In your dream. You stood no chance and the big bad alien killed you. You died. GAME OVER.\n" +
@@ -1844,6 +1856,7 @@ public class Story {
     }
 
     public void avengers(){
+        addGameRecord(11,"Avengers");
         gs.img.setImageResource(R.drawable.avengers);
 
         gs.tv_game_content.setText("\"Avengers, ASSEMBLE!\" Holy, it's like endgame all over again. You swiped your " +

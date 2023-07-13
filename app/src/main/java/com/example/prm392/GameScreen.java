@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreen extends AppCompatActivity {
-    TextView tv_game_head, tv_game_content;
+    TextView tv_game_content;
     ImageView img;
     Button btn1, btn2, btn3, btn4;
     Story story;

@@ -14,4 +14,7 @@ public interface GameRecordDao {
 
     @Query("SELECT * FROM game_records")
     List<GameRecord> getAllGameRecords();
+
+    @Query("DELETE FROM game_records")
+    void deleteAllGameRecords();
 }
