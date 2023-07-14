@@ -1,25 +1,13 @@
 package com.example.prm392;
 
 public class Player {
-    public Player() {
-    }
+    private int money;
 
-    public Player(int hp, int money) {
-        this.hp = hp;
+    public Player(int money) {
         this.money = money;
     }
 
-    public int getHp() {
-        setHp(10);
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
     public int getMoney() {
-        setMoney(100);
         return money;
     }
 

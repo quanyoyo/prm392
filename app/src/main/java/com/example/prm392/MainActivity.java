@@ -16,13 +16,17 @@ public class MainActivity extends AppCompatActivity {
     private Button startButton;
     private Button settingButton;
     private Button restartButton;
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mediaPlayer = MediaPlayer.create(this, R.raw.bg_music);
+//        retrieve MediaPlayer instance
+        mediaPlayer = MediaPlayerSingleton.getInstance(this);
         mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+
         startButton = findViewById(R.id.startButton);
         restartButton = findViewById(R.id.btn_restart);
         settingButton = findViewById(R.id.settingButton);
@@ -51,15 +55,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Clear the saved game data
                 clearSavedGameData();
-
+                Story.deleteAllItems();
                 // Start the game activity
-                startGameActivity();
+                startGame();
             }
         });
 
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Stop the music playback
+//                mediaPlayer.stop();
+                // Release the MediaPlayer resources
+//                MediaPlayerSingleton.release();
+                //open settings
                 openSettings();
             }
         });
@@ -70,12 +79,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("GamePrefs", MODE_PRIVATE).edit();
         editor.clear();
         editor.apply();
-    }
-
-    private void startGameActivity() {
-        // Start the game activity
-        Intent intent = new Intent(MainActivity.this, GameScreen.class);
-        startActivity(intent);
     }
 
     private void startGame() {
@@ -89,13 +92,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        // Release the MediaPlayer resources
-//        if (mediaPlayer != null) {
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerSingleton.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MediaPlayerSingleton.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Release the MediaPlayer resources
+        MediaPlayerSingleton.release();
+    }
 }
