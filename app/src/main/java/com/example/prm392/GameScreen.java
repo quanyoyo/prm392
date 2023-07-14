@@ -11,17 +11,22 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameScreen extends AppCompatActivity {
-    TextView tv_game_head, tv_game_content;
+    TextView tv_game_content;
     ImageView img;
     Button btn1, btn2, btn3, btn4;
     Story story;
     ImageView btnPause;
+    ImageButton btnInventory;
     private MediaPlayer mediaPlayer;
 
 
@@ -30,7 +35,6 @@ public class GameScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
 
-        tv_game_head = ((TextView)findViewById(R.id.tv_game_head));
         tv_game_content = ((TextView)findViewById(R.id.tv_game_content));
         img = (ImageView) findViewById(R.id.img);
         btn1 = ((Button)findViewById(R.id.btn1));
@@ -52,13 +56,23 @@ public class GameScreen extends AppCompatActivity {
                 showPopupDialog();
             }
         });
+        btnInventory =((ImageButton)findViewById(R.id.btn_inventory));
+        btnInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInventory();
+            }
+        });
 
         story = new Story(this, getApplicationContext());
 
         resumeGame();
 
     }
-
+    private void showInventory(){
+        Intent intent = new Intent(this, InventoryScreen.class);
+        startActivity(intent);
+    }
     private void showPopupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Game Paused");
