@@ -15,19 +15,65 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    public static Player player = new Player(0);
-    public static int getPlayerMoney(){
-        return player.getMoney();
-    }
+    boolean gun_part1 = false;
+    boolean gun_part2 = false;
+    boolean gun_part3 = false;
+    boolean suit = false;
+    boolean food = false;
+    //    boolean rifle = false;
+    boolean chestOpened = false;
+    boolean alienDead = false;
+    boolean isGunPart3Bought = false;
+    boolean isFoodBought = false;
+    boolean isSuitBought = false;
+    boolean newGunAcquired = false;
+    boolean storageEntered = false;
+    boolean isQuestGiven = false;
+    boolean isWardensCleared = false;
+    boolean isWeaponLockerUnlocked = false;
+    boolean isAmeliaCellUnlocked = false;
+    boolean isReleased = false;
+    boolean isQuestCompleted = false;
+    boolean isHangarKeycardAcquired = false;
+    boolean isLabCleared = false;
+    boolean isCommsCenterUnlocked = false;
+    boolean isCommsRoomCleared = false;
+
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
     private static final String KEY_POSITION = "CurrentPosition";
     private static final String KEY_GUN = "HasGun";
+    private static final String KEY_GUN_PART1 = "HasGunPart1";
+    private static final String KEY_GUN_PART2 = "HasGunPart2";
+    private static final String KEY_GUN_PART3 = "HasGunPart3";
+    private static final String KEY_SUIT = "HasSuit";
+    private static final String KEY_FOOD = "HasFood";
+    private static final String KEY_NEW_GUN = "HasNewGun";
     private static final String KEY_KEYCARD = "HasKeycard";
     private static final String KEY_SECOND_TIME = "IsSecondTime";
-    boolean chestOpened = false;
-    boolean alienDead = false;
+    private static final String KEY_CHEST_OPENED = "chestOpened";
+    private static final String KEY_ALIEN_DEAD = "alienDead";
+    private static final String KEY_SUIT_BOUGHT = "IsSuitBought";
+    private static final String KEY_FOOD_BOUGHT = "IsFoodBought";
+    private static final String KEY_GUN_PART3_BOUGHT = "IsPart3Bought";
+    private static final String KEY_STORAGE_ENTERED = "IsStorageEntered";
+    private static final String KEY_QUEST_GIVEN = "IsQuestGiven";
+    private static final String KEY_WARDENS_CLEARED = "IsWardensCleared";
+    private static final String KEY_WEAPON_LOCKER_UNLOCKED = "isLockerUnlocked";
+    private static final String KEY_AMELIA_CELL_UNLOCKED = "isAmeliaCellUnlocked";
+    private static final String KEY_QUEST_COMPLETED = "isQuestCompleted";
+    private static final String KEY_RELEASED = "isReleased";
+    private static final String KEY_HANGAR_KEYCARD_ACQUIRED = "HasHangarKeycard";
+    private static final String KEY_LAB_CLEARED = "IsLabCleared";
+    private static final String KEY_COMS_CENTER_UNLOCKED = "IsCommsCenterUnlocked";
+    private static final String KEY_COMS_ROOM_CLEARED = "IsCommsRoomCleared";
+    private static final String KEY_PLAYER_MONEY = "PlayerMoney";
+
+    public static Player player = new Player(0);
+    public static int getPlayerMoney(){
+        return player.getMoney();
+    }
 
     private static Database database;
 
@@ -160,7 +206,29 @@ public class Story {
         editor.putBoolean(KEY_GUN, gun);
         editor.putBoolean(KEY_KEYCARD, keycard);
         editor.putBoolean(KEY_SECOND_TIME, secondTime);
-//        editor.putInt(getPlayerMoney(),)
+        editor.putBoolean(KEY_GUN_PART1, gun_part1);
+        editor.putBoolean(KEY_GUN_PART2, gun_part2);
+        editor.putBoolean(KEY_GUN_PART3, gun_part3);
+        editor.putBoolean(KEY_SUIT, suit);
+        editor.putBoolean(KEY_FOOD, food);
+        editor.putBoolean(KEY_NEW_GUN, newGunAcquired);
+        editor.putBoolean(KEY_CHEST_OPENED, chestOpened);
+        editor.putBoolean(KEY_ALIEN_DEAD, alienDead);
+        editor.putBoolean(KEY_SUIT_BOUGHT, isSuitBought);
+        editor.putBoolean(KEY_FOOD_BOUGHT, isFoodBought);
+        editor.putBoolean(KEY_GUN_PART3_BOUGHT, isGunPart3Bought);
+        editor.putBoolean(KEY_STORAGE_ENTERED, storageEntered);
+        editor.putBoolean(KEY_QUEST_GIVEN, isQuestGiven);
+        editor.putBoolean(KEY_WARDENS_CLEARED, isWardensCleared);
+        editor.putBoolean(KEY_WEAPON_LOCKER_UNLOCKED, isWeaponLockerUnlocked);
+        editor.putBoolean(KEY_AMELIA_CELL_UNLOCKED, isAmeliaCellUnlocked);
+        editor.putBoolean(KEY_QUEST_COMPLETED, isQuestCompleted);
+        editor.putBoolean(KEY_RELEASED, isReleased);
+        editor.putBoolean(KEY_HANGAR_KEYCARD_ACQUIRED, isHangarKeycardAcquired);
+        editor.putBoolean(KEY_LAB_CLEARED, isLabCleared);
+        editor.putBoolean(KEY_COMS_CENTER_UNLOCKED, isCommsCenterUnlocked);
+        editor.putBoolean(KEY_COMS_ROOM_CLEARED, isCommsRoomCleared);
+        editor.putInt(KEY_PLAYER_MONEY, getPlayerMoney());
         editor.apply();
     }
 
@@ -172,24 +240,29 @@ public class Story {
             gun = prefs.getBoolean(KEY_GUN, false);
             keycard = prefs.getBoolean(KEY_KEYCARD, false);
             secondTime = prefs.getBoolean(KEY_SECOND_TIME, false);
+            gun_part1 = prefs.getBoolean(KEY_GUN_PART1, false);
+            gun_part2 = prefs.getBoolean(KEY_GUN_PART2, false);
+            gun_part3 = prefs.getBoolean(KEY_GUN_PART3, false);
+            suit = prefs.getBoolean(KEY_SUIT, false);
+            food = prefs.getBoolean(KEY_FOOD, false);
+            newGunAcquired = prefs.getBoolean(KEY_NEW_GUN, false);
+            chestOpened = prefs.getBoolean(KEY_CHEST_OPENED, false);
+            alienDead = prefs.getBoolean(KEY_ALIEN_DEAD, false);
+            isSuitBought = prefs.getBoolean(KEY_SUIT_BOUGHT,false);
+            isFoodBought = prefs.getBoolean(KEY_FOOD_BOUGHT,false);
+            isGunPart3Bought = prefs.getBoolean(KEY_GUN_PART3_BOUGHT,false);
+            storageEntered = prefs.getBoolean(KEY_STORAGE_ENTERED,false);
+            isWeaponLockerUnlocked = prefs.getBoolean(KEY_WEAPON_LOCKER_UNLOCKED, false);
+            isAmeliaCellUnlocked = prefs.getBoolean(KEY_AMELIA_CELL_UNLOCKED, false);
+            isReleased = prefs.getBoolean(KEY_RELEASED, false);
+            isQuestCompleted = prefs.getBoolean(KEY_QUEST_COMPLETED, false);
+            isHangarKeycardAcquired = prefs.getBoolean(KEY_HANGAR_KEYCARD_ACQUIRED, false);
+            isLabCleared = prefs.getBoolean(KEY_LAB_CLEARED, false);
+            isCommsCenterUnlocked = prefs.getBoolean(KEY_COMS_CENTER_UNLOCKED, false);
+            isCommsRoomCleared = prefs.getBoolean(KEY_COMS_ROOM_CLEARED, false);
+            player.setMoney(prefs.getInt(KEY_PLAYER_MONEY, 0));
         }
     }
-
-//    public void restartGame() {
-//        // Clear the shared preferences
-//        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-//        editor.clear();
-//        editor.apply();
-//
-//        // Reset the game state variables
-//        currentPlayerPosition = "startingPoint";
-//        gun = false;
-//        keycard = false;
-//        secondTime = false;
-//
-//        // Start the game from the beginning
-//        startingPoint();
-//    }
 
     public void startOrResumeGame() {
         loadGameState();
@@ -487,8 +560,8 @@ public class Story {
         gs.img.setImageResource(R.drawable.disintegrate);
 
         gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
-                    "Speak of the devil, an alien comes into the room and brings you to the lab. " +
-                    "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
+                "Speak of the devil, an alien comes into the room and brings you to the lab. " +
+                "They do experiments on you and you die from the trauma and pain. GAME OVER\n Ending #1: Dumb Ways to Die");
 
         gs.btn1.setText("Try Again");
         gs.btn2.setText("");
@@ -528,7 +601,7 @@ public class Story {
         nextPos4 = "callElevator";
     }
 
-    public boolean storageEntered = false;
+
     public void storage(){
         if(!storageEntered){
             gs.img.setImageResource(R.drawable.brokenassaultrifle);
@@ -622,8 +695,6 @@ public class Story {
         nextPos4 = "secondFloor";
     }
 
-    boolean isQuestGiven = false;
-    boolean isWardensCleared = false;
     public void wardensRoom(){
         if(!isWardensCleared){
             gs.img.setImageResource(R.drawable.wardenroom);
@@ -731,7 +802,6 @@ public class Story {
         nextPos4 = "";
     }
 
-    boolean isWeaponLockerUnlocked = false;
     public void unlockWeaponLocker(){
         gs.img.setImageResource(R.drawable.brokenassaultrifle);
         player.setMoney(player.getMoney() + 500);
@@ -765,8 +835,6 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
     }
-
-    boolean isAmeliaCellUnlocked = false;
 
     public void unlockAmeliaCell(){
         gs.img.setImageResource(R.drawable.unlocked);
@@ -811,9 +879,6 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
     }
-
-    boolean isReleased = false;
-    boolean isQuestCompleted = false;
 
     public void alienCell(){
         if(!isQuestCompleted){
@@ -929,7 +994,6 @@ public class Story {
         nextPos4 = "";
     }
 
-    boolean isHangarKeycardAcquired = false;
     public void ameliaCell(){
         if(isLabCleared){
             if(isAmeliaCellUnlocked){
@@ -984,7 +1048,6 @@ public class Story {
     }
 
 
-    public boolean isLabCleared = false;
     public void labs(){
         if(!isLabCleared){
             gs.img.setImageResource(R.drawable.chemicaltank);
@@ -1021,7 +1084,7 @@ public class Story {
 
     }
 
-    boolean newGunAcquired = false;
+
     public void gunBlazing() {
 
         if(newGunAcquired){
@@ -1437,10 +1500,6 @@ public class Story {
         nextPos4 = "";
     }
 
-
-    public boolean isGunPart3Bought = false;
-    public boolean isFoodBought = false;
-    public boolean isSuitBought = false;
     public void shop() {
         gs.img.setImageResource(R.drawable.vendingmachine);
 
@@ -1714,7 +1773,6 @@ public class Story {
 
     }
 
-    boolean isCommsCenterUnlocked = false;
     public void commsCenter() {
         showALlButtons();
         if(!isCommsCenterUnlocked){
@@ -1758,8 +1816,6 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
     }
-
-    boolean isCommsRoomCleared = false;
 
     public void engageBoss(){
         if (!newGunAcquired){
