@@ -15,44 +15,53 @@ public class Story {
     boolean gun = false;
     boolean keycard = false;
     boolean secondTime = false;
-    public static Player player = new Player(0);
-    public static int getPlayerMoney(){
-        return player.getMoney();
-    }
+    boolean gun_part1 = false;
+    boolean gun_part2 = false;
+    boolean gun_part3 = false;
+    boolean suit = false;
+    boolean food = false;
+//    boolean rifle = false;
+    boolean chestOpened = false;
+    boolean alienDead = false;
+    public boolean isGunPart3Bought = false;
+    public boolean isFoodBought = false;
+    public boolean isSuitBought = false;
+    boolean newGunAcquired = false;
+    public boolean storageEntered = false;
+
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
     private static final String KEY_POSITION = "CurrentPosition";
     private static final String KEY_GUN = "HasGun";
+    private static final String KEY_GUN_PART1 = "HasGunPart1";
+    private static final String KEY_GUN_PART2 = "HasGunPart2";
+    private static final String KEY_GUN_PART3 = "HasGunPart3";
+    private static final String KEY_SUIT = "HasSuit";
+    private static final String KEY_FOOD = "HasFood";
+    private static final String KEY_NEW_GUN = "HasNewGun";
     private static final String KEY_KEYCARD = "HasKeycard";
     private static final String KEY_SECOND_TIME = "IsSecondTime";
-    boolean chestOpened = false;
-    boolean alienDead = false;
+    private static final String KEY_CHEST_OPENED = "chestOpened";
+    private static final String KEY_ALIEN_DEAD = "alienDead";
+    private static final String KEY_SUIT_BOUGHT = "IsSuitBought";
+    private static final String KEY_FOOD_BOUGHT = "IsFoodBought";
+    private static final String KEY_GUN_PART3_BOUGHT = "IsPart3Bought";
+    private static final String KEY_PLAYER_MONEY = "PlayerMoney";
+
+    public static Player player = new Player(0);
+    public static int getPlayerMoney(){
+        return player.getMoney();
+    }
 
     private static Database database;
-
-    public static Database getDatabase() {
-        return database;
-    }
 
     private Context context;
 
     public Story(GameScreen gs, Context context) {
         this.gs = gs;
         this.context = context;
-    }
-
-    public Database initialDatabase() {
-        if (database == null) {
-            // Create or obtain the database instance
-            database = createDatabase();
-        }
-        return database;
-    }
-
-    private Database createDatabase() {
-        return Room.databaseBuilder(context, Database.class, "db-game")
-                .allowMainThreadQueries().build();
+        database = MainActivity.getDatabase();
     }
 
     private void addGameRecord(int id, String des){
@@ -89,8 +98,6 @@ public class Story {
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
         saveGameState();
-        //create or retrieve the database instance
-        initialDatabase();
         switch (pos) {
             case "startingPoint": startingPoint(); break;
             case "weapon": weapon(); break;
@@ -160,7 +167,18 @@ public class Story {
         editor.putBoolean(KEY_GUN, gun);
         editor.putBoolean(KEY_KEYCARD, keycard);
         editor.putBoolean(KEY_SECOND_TIME, secondTime);
-//        editor.putInt(getPlayerMoney(),)
+        editor.putBoolean(KEY_GUN_PART1, gun_part1);
+        editor.putBoolean(KEY_GUN_PART2, gun_part2);
+        editor.putBoolean(KEY_GUN_PART3, gun_part3);
+        editor.putBoolean(KEY_SUIT, suit);
+        editor.putBoolean(KEY_FOOD, food);
+        editor.putBoolean(KEY_NEW_GUN, newGunAcquired);
+        editor.putBoolean(KEY_CHEST_OPENED, chestOpened);
+        editor.putBoolean(KEY_ALIEN_DEAD, alienDead);
+        editor.putBoolean(KEY_SUIT_BOUGHT, isSuitBought);
+        editor.putBoolean(KEY_FOOD_BOUGHT, isFoodBought);
+        editor.putBoolean(KEY_GUN_PART3_BOUGHT, isGunPart3Bought);
+        editor.putInt(KEY_PLAYER_MONEY, getPlayerMoney());
         editor.apply();
     }
 
@@ -172,24 +190,20 @@ public class Story {
             gun = prefs.getBoolean(KEY_GUN, false);
             keycard = prefs.getBoolean(KEY_KEYCARD, false);
             secondTime = prefs.getBoolean(KEY_SECOND_TIME, false);
+            gun_part1 = prefs.getBoolean(KEY_GUN_PART1, false);
+            gun_part2 = prefs.getBoolean(KEY_GUN_PART2, false);
+            gun_part3 = prefs.getBoolean(KEY_GUN_PART3, false);
+            suit = prefs.getBoolean(KEY_SUIT, false);
+            food = prefs.getBoolean(KEY_FOOD, false);
+            newGunAcquired = prefs.getBoolean(KEY_NEW_GUN, false);
+            chestOpened = prefs.getBoolean(KEY_CHEST_OPENED, false);
+            alienDead = prefs.getBoolean(KEY_ALIEN_DEAD, false);
+            isSuitBought = prefs.getBoolean(KEY_SUIT_BOUGHT,false);
+            isFoodBought = prefs.getBoolean(KEY_FOOD_BOUGHT,false);
+            isGunPart3Bought = prefs.getBoolean(KEY_GUN_PART3_BOUGHT,false);
+            player.setMoney(prefs.getInt(KEY_PLAYER_MONEY, 0));
         }
     }
-
-//    public void restartGame() {
-//        // Clear the shared preferences
-//        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-//        editor.clear();
-//        editor.apply();
-//
-//        // Reset the game state variables
-//        currentPlayerPosition = "startingPoint";
-//        gun = false;
-//        keycard = false;
-//        secondTime = false;
-//
-//        // Start the game from the beginning
-//        startingPoint();
-//    }
 
     public void startOrResumeGame() {
         loadGameState();
@@ -528,7 +542,6 @@ public class Story {
         nextPos4 = "callElevator";
     }
 
-    public boolean storageEntered = false;
     public void storage(){
         if(!storageEntered){
             gs.img.setImageResource(R.drawable.brokenassaultrifle);
@@ -1021,7 +1034,7 @@ public class Story {
 
     }
 
-    boolean newGunAcquired = false;
+
     public void gunBlazing() {
 
         if(newGunAcquired){
@@ -1437,10 +1450,6 @@ public class Story {
         nextPos4 = "";
     }
 
-
-    public boolean isGunPart3Bought = false;
-    public boolean isFoodBought = false;
-    public boolean isSuitBought = false;
     public void shop() {
         gs.img.setImageResource(R.drawable.vendingmachine);
 
