@@ -15,7 +15,7 @@ public class GameRecordViewHolder extends RecyclerView.ViewHolder {
         tv_record_des =itemView.findViewById(R.id.tv_record_des);
     }
     public void bind(GameRecord gameRecord){
-        tv_record_id.setText(String.valueOf(gameRecord.getId()));
+        tv_record_id.setText(gameRecord.getId()+".");
         tv_record_des.setText(gameRecord.getDes());
     }
 }
