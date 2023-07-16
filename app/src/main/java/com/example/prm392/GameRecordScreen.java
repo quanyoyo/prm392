@@ -1,10 +1,12 @@
 package com.example.prm392;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -61,8 +63,7 @@ public class GameRecordScreen extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database.gameRecordDao().deleteAllGameRecords();
-                goToMain();
+                showDeletePopupDialog();
             }
         });
     }
@@ -85,6 +86,35 @@ public class GameRecordScreen extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+    private void showDeletePopupDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete all your records");
+        builder.setMessage("Are you sure");
+
+        // Add any additional customization to the dialog here, such as buttons, etc.
+
+        // Set a click listener for the "Resume" button (optional)
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle resume functionality
+                database.gameRecordDao().deleteAllGameRecords();
+                goToMain();
+            }
+        });
+
+        // Set a click listener for the "Quit" button (optional)
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle quit functionality
+            }
+        });
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     public void goToMain() {
         Intent intent = new Intent(this, MainActivity.class);
