@@ -8,7 +8,6 @@
     tools:context=".MainActivity">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutCenter"
         android:layout_width="0dp"
@@ -30,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="#CF6388"
@@ -40,6 +38,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/btn_restart"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -52,7 +51,7 @@
             android:backgroundTint="#2196F3"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:text="Setting"
+            android:text="Settings"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/btn_restart"
@@ -61,10 +60,9 @@
 
         <Button
             android:id="@+id/btn_restart"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="#8BC34A"
             android:paddingStart="8dp"
@@ -73,6 +71,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/startButton"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -81,7 +80,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Game record"
+            android:background="@drawable/conner_button"
+            android:backgroundTint="@color/gray"
+            android:text="Game records"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/settingButton"
             app:layout_constraintHorizontal_bias="0.0"
@@ -94,13 +96,12 @@
             android:layout_width="282dp"
             android:layout_height="200dp"
             android:layout_marginTop="39dp"
+            android:background="@null"
+            android:src="@drawable/adventure_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/adventure_logo"
-            android:background="@null"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

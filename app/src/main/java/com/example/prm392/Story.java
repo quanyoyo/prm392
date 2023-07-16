@@ -1416,7 +1416,7 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "room1";
+        nextPos1 = "livingQuarter";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
