@@ -3,6 +3,7 @@ package com.example.prm392;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Vibrator;
 import android.view.View;
 
 import androidx.room.Room;
@@ -42,6 +43,7 @@ public class Story {
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
+    private static final String KEY_VIBRATION_ENABLED = "VibrationEnabled";
     private static final String KEY_POSITION = "CurrentPosition";
     private static final String KEY_GUN = "HasGun";
     private static final String KEY_GUN_PART1 = "HasGunPart1";
@@ -108,13 +110,13 @@ public class Story {
         database.itemDao().deleteAllItems();
     }
 
-    public String getCurrentPlayerPosition() {
-        return currentPlayerPosition;
-    }
+//    public String getCurrentPlayerPosition() {
+//        return currentPlayerPosition;
+//    }
 
-    public void setCurrentPlayerPosition(String currentPlayerPosition) {
-        this.currentPlayerPosition = currentPlayerPosition;
-    }
+//    public void setCurrentPlayerPosition(String currentPlayerPosition) {
+//        this.currentPlayerPosition = currentPlayerPosition;
+//    }
 
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
@@ -250,6 +252,25 @@ public class Story {
         loadGameState();
         selectPosition(currentPlayerPosition);
     }
+
+    //making phone vibrate when you reach an ending
+    private void vibratePhone() {
+        boolean isVibrationEnabled = isVibrationEnabled();
+
+        if (isVibrationEnabled) {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(500); // Vibrate for 500 milliseconds
+            }
+        }
+    }
+
+    //Check if player enabled phone shaking
+    private boolean isVibrationEnabled() {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_VIBRATION_ENABLED, true); // Return true as the default value
+    }
+
 
 
     public void showALlButtons(){
@@ -446,6 +467,7 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     public void keycard(){
@@ -559,6 +581,7 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     //2nd Floor
@@ -856,10 +879,12 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "wardensRoom";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 
     public void alienCell(){
@@ -1086,7 +1111,8 @@ public class Story {
 
             gs.btn1.setText("Try Again");
 
-            nextPos1 = "labs";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1112,7 +1138,8 @@ public class Story {
 
             gs.btn1.setText("Try Again");
 
-            nextPos1 = "labs";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }else{
             gs.img.setImageResource(R.drawable.stealthsuit);
             gs.tv_game_content.setText("You tried to sneak your way in. With your stealth suit, no one could detect your presence." +
@@ -1480,6 +1507,8 @@ public class Story {
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 
     public void shop() {
@@ -1676,7 +1705,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "hangar";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1709,7 +1739,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "hangar";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1748,11 +1779,12 @@ public class Story {
         gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
-        nextPos1 = "hangar";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     public void commsCenter() {
@@ -1809,7 +1841,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "commsCenter";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }else{
             gs.img.setImageResource(R.drawable.killboss);
             gs.tv_game_content.setText("You decided to engage the boss. With the new gun you crafted, you put up a good fight " +
@@ -1909,9 +1942,11 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "commsCenter";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 }
