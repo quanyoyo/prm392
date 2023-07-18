@@ -66,23 +66,23 @@ public class SettingActivity extends AppCompatActivity {
         muteCheckBox.setChecked(isMuted);
         volumeSeekBar.setProgress(sharedPreferences.getInt(PREF_VOLUME, 0));
 
-        // Initialize the phone shake checkbox
-        vibrationCheckBox = findViewById(R.id.vibrationCheckBox);
-
-        // Get the saved vibration setting from SharedPreferences
-        boolean isVibrationEnabled = sharedPreferences.getBoolean(KEY_VIBRATION_ENABLED, true);
-        vibrationCheckBox.setChecked(isVibrationEnabled);
-
-        // Add an OnCheckedChangeListener to the vibration CheckBox
-        vibrationCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Save the vibration setting in SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(KEY_VIBRATION_ENABLED, isChecked);
-                editor.apply();
-            }
-        });
+//        // Initialize the phone shake checkbox
+//        vibrationCheckBox = findViewById(R.id.vibrationCheckBox);
+//
+//        // Get the saved vibration setting from SharedPreferences
+//        boolean isVibrationEnabled = sharedPreferences.getBoolean(KEY_VIBRATION_ENABLED, true);
+//        vibrationCheckBox.setChecked(isVibrationEnabled);
+//
+//        // Add an OnCheckedChangeListener to the vibration CheckBox
+//        vibrationCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // Save the vibration setting in SharedPreferences
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean(KEY_VIBRATION_ENABLED, isChecked);
+//                editor.apply();
+//            }
+//        });
 
         // Set muteCheckBox listener
         muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
