@@ -71,6 +71,7 @@ public class Story {
     private static final String KEY_COMS_CENTER_UNLOCKED = "IsCommsCenterUnlocked";
     private static final String KEY_COMS_ROOM_CLEARED = "IsCommsRoomCleared";
     private static final String KEY_PLAYER_MONEY = "PlayerMoney";
+    
 
     public static Player player = new Player(0);
     public static int getPlayerMoney(){
@@ -86,6 +87,7 @@ public class Story {
         this.context = context;
         database = MainActivity.getDatabase();
     }
+
 
     private void addGameRecord(int id, String des){
         GameRecord gameRecord = new GameRecord(id, des);
@@ -270,8 +272,6 @@ public class Story {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return prefs.getBoolean(KEY_VIBRATION_ENABLED, true); // Return true as the default value
     }
-
-
 
     public void showALlButtons(){
         gs.btn1.setVisibility(View.VISIBLE);
@@ -466,6 +466,7 @@ public class Story {
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
 
         vibratePhone();
     }

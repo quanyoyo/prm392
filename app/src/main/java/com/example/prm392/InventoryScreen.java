@@ -41,6 +41,7 @@ public class InventoryScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goToGameScreen();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }
