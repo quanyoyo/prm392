@@ -54,14 +54,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
+            android:background="@drawable/conner_button_gradient"
             android:elegantTextHeight="false"
             android:onClick="chooseButton1"
-            android:background="@drawable/conner_button_gradient"
-            android:textColor="@color/white"
-            android:layout_marginTop="8dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="Button"
-            />
+            android:textColor="@color/white" />
         <!--        android:backgroundTint="#FFEB3B"-->
 
         <Button
@@ -69,15 +70,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:elegantTextHeight="true"
-            android:onClick="chooseButton2"
-            android:background="@drawable/conner_button_g_ni"
-
-            android:textColor="@color/white"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/conner_button_g_ni"
+            android:elegantTextHeight="true"
+
+            android:onClick="chooseButton2"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="Button"
-            />
+            android:textColor="@color/white" />
         <!--            android:backgroundTint="#00BCD4"-->
 
 
@@ -86,14 +88,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:elegantTextHeight="true"
-            android:onClick="chooseButton3"
-            android:background="@drawable/conner_button_gradient"
-
-            android:textColor="@color/white"
             android:layout_marginTop="8dp"
-            android:text="Button" />
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/conner_button_gradient"
+            android:elegantTextHeight="true"
+
+            android:onClick="chooseButton3"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="Button"
+            android:textColor="@color/white" />
         <!--        android:backgroundTint="#FFEB3B"-->
 
         <Button
@@ -105,6 +109,8 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/conner_button_g_ni"
             android:onClick="chooseButton4"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="Button"
             android:textColor="@color/white" />
 

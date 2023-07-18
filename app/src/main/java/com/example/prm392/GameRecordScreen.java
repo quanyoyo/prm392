@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,7 +26,9 @@ public class GameRecordScreen extends AppCompatActivity {
     private RecyclerView gameRecordRecyclerView;
     private Button btnDelete;
     private Database database;
+    private int totalRecords = 0;
 
+    private TextView tv_total;
     private ImageButton btnBack;
     MediaPlayer mediaPlayer;
     @Override
@@ -41,11 +44,13 @@ public class GameRecordScreen extends AppCompatActivity {
         database = MainActivity.getDatabase();
         // Retrieve the game records from the database
         retrieveGameRecordsFromDatabase();
+        tv_total = ((TextView) findViewById(R.id.tv_total));
+
 
 //        gameRecordList.clear();
 //        gameRecordList.addAll(database.gameRecordDao().getAllGameRecords());
 //        gameRecordAdapter.notifyDataSetChanged();
-        Log.d("record", gameRecordList.toString());
+//        Log.d("record", gameRecordList.toString());
 
         mediaPlayer = MediaPlayerSingleton.getInstance(this);
         mediaPlayer.start();
@@ -74,7 +79,8 @@ public class GameRecordScreen extends AppCompatActivity {
             public void run() {
                 // Access the game record DAO and retrieve all game records
                 gameRecordList = database.gameRecordDao().getAllGameRecords();
-
+                totalRecords = gameRecordList.size();
+                tv_total.setText(totalRecords+"/12");
                 // Run the UI updates on the main thread
                 runOnUiThread(new Runnable() {
                     @Override
@@ -98,7 +104,7 @@ public class GameRecordScreen extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Handle resume functionality
+                // Handle yes functionality
                 database.gameRecordDao().deleteAllGameRecords();
                 goToMain();
             }
@@ -108,7 +114,7 @@ public class GameRecordScreen extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Handle quit functionality
+                // Handle no functionality
             }
         });
 
