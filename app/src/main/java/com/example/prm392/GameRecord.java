@@ -31,4 +31,12 @@ public class GameRecord {
     public void setDes(String des) {
         this.des = des;
     }
+
+    @Override
+    public String toString() {
+        return "GameRecord{" +
+                "id=" + id +
+                ", des='" + des + '\'' +
+                '}';
+    }
 }

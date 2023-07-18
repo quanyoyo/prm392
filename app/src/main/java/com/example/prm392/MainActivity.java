@@ -1,6 +1,7 @@
 package com.example.prm392;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,12 +17,17 @@ public class MainActivity extends AppCompatActivity {
     private Button startButton;
     private Button settingButton;
     private Button restartButton;
+    private Button recordButton;
     private MediaPlayer mediaPlayer;
+    private static Database database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        database = Room.databaseBuilder(getApplicationContext(), Database.class, "db-game")
+                .allowMainThreadQueries().build();
 //        retrieve MediaPlayer instance
         mediaPlayer = MediaPlayerSingleton.getInstance(this);
         mediaPlayer.start();
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         restartButton = findViewById(R.id.btn_restart);
         settingButton = findViewById(R.id.settingButton);
+        recordButton = findViewById(R.id.btn_record);
 
         // Check if the game has been previously saved
         SharedPreferences prefs = getSharedPreferences("GamePrefs", MODE_PRIVATE);
@@ -72,8 +79,17 @@ public class MainActivity extends AppCompatActivity {
                 openSettings();
             }
         });
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRecord();
+            }
+        });
     }
 
+    public static Database getDatabase() {
+        return database;
+    }
     private void clearSavedGameData() {
         // Clear the saved game data from shared preferences or any other storage mechanism
         SharedPreferences.Editor editor = getSharedPreferences("GamePrefs", MODE_PRIVATE).edit();
@@ -91,7 +107,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
     }
-
+    private void openRecord(){
+        Intent intent = new Intent(this, GameRecordScreen.class);
+        startActivity(intent);
+    }
     @Override
     protected void onPause() {
         super.onPause();

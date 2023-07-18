@@ -77,28 +77,12 @@ public class Story {
 
     private static Database database;
 
-    public static Database getDatabase() {
-        return database;
-    }
-
     private Context context;
 
     public Story(GameScreen gs, Context context) {
         this.gs = gs;
         this.context = context;
-    }
-
-    public Database initialDatabase() {
-        if (database == null) {
-            // Create or obtain the database instance
-            database = createDatabase();
-        }
-        return database;
-    }
-
-    private Database createDatabase() {
-        return Room.databaseBuilder(context, Database.class, "db-game")
-                .allowMainThreadQueries().build();
+        database = MainActivity.getDatabase();
     }
 
     private void addGameRecord(int id, String des){
@@ -135,8 +119,6 @@ public class Story {
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
         saveGameState();
-        //create or retrieve the database instance
-        initialDatabase();
         switch (pos) {
             case "startingPoint": startingPoint(); break;
             case "weapon": weapon(); break;
@@ -1434,7 +1416,7 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "room1";
+        nextPos1 = "livingQuarter";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
