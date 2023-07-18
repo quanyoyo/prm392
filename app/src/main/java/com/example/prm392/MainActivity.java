@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (isGameSaved) {
             // If the game was saved, enable the restart button
+            startButton.setText("Resume");
             restartButton.setEnabled(true);
         } else {
             // If the game was not saved, disable the restart button
+            startButton.setText("Start Game");
             restartButton.setEnabled(false);
         }
 

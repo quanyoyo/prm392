@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:visibility="visible"
     tools:context=".MainActivity">
 
 
@@ -17,6 +18,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="150dp"
         android:background="@drawable/conner_view"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,14 +107,15 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/three_star"
         app:layout_constraintEnd_toEndOf="@id/layoutCenter"
         app:layout_constraintHorizontal_bias="0.472"
-        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@id/layoutCenter"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
