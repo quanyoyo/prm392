@@ -1422,7 +1422,7 @@ public class Story {
         gs.btn4.setVisibility(View.INVISIBLE);
 
         nextPos1 = "quiz";
-        nextPos2 = "room1";
+        nextPos2 = "livingQuarter";
         nextPos3 = "";
         nextPos4 = "";
     }

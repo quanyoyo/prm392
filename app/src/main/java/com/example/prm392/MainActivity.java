@@ -1,8 +1,10 @@
 package com.example.prm392;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -62,13 +64,7 @@ public class MainActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear the saved game data
-                clearSavedGameData();
-//                Story.secondTime=false;
-                Story.deleteAllItems();
-                // Start the game activity
-                startGame();
-                Log.d("btn",""+((Button)v).getText());
+               showRestartPopupDialog();
             }
         });
 
@@ -99,6 +95,43 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("GamePrefs", MODE_PRIVATE).edit();
         editor.clear();
         editor.apply();
+    }
+
+    private void showRestartPopupDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Restart the game");
+        builder.setMessage("Are you sure");
+
+        // Add any additional customization to the dialog here, such as buttons, etc.
+
+        // Set a click listener for the "Resume" button (optional)
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle yes functionality
+                // Clear the saved game data
+                clearSavedGameData();
+//                Story.secondTime=false;
+                if(!database.itemDao().getAll().isEmpty()){
+                    Story.deleteAllItems();
+                }
+                // Start the game activity
+                startGame();
+//                Log.d("btn",""+((Button)v).getText());
+            }
+        });
+
+        // Set a click listener for the "Quit" button (optional)
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle no functionality
+            }
+        });
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void startGame() {
