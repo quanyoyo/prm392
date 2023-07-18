@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private Button recordButton;
     private MediaPlayer mediaPlayer;
     private static Database database;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             restartButton.setEnabled(true);
         } else {
             // If the game was not saved, disable the restart button
-            startButton.setText("Start Game");
+            startButton.setText("Start");
             restartButton.setEnabled(false);
         }
 
@@ -64,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Clear the saved game data
                 clearSavedGameData();
+//                Story.secondTime=false;
                 Story.deleteAllItems();
                 // Start the game activity
                 startGame();
+                Log.d("btn",""+((Button)v).getText());
             }
         });
 
