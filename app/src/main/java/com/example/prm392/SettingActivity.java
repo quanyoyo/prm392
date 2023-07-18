@@ -20,10 +20,12 @@ public class SettingActivity extends AppCompatActivity {
     private static final String PREF_NAME = "MyPreferences";
     private static final String PREF_MUTED = "isMuted";
     private static final String PREF_VOLUME = "volumeLevel";
+    private static final String KEY_VIBRATION_ENABLED = "VibrationEnabled";
     private SharedPreferences sharedPreferences;
     private AudioManager audioManager;
     private SeekBar volumeSeekBar;
     private CheckBox muteCheckBox;
+    private CheckBox vibrationCheckBox;
     private ImageButton btnBack;
     private MediaPlayer mediaPlayer;
     @Override
@@ -61,6 +63,24 @@ public class SettingActivity extends AppCompatActivity {
         boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, false);
         muteCheckBox.setChecked(isMuted);
         volumeSeekBar.setProgress(sharedPreferences.getInt(PREF_VOLUME, 0));
+
+        // Initialize the phone shake checkbox
+        vibrationCheckBox = findViewById(R.id.vibrationCheckBox);
+
+        // Get the saved vibration setting from SharedPreferences
+        boolean isVibrationEnabled = sharedPreferences.getBoolean(KEY_VIBRATION_ENABLED, true);
+        vibrationCheckBox.setChecked(isVibrationEnabled);
+
+        // Add an OnCheckedChangeListener to the vibration CheckBox
+        vibrationCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Save the vibration setting in SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(KEY_VIBRATION_ENABLED, isChecked);
+                editor.apply();
+            }
+        });
 
         // Set muteCheckBox listener
         muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
