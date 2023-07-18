@@ -71,7 +71,7 @@ public class Story {
     private static final String KEY_COMS_CENTER_UNLOCKED = "IsCommsCenterUnlocked";
     private static final String KEY_COMS_ROOM_CLEARED = "IsCommsRoomCleared";
     private static final String KEY_PLAYER_MONEY = "PlayerMoney";
-    
+
 
     public static Player player = new Player(0);
     public static int getPlayerMoney(){
