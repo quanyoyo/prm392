@@ -3,6 +3,7 @@ package com.example.prm392;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Vibrator;
 import android.view.View;
 
 import androidx.room.Room;
@@ -251,6 +252,14 @@ public class Story {
         selectPosition(currentPlayerPosition);
     }
 
+    //making phone vibrate when you reach an ending
+    private void vibratePhone() {
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) {
+            vibrator.vibrate(500); // Vibrate for 500 milliseconds
+        }
+    }
+
 
     public void showALlButtons(){
         gs.btn1.setVisibility(View.VISIBLE);
@@ -446,6 +455,7 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     public void keycard(){
@@ -559,6 +569,7 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     //2nd Floor
@@ -856,10 +867,12 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "wardensRoom";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 
     public void alienCell(){
@@ -1086,7 +1099,8 @@ public class Story {
 
             gs.btn1.setText("Try Again");
 
-            nextPos1 = "labs";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1112,7 +1126,8 @@ public class Story {
 
             gs.btn1.setText("Try Again");
 
-            nextPos1 = "labs";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }else{
             gs.img.setImageResource(R.drawable.stealthsuit);
             gs.tv_game_content.setText("You tried to sneak your way in. With your stealth suit, no one could detect your presence." +
@@ -1480,6 +1495,8 @@ public class Story {
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 
     public void shop() {
@@ -1676,7 +1693,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "hangar";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1709,7 +1727,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "hangar";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }
         gs.btn2.setText("");
         gs.btn3.setText("");
@@ -1748,11 +1767,12 @@ public class Story {
         gs.btn2.setVisibility(View.INVISIBLE);
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
-        nextPos1 = "hangar";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
 
+        vibratePhone();
     }
 
     public void commsCenter() {
@@ -1809,7 +1829,8 @@ public class Story {
 
             gs.btn1.setText("Try again");
 
-            nextPos1 = "commsCenter";
+            nextPos1 = "startingPoint";
+            vibratePhone();
         }else{
             gs.img.setImageResource(R.drawable.killboss);
             gs.tv_game_content.setText("You decided to engage the boss. With the new gun you crafted, you put up a good fight " +
@@ -1909,9 +1930,11 @@ public class Story {
         gs.btn3.setVisibility(View.INVISIBLE);
         gs.btn4.setVisibility(View.INVISIBLE);
 
-        nextPos1 = "commsCenter";
+        nextPos1 = "startingPoint";
         nextPos2 = "";
         nextPos3 = "";
         nextPos4 = "";
+
+        vibratePhone();
     }
 }
