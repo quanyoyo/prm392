@@ -43,6 +43,7 @@ public class Story {
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
     private static final String KEY_GAME_SAVED = "isGameSaved";
+    private static final String KEY_VIBRATION_ENABLED = "VibrationEnabled";
     private static final String KEY_POSITION = "CurrentPosition";
     private static final String KEY_GUN = "HasGun";
     private static final String KEY_GUN_PART1 = "HasGunPart1";
@@ -109,13 +110,13 @@ public class Story {
         database.itemDao().deleteAllItems();
     }
 
-    public String getCurrentPlayerPosition() {
-        return currentPlayerPosition;
-    }
+//    public String getCurrentPlayerPosition() {
+//        return currentPlayerPosition;
+//    }
 
-    public void setCurrentPlayerPosition(String currentPlayerPosition) {
-        this.currentPlayerPosition = currentPlayerPosition;
-    }
+//    public void setCurrentPlayerPosition(String currentPlayerPosition) {
+//        this.currentPlayerPosition = currentPlayerPosition;
+//    }
 
     public void selectPosition(String pos) {
         currentPlayerPosition = pos;
@@ -254,11 +255,22 @@ public class Story {
 
     //making phone vibrate when you reach an ending
     private void vibratePhone() {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null && vibrator.hasVibrator()) {
-            vibrator.vibrate(500); // Vibrate for 500 milliseconds
+        boolean isVibrationEnabled = isVibrationEnabled();
+
+        if (isVibrationEnabled) {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(500); // Vibrate for 500 milliseconds
+            }
         }
     }
+
+    //Check if player enabled phone shaking
+    private boolean isVibrationEnabled() {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_VIBRATION_ENABLED, true); // Return true as the default value
+    }
+
 
 
     public void showALlButtons(){
