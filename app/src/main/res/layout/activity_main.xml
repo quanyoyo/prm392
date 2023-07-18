@@ -16,7 +16,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="150dp"
         android:background="@drawable/conner_view"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,25 +25,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imageView"
-            android:layout_width="282dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="100dp"
-            android:background="@null"
-            android:src="@drawable/adventure_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.555"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="57dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="#CF6388"
             android:paddingStart="8dp"
@@ -60,7 +48,7 @@
             android:id="@+id/settingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="#2196F3"
             android:paddingStart="8dp"
@@ -69,7 +57,6 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/btn_restart"
-            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="@id/startButton"
             app:layout_constraintTop_toBottomOf="@id/btn_restart" />
 
@@ -77,7 +64,7 @@
             android:id="@+id/btn_restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="57dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="#8BC34A"
             android:paddingStart="8dp"
@@ -94,45 +81,44 @@
             android:id="@+id/btn_record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/conner_button"
             android:backgroundTint="@color/gray"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Game record"
+            android:text="Game records"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/settingButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/settingButton"
             app:layout_constraintTop_toBottomOf="@+id/settingButton"
-            app:layout_constraintVertical_bias="0.047" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="46dp"
+            android:background="@drawable/deathstar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/game_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/AquireBold-8Ma60"
             android:text="Abduction"
-            android:textColor="@color/gray"
-            android:textSize="44sp"
-            app:circularflow_angles="45"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/three_star"
-        app:layout_constraintEnd_toEndOf="@id/layoutCenter"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="@id/layoutCenter"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
