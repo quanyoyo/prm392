@@ -39,6 +39,7 @@ public class Story {
     boolean isLabCleared = false;
     boolean isCommsCenterUnlocked = false;
     boolean isCommsRoomCleared = false;
+    public int currentFloor = 0; //mark the current floor the player is on (for elevator)
 
     private String currentPlayerPosition;
     private static final String PREFS_NAME = "GamePrefs";
@@ -71,6 +72,8 @@ public class Story {
     private static final String KEY_COMS_CENTER_UNLOCKED = "IsCommsCenterUnlocked";
     private static final String KEY_COMS_ROOM_CLEARED = "IsCommsRoomCleared";
     private static final String KEY_PLAYER_MONEY = "PlayerMoney";
+    private static final String KEY_CURRENT_FLOOR = "CurrentFloor";
+
 
     public static Player player = new Player(0);
     public static int getPlayerMoney(){
@@ -86,6 +89,7 @@ public class Story {
         this.context = context;
         database = MainActivity.getDatabase();
     }
+
 
     private void addGameRecord(int id, String des){
         GameRecord gameRecord = new GameRecord(id, des);
@@ -213,6 +217,7 @@ public class Story {
         editor.putBoolean(KEY_COMS_CENTER_UNLOCKED, isCommsCenterUnlocked);
         editor.putBoolean(KEY_COMS_ROOM_CLEARED, isCommsRoomCleared);
         editor.putInt(KEY_PLAYER_MONEY, getPlayerMoney());
+        editor.putInt(KEY_CURRENT_FLOOR, currentFloor);
         editor.apply();
     }
 
@@ -245,6 +250,7 @@ public class Story {
             isCommsCenterUnlocked = prefs.getBoolean(KEY_COMS_CENTER_UNLOCKED, false);
             isCommsRoomCleared = prefs.getBoolean(KEY_COMS_ROOM_CLEARED, false);
             player.setMoney(prefs.getInt(KEY_PLAYER_MONEY, 0));
+            currentFloor = prefs.getInt(KEY_CURRENT_FLOOR, 0);
         }
     }
 
@@ -270,8 +276,6 @@ public class Story {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return prefs.getBoolean(KEY_VIBRATION_ENABLED, true); // Return true as the default value
     }
-
-
 
     public void showALlButtons(){
         gs.btn1.setVisibility(View.VISIBLE);
@@ -467,6 +471,7 @@ public class Story {
         nextPos3 = "";
         nextPos4 = "";
 
+
         vibratePhone();
     }
 
@@ -585,7 +590,6 @@ public class Story {
     }
 
     //2nd Floor
-    public int currentFloor = 0; //mark the current floor the player is on (for elevator)
     public void secondFloor() {
         gs.img.setImageResource(R.drawable.airtighthatch);
 
