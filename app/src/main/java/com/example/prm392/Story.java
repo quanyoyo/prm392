@@ -75,6 +75,7 @@ public class Story {
     private static final String KEY_CURRENT_FLOOR = "CurrentFloor";
 
 
+
     public static Player player = new Player(0);
     public static int getPlayerMoney(){
         return player.getMoney();

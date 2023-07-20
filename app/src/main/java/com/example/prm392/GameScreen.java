@@ -61,6 +61,7 @@ public class GameScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showInventory();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -117,16 +118,24 @@ public class GameScreen extends AppCompatActivity {
 
     public void chooseButton1(View view){
         story.selectPosition(story.nextPos1);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
     public void chooseButton2(View view){
         story.selectPosition(story.nextPos2);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
     public void chooseButton3(View view){
         story.selectPosition(story.nextPos3);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
     public void chooseButton4(View view){
         story.selectPosition(story.nextPos4);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
 
     public void goToTitle() {
         // Save the game state before going back to the title screen

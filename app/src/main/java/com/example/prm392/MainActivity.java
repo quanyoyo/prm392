@@ -2,6 +2,7 @@ package com.example.prm392;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.room.Room;
 
 import android.content.DialogInterface;
@@ -137,16 +138,19 @@ public class MainActivity extends AppCompatActivity {
     private void startGame() {
         // TODO: Add code to start the game activity
         Intent intent = new Intent(this, GameScreen.class);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, startButton, "slide_transition");
+        startActivity(intent, options.toBundle());
     }
 
     private void openSettings() {
         Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, startButton, "slide_transition");
+        startActivity(intent, options.toBundle());
     }
     private void openRecord(){
         Intent intent = new Intent(this, GameRecordScreen.class);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, startButton, "slide_transition");
+        startActivity(intent, options.toBundle());
     }
     @Override
     protected void onPause() {
