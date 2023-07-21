@@ -39,6 +39,7 @@ public class Story {
     boolean isLabCleared = false;
     boolean isCommsCenterUnlocked = false;
     boolean isCommsRoomCleared = false;
+    int finishedAtWhichPart = 0;
     public int currentFloor = 0; //mark the current floor the player is on (for elevator)
 
     private String currentPlayerPosition;
@@ -73,6 +74,7 @@ public class Story {
     private static final String KEY_COMS_ROOM_CLEARED = "IsCommsRoomCleared";
     private static final String KEY_PLAYER_MONEY = "PlayerMoney";
     private static final String KEY_CURRENT_FLOOR = "CurrentFloor";
+    private static final String KEY_FINISH_AT = "FinishedAtWhichPart";
 
 
 
@@ -219,6 +221,7 @@ public class Story {
         editor.putBoolean(KEY_COMS_ROOM_CLEARED, isCommsRoomCleared);
         editor.putInt(KEY_PLAYER_MONEY, getPlayerMoney());
         editor.putInt(KEY_CURRENT_FLOOR, currentFloor);
+        editor.putInt(KEY_FINISH_AT, finishedAtWhichPart);
         editor.apply();
     }
 
@@ -252,6 +255,8 @@ public class Story {
             isCommsRoomCleared = prefs.getBoolean(KEY_COMS_ROOM_CLEARED, false);
             player.setMoney(prefs.getInt(KEY_PLAYER_MONEY, 0));
             currentFloor = prefs.getInt(KEY_CURRENT_FLOOR, 0);
+            finishedAtWhichPart = prefs.getInt(KEY_FINISH_AT, 0);
+            isWardensCleared = prefs.getBoolean(KEY_WARDENS_CLEARED, false);
         }
     }
 
@@ -655,7 +660,6 @@ public class Story {
         nextPos4 = "";
     }
 
-    int finishedAtWhichPart = 0;
 
     //switch to this screen when player found all 3 gun parts
     //at 3 different locations namely storage room, weapon locker and vending machine
