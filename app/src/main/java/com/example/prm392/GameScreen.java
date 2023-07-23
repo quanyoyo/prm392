@@ -27,7 +27,8 @@ public class GameScreen extends AppCompatActivity {
     Story story;
     ImageView btnPause;
     ImageButton btnInventory;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayerSingleton mediaPlayerSingleton;
+
 
 
     @Override
@@ -43,9 +44,8 @@ public class GameScreen extends AppCompatActivity {
         btn4 = ((Button)findViewById(R.id.btn4));
 
         //        retrieve MediaPlayer instance
-        mediaPlayer = MediaPlayerSingleton.getInstance(this);
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance(this);
+        mediaPlayerSingleton.resume();
 
 //        tv_game_head.setText(Integer.toString(player.getAttack()));
         btnPause = ((ImageView) findViewById(R.id.btn_pause));
@@ -154,11 +154,6 @@ public class GameScreen extends AppCompatActivity {
         MediaPlayerSingleton.pause();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MediaPlayerSingleton.resume();
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

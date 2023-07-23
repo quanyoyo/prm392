@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import java.io.File;
 
@@ -22,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private Button settingButton;
     private Button restartButton;
     private Button recordButton;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayerSingleton mediaPlayerSingleton;
+
     private static Database database;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +37,8 @@ public class MainActivity extends AppCompatActivity {
         database = Room.databaseBuilder(getApplicationContext(), Database.class, "db-game")
                 .allowMainThreadQueries().build();
 //        retrieve MediaPlayer instance
-        mediaPlayer = MediaPlayerSingleton.getInstance(this);
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance(this);
+        mediaPlayerSingleton.resume();
 
         startButton = findViewById(R.id.startButton);
         restartButton = findViewById(R.id.btn_restart);
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 openRecord();
             }
         });
+
     }
 
     public static Database getDatabase() {
@@ -156,12 +161,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MediaPlayerSingleton.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MediaPlayerSingleton.resume();
     }
 
     @Override

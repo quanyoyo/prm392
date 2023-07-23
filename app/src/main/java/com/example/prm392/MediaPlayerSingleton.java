@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 
 public class MediaPlayerSingleton {
+    private static MediaPlayerSingleton instance;
     private static MediaPlayer mediaPlayer;
     private static AudioManager audioManager;
     private static AudioFocusRequest audioFocusRequest;
@@ -39,31 +40,34 @@ public class MediaPlayerSingleton {
         }
     };
 
-    private MediaPlayerSingleton() {
-        // Private constructor to prevent instantiation
-    }
+    private MediaPlayerSingleton(Context context) {
+        // Initialize the MediaPlayer
+        mediaPlayer = MediaPlayer.create(context.getApplicationContext(), R.raw.bg_music);
 
-    public static MediaPlayer getInstance(Context context) {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(context.getApplicationContext(), R.raw.bg_music);
-            // Initialize the AudioManager
-            audioManager = (AudioManager) context.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        // Initialize the AudioManager
+        audioManager = (AudioManager) context.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
-            // Create an AudioFocusRequest
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build();
+        // Create an AudioFocusRequest
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
 
-                audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                        .setAudioAttributes(audioAttributes)
-                        .setOnAudioFocusChangeListener(audioFocusChangeListener)
-                        .build();
-            }
+            audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(audioAttributes)
+                    .setOnAudioFocusChangeListener(audioFocusChangeListener)
+                    .build();
         }
-        return mediaPlayer;
     }
+
+    public static MediaPlayerSingleton getInstance(Context context) {
+        if (instance == null) {
+            instance = new MediaPlayerSingleton(context);
+        }
+        return instance;
+    }
+
 
     public static void release() {
         if (mediaPlayer != null) {
@@ -91,6 +95,7 @@ public class MediaPlayerSingleton {
                 audioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             }
             mediaPlayer.start();
+            mediaPlayer.setLooping(true);
         }
     }
 }
