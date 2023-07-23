@@ -30,7 +30,8 @@ public class GameRecordScreen extends AppCompatActivity {
 
     private TextView tv_total;
     private ImageButton btnBack;
-    MediaPlayer mediaPlayer;
+    private MediaPlayerSingleton mediaPlayerSingleton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +53,8 @@ public class GameRecordScreen extends AppCompatActivity {
 //        gameRecordAdapter.notifyDataSetChanged();
 //        Log.d("record", gameRecordList.toString());
 
-        mediaPlayer = MediaPlayerSingleton.getInstance(this);
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance(this);
+        mediaPlayerSingleton.resume();
 
         btnBack = ((ImageButton) findViewById(R.id.btn_back));
         btnDelete = ((Button) findViewById(R.id.btn_delete));
@@ -132,11 +132,6 @@ public class GameRecordScreen extends AppCompatActivity {
         MediaPlayerSingleton.pause();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MediaPlayerSingleton.resume();
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

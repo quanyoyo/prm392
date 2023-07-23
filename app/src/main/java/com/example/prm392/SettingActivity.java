@@ -18,29 +18,29 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 public class SettingActivity extends AppCompatActivity {
-    private static final String PREF_NAME = "MyPreferences";
+    private static final String PREF_NAME = "MySettings";
     private static final String PREF_MUTED = "isMuted";
     private static final String PREF_VOLUME = "volumeLevel";
+    private static final String PREF_STOP = "isStop";
     private static final String KEY_VIBRATION_ENABLED = "VibrationEnabled";
     private SharedPreferences sharedPreferences;
     private AudioManager audioManager;
     private SeekBar volumeSeekBar;
     private CheckBox muteCheckBox;
-    private CheckBox stopCheckBox;
     private CheckBox vibrationCheckBox;
     private ImageButton btnBack;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayerSingleton mediaPlayerSingleton;
+
     private Vibrator vibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        // Initialize the MediaPlayer
-        mediaPlayer = MediaPlayerSingleton.getInstance(this);
-        mediaPlayer.start();
-        //loop
-        mediaPlayer.setLooping(true);
+        // Initialize the MediaPlayerSingleton
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance(this);
+        mediaPlayerSingleton.resume();
+
 
         // Initialize the AudioManager
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -51,21 +51,22 @@ public class SettingActivity extends AppCompatActivity {
         // Initialize the mute checkbox
         muteCheckBox = findViewById(R.id.muteCheckBox);
 
-//        // Initialize the volume SeekBar
-//        volumeSeekBar = findViewById(R.id.volumeSeekBar);
-//
-//        // Set the maximum volume for the SeekBar
-//        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-//        volumeSeekBar.setMax(maxVolume);
+        // Initialize the volume SeekBar
+        volumeSeekBar = findViewById(R.id.volumeSeekBar);
+
+        // Set the maximum volume for the SeekBar
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volumeSeekBar.setMax(maxVolume);
 
         // Get the saved volume level from SharedPreferences
-//        int savedVolumeLevel = sharedPreferences.getInt(PREF_VOLUME, 0);
-//        volumeSeekBar.setProgress(savedVolumeLevel);
+        int savedVolumeLevel = sharedPreferences.getInt(PREF_VOLUME, 0);
+        volumeSeekBar.setProgress(savedVolumeLevel);
 
         // Restore saved state from SharedPreferences
         boolean isMuted = sharedPreferences.getBoolean(PREF_MUTED, false);
         muteCheckBox.setChecked(isMuted);
-//        volumeSeekBar.setProgress(sharedPreferences.getInt(PREF_VOLUME, 0));
+        volumeSeekBar.setProgress(sharedPreferences.getInt(PREF_VOLUME, 0));
+
 
 //        // Initialize the phone shake checkbox
 //        vibrationCheckBox = findViewById(R.id.vibrationCheckBox);
@@ -91,15 +92,13 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update volumeSeekBar and its progress based on mute state
                 if (isChecked) {
-//                    volumeSeekBar.setProgress(0);
-                    mediaPlayer.setVolume(0,0);
+                    volumeSeekBar.setProgress(0);
                 } else {
-                    mediaPlayer.setVolume(1,1);
-//                    int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-//                    if(currentVolume==0){
-//                        currentVolume=4;
-//                    }
-//                    volumeSeekBar.setProgress(currentVolume);
+                    int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                    if(currentVolume==0){
+                        currentVolume=4;
+                    }
+                    volumeSeekBar.setProgress(currentVolume);
                 }
 
                 // Save mute state in SharedPreferences
@@ -110,35 +109,35 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         // Set volumeSeekBar listener
-//        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                // Adjust muteCheckBox based on progress value
-//                if (progress > 0) {
-//                    muteCheckBox.setChecked(false);
-//                }else if(progress==0){
-//                    muteCheckBox.setChecked(true);
-//                }
-//
-//                // Update volume level
-//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-//
-//                // Save volume level in SharedPreferences
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putInt(PREF_VOLUME, progress);
-//                editor.apply();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // No implementation needed
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // No implementation needed
-//            }
-//        });
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Adjust muteCheckBox based on progress value
+                if (progress > 0) {
+                    muteCheckBox.setChecked(false);
+                }else if(progress==0){
+                    muteCheckBox.setChecked(true);
+                }
+
+                // Update volume level
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+
+                // Save volume level in SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(PREF_VOLUME, progress);
+                editor.apply();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // No implementation needed
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // No implementation needed
+            }
+        });
 
         btnBack = ((ImageButton) findViewById(R.id.btn_back));
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -158,12 +157,6 @@ public class SettingActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MediaPlayerSingleton.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MediaPlayerSingleton.resume();
     }
 
     @Override

@@ -15,7 +15,7 @@ public class InventoryScreen extends AppCompatActivity {
     private GridView inventoryGrid;
     private InventoryAdaptor inventoryAdaptor;
     private ImageButton btnBack;
-    MediaPlayer mediaPlayer;
+    private MediaPlayerSingleton mediaPlayerSingleton;
 
     private List<Item> itemList;
     private Database database;
@@ -25,9 +25,8 @@ public class InventoryScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_screen);
 
-        mediaPlayer = MediaPlayerSingleton.getInstance(this);
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance(this);
+        mediaPlayerSingleton.resume();
 
         // Retrieve the GridView
         inventoryGrid = findViewById(R.id.inventory_grid);
@@ -78,11 +77,6 @@ public class InventoryScreen extends AppCompatActivity {
         MediaPlayerSingleton.pause();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MediaPlayerSingleton.resume();
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
