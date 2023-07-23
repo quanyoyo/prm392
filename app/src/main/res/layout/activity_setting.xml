@@ -15,46 +15,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SeekBar
-        android:id="@+id/volumeSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="124dp"
-        android:max="200"
-        android:progress="80"
-        android:progressDrawable="@drawable/seekbar_progress"
-        android:thumb="@drawable/seekbar_thumb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <SeekBar-->
+    <!--        android:id="@+id/volumeSeekBar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerVertical="true"-->
+    <!--        android:layout_marginTop="124dp"-->
+    <!--        android:max="200"-->
+    <!--        android:progress="80"-->
+    <!--        android:progressDrawable="@drawable/seekbar_progress"-->
+    <!--        android:thumb="@drawable/seekbar_thumb"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="1.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <CheckBox
         android:id="@+id/muteCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="148dp"
         android:layout_weight="0"
-        android:checked="true"
+        android:checked="false"
+        android:drawingCacheQuality="auto"
         android:text="Mute"
         android:textColor="@color/white"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/volumeSeekBar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/vibrationCheckBox"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:checked="true"-->
-<!--        android:text="Phone Shake"-->
-<!--        android:textColor="#FFFFFF"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.049"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/muteCheckBox" />-->
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/vibrationCheckBox"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:checked="true"-->
+    <!--        android:text="Phone Shake"-->
+    <!--        android:textColor="#FFFFFF"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.049"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/muteCheckBox" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

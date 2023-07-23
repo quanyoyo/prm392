@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.room.Room;
 
@@ -12,6 +13,7 @@ import androidx.room.Room;
 public class Story {
 
     GameScreen gs;
+    private Context context;
     String nextPos1, nextPos2, nextPos3, nextPos4;
     boolean gun = false;
     boolean keycard = false;
@@ -85,7 +87,6 @@ public class Story {
 
     private static Database database;
 
-    private Context context;
 
     public Story(GameScreen gs, Context context) {
         this.gs = gs;
@@ -260,6 +261,36 @@ public class Story {
         }
     }
 
+    private void clearSavedGameData() {
+        // Clear the saved game data from shared preferences or any other storage mechanism
+        gun = false;
+        keycard = false;
+        secondTime = false;
+        gun_part1 = false;
+        gun_part2 = false;
+        gun_part3 = false;
+        suit = false;
+        food = false;
+        chestOpened = false;
+        alienDead = false;
+        isGunPart3Bought = false;
+        isFoodBought = false;
+        isSuitBought = false;
+        newGunAcquired = false;
+        storageEntered = false;
+        isQuestGiven = false;
+        isWardensCleared = false;
+        isWeaponLockerUnlocked = false;
+        isAmeliaCellUnlocked = false;
+        isReleased = false;
+        isQuestCompleted = false;
+        isHangarKeycardAcquired = false;
+        isLabCleared = false;
+        isCommsCenterUnlocked = false;
+        isCommsRoomCleared = false;
+        finishedAtWhichPart = 0;
+        currentFloor = 0; //mark the current floor the player is on (for elevator)
+    }
     public void startOrResumeGame() {
         loadGameState();
         selectPosition(currentPlayerPosition);
@@ -457,6 +488,9 @@ public class Story {
     //Ending #2: Rookie Mistake
     public void killed(){
         addGameRecord(2,"Rookie Mistake");
+        deleteAllItems();
+        clearSavedGameData();
+        Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
         gs.img.setImageResource(R.drawable.brokenskull);
 
         gs.tv_game_content.setText("You tried to fight an alien without any weapons. " +
@@ -572,6 +606,9 @@ public class Story {
     //ending #1: dumb ways to die
     public void stay(){
         addGameRecord(1,"Dumb ways to die");
+        deleteAllItems();
+        clearSavedGameData();
+        Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
         gs.img.setImageResource(R.drawable.disintegrate);
 
         gs.tv_game_content.setText("You recall that you were actually kidnapped by aliens. " +
@@ -873,6 +910,9 @@ public class Story {
 
     public void suicide(){
         addGameRecord(5,"This One Simply Never Learns");
+        deleteAllItems();
+        clearSavedGameData();
+        Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
         gs.img.setImageResource(R.drawable.brokenskull);
 
         gs.tv_game_content.setText("You tried to go in rambo styled, but the aliens are very well equipped " +
@@ -1113,6 +1153,9 @@ public class Story {
             nextPos1 = "rescueSuccessful";
         }else{
             addGameRecord(3,"History often repeats itself");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You tried to go in gun-blazing, but you are undergeared " +
                     "and quickly got outgunned by the alien. You died. GAME OVER" +
@@ -1139,6 +1182,9 @@ public class Story {
     public void sneakLabs() {
         if(!isSuitBought){
             addGameRecord(4,"The Emperor's New Clothes");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You tried to sneak your way in, but you are not a ninja. Everyone can see you. " +
                     "You quickly got detected and killed. Maybe next time bring something like Harry Potter's invisible cloak" +
@@ -1496,6 +1542,7 @@ public class Story {
 
     public void trueEnd() {
         addGameRecord(0,"TRUE ENDING: It's all just a dream!");
+        Toast.makeText(context,"Your items are all set",Toast.LENGTH_SHORT).show();
         gs.img.setImageResource(R.drawable.wakeup);
 
         gs.tv_game_content.setText("After a while, you wake up. You suddenly realize this isn't the " +
@@ -1707,6 +1754,9 @@ public class Story {
             nextPos1 = "starship";
         }else{
             addGameRecord(6,"Underpowered");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You started a fight with the aliens. Not sure what you were thinking, because " +
                     "there are simply too many of them. The aliens' firepower quickly overwhelms you and you died. " +
@@ -1741,6 +1791,9 @@ public class Story {
             nextPos1 = "starship";
         }else{
             addGameRecord(8,"Mission Impossible But You're Not Ethan Hunt");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.brokenskull);
             gs.tv_game_content.setText("You decided to sneak your way through to the starship. Not sure what you were thinking, because " +
                     "there are simply too many of them. The aliens quickly detected and killed you. You died. " +
@@ -1767,6 +1820,7 @@ public class Story {
     public void starship() {
         if(isLabCleared){
             addGameRecord(7,"Counter-Earth");
+            Toast.makeText(context,"Your items are all set",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.counterearth);
             gs.tv_game_content.setText("You finally made it onto the starship with Amelia. She quickly started the engines " +
                     "and flew you both back to Earth. However, this \"Earth\" wasn't the same Earth you knew. Everything was inverted, " +
@@ -1774,6 +1828,9 @@ public class Story {
 
         }else{
             addGameRecord(9,"I Believe I Can Fly");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.controlroom);
             gs.tv_game_content.setText("You finally made it onto the starship. However, you hadn't thought one thing through." +
                     " You do not know how to start and fly a starship. You took too long to learn the " +
@@ -1843,6 +1900,9 @@ public class Story {
     public void engageBoss(){
         if (!newGunAcquired){
             addGameRecord(10,"Difference in Technology");
+            deleteAllItems();
+            clearSavedGameData();
+            Toast.makeText(context,"You lost all items",Toast.LENGTH_SHORT).show();
             gs.img.setImageResource(R.drawable.die);
             gs.tv_game_content.setText("You decided to engage the boss... with the first ray gun you picked up. And you expect to win this? " +
                     "In your dream. You stood no chance and the big bad alien killed you. You died. GAME OVER.\n" +
@@ -1937,6 +1997,7 @@ public class Story {
 
     public void avengers(){
         addGameRecord(11,"Avengers");
+        Toast.makeText(context,"Your items are all set",Toast.LENGTH_SHORT).show();
         gs.img.setImageResource(R.drawable.avengers);
 
         gs.tv_game_content.setText("\"Avengers, ASSEMBLE!\" Holy, it's like endgame all over again. You swiped your " +
