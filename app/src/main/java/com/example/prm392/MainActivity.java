@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("GamePrefs", MODE_PRIVATE);
         boolean isGameSaved = prefs.getBoolean("isGameSaved", false);
 
-        if (isGameSaved) {
+
+
+        if (isGameSaved && !database.itemDao().getAll().isEmpty()) {
             // If the game was saved, enable the restart button
             startButton.setText("Resume");
             restartButton.setEnabled(true);
@@ -69,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showRestartPopupDialog();
+                if(!restartButton.isEnabled()){
+                    Toast.makeText(getApplicationContext(),"You have to play game first",Toast.LENGTH_SHORT).show();
+                }
+                showRestartPopupDialog();
             }
         });
 
